@@ -7,7 +7,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>pazzel1</name>
+  <name>puzzle</name>
   <url>http://maven.apache.org</url>
 
   <properties>
