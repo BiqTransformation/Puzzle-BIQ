@@ -1,2 +1,5 @@
 /Puzzle-BIQ/.idea/*
 /Puzzle-BIQ/target/*
+*.class
+*.log
+*.prefs
