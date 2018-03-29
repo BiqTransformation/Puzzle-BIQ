@@ -16,4 +16,13 @@ public class Edge {
         }
         return false;
     }
+
+	public Integer getValue() {
+		return value;
+	}
+
+	
+    
+    
+    
 }
