@@ -1,15 +1,27 @@
 package course.puzzle.puzzle;
 
-public class SolvePuzzle {
-	
-	
-	
-	
-	
-	
-	
-	
-	//check the case that piece1 exists on board and piece2 want 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class SolvePuzzle extends Puzzle {
+
+	private PuzzlePiece[][] solvedPuzzle;
+	public SolvePuzzle(List<PuzzlePiece> puzzle) {
+		super(puzzle);
+	}
+
+	public Map<Integer, Integer> getPossibleSolutions() {
+		Map<Integer, Integer> solutions = new HashMap<Integer, Integer>();
+		int puzzleSize = puzzle.size();
+		for(int i = 1; i <= puzzleSize;i++ ){
+
+		}
+
+		return solutions;
+	}
+
+	//check the case that piece1 exists on board and piece2 want
 	//to connect to piece1 left side with piece2 right side 
 	public boolean checkRightToLeft(PuzzlePiece puzzlePiece1, PuzzlePiece puzzlePiece2) {
 		return (puzzlePiece1.getLeft().getValue()) + (puzzlePiece2.getRight().getValue()) == 0;

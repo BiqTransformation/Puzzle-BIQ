@@ -1,4 +1,4 @@
-package course.puzzle;
+package course.puzzle.puzzle;
 
 
 import org.junit.Test;
@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import course.puzzle.puzzle.PuzzlePiece;
 import course.puzzle.puzzle.SolvePuzzle;
 
-public class PuzzleTest {
+public class SolvePuzzleTest {
 
     @Test
     public void testWrongNumberOfStraitEdges(){
