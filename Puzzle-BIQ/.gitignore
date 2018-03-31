@@ -1,6 +1,7 @@
-/target
+target/*
 .classpath
 .settings/*
 *.class
 *.log
 *.prefs
+*.txt
