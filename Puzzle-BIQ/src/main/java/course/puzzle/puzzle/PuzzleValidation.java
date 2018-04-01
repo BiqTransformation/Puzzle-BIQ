@@ -3,14 +3,15 @@ package course.puzzle.puzzle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PuzzleValidation extends Puzzle {
+public class PuzzleValidation {
     private Edge leftStraight = new Edge("left", 0);
     private Edge rightStraight = new Edge("right", 0);
     private Edge topStraight = new Edge("top", 0);
     private Edge bottomStraight = new Edge("bottom", 0);
+    private List <PuzzlePiece> puzzle;
 
     public PuzzleValidation(List<PuzzlePiece> puzzle) {
-        super(puzzle);
+        this.puzzle = puzzle;
     }
 
     public List<PuzzlePiece> getListOfPiecesWithSpecificEdge(Edge edge) {
@@ -76,24 +77,41 @@ public class PuzzleValidation extends Puzzle {
         return true;
     }
 
-    public boolean validateCorners() {
+
+    public boolean validateTopLeftCorner() {
 
         if(getListOfPiecesWithSpecificEdge(leftStraight,topStraight).size() == 0){
             System.out.println(Parameters.MISSING_CORNER_TL);
             return false;
         }
+
+        return true;
+    }
+
+    public boolean validateBottomLeftCorner() {
+
         if(getListOfPiecesWithSpecificEdge(leftStraight,bottomStraight).size() == 0){
             System.out.println(Parameters.MISSING_CORNER_BL);
             return false;
         }
+        return true;
+    }
+
+    public boolean validateTopRightCorner() {
         if(getListOfPiecesWithSpecificEdge(rightStraight,topStraight).size() == 0){
             System.out.println(Parameters.MISSING_CORNER_TR);
             return false;
         }
+
+        return true;
+    }
+    public boolean validateBottomRightCorner() {
         if(getListOfPiecesWithSpecificEdge(rightStraight,bottomStraight).size() == 0){
             System.out.println(Parameters.MISSING_CORNER_BR);
             return false;
         }
         return true;
     }
+
+
 }

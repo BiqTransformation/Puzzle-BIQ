@@ -11,9 +11,6 @@ public class PuzzlePiece {
     private Edge bottom;
     List<Edge> listOfEdges = new ArrayList<Edge>();
 
-
-
-
     public PuzzlePiece(int id,int left, int top, int right, int bottom) {
         this.id = id;
         this.left = new Edge("left",left);
@@ -26,20 +23,20 @@ public class PuzzlePiece {
         listOfEdges.add(this.bottom);
     }
 
-    public Edge getLeft() {
-        return left;
+    public int getLeft() {
+        return left.getValue();
     }
 
-    public Edge getTop() {
-        return top;
+    public int getTop() {
+        return top.getValue();
     }
 
-    public Edge getRight() {
-        return right;
+    public int getRight() {
+        return right.getValue();
     }
 
-    public Edge getBottom() {
-        return bottom;
+    public int getBottom() {
+        return bottom.getValue();
     }
 
 
