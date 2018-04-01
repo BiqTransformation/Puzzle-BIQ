@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SolvePuzzle {
+public class SolvePuzzle extends Puzzle{
 
 	//members
 	private PuzzlePiece[][] solvedPuzzle;

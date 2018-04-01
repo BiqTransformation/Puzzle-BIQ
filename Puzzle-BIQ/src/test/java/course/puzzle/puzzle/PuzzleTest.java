@@ -18,9 +18,9 @@ public class PuzzleTest {
         PuzzlePiece p2 = new PuzzlePiece(2, 1, 1, 1, 1);
         puzzleList.add(p1);
         puzzleList.add(p2);
-        PuzzleValidation bad = new PuzzleValidation(puzzleList);
 
-        assertFalse(bad.validateNumberOfStraightEdges());
+
+        assertFalse(PuzzleValidation.validateNumberOfStraightEdges(puzzleList));
     }
 
     @Test
@@ -30,9 +30,8 @@ public class PuzzleTest {
         PuzzlePiece p2 = new PuzzlePiece(2, 1, 1, 1, -1);
         puzzleList.add(p1);
         puzzleList.add(p2);
-        PuzzleValidation bad = new PuzzleValidation(puzzleList);
 
-//        assertFalse(bad.validateNumberOfStraightEdges());
+        assertFalse(PuzzleValidation.validateNumberOfStraightEdges(puzzleList));
     }
 
     @Test
@@ -42,9 +41,8 @@ public class PuzzleTest {
         PuzzlePiece p2 = new PuzzlePiece(2, 1, 1, 0, 1);
         puzzleList.add(p1);
         puzzleList.add(p2);
-        PuzzleValidation good = new PuzzleValidation(puzzleList);
 
-//        assertTrue(good.validateNumberOfStraightEdges());
+        assertTrue(PuzzleValidation.validateNumberOfStraightEdges(puzzleList));
     }
 
     @Test
@@ -54,9 +52,8 @@ public class PuzzleTest {
         PuzzlePiece p2 = new PuzzlePiece(2, 1, 1, 0, 0);
         puzzleList.add(p1);
         puzzleList.add(p2);
-        PuzzleValidation good = new PuzzleValidation(puzzleList);
 
-//        assertTrue(good.validateNumberOfStraightEdges());
+        assertTrue(PuzzleValidation.validateNumberOfStraightEdges(puzzleList));
     }
 
     @Test
@@ -70,12 +67,11 @@ public class PuzzleTest {
         puzzleList.add(p2);
         puzzleList.add(p3);
         puzzleList.add(p4);
-        PuzzleValidation good = new PuzzleValidation(puzzleList);
 
-        assertTrue(good.validateTopLeftCorner());
-        assertTrue(good.validateTopRightCorner());
-        assertTrue(good.validateBottomLeftCorner());
-        assertTrue(good.validateBottomRightCorner());
+        assertTrue(PuzzleValidation.validateTopLeftCorner(puzzleList));
+        assertTrue(PuzzleValidation.validateTopRightCorner(puzzleList));
+        assertTrue(PuzzleValidation.validateBottomLeftCorner(puzzleList));
+        assertTrue(PuzzleValidation.validateBottomRightCorner(puzzleList));
     }
 
     @Test
@@ -89,12 +85,11 @@ public class PuzzleTest {
         puzzleList.add(p2);
         puzzleList.add(p3);
         puzzleList.add(p4);
-        PuzzleValidation bad = new PuzzleValidation(puzzleList);
-
-        assertFalse(bad.validateTopLeftCorner());
-        assertFalse(bad.validateTopRightCorner());
-        assertFalse(bad.validateTopLeftCorner());
-        assertFalse(bad.validateBottomRightCorner());
+        
+        assertFalse(PuzzleValidation.validateTopLeftCorner(puzzleList));
+        assertFalse(PuzzleValidation.validateTopRightCorner(puzzleList));
+        assertFalse(PuzzleValidation.validateTopLeftCorner(puzzleList));
+        assertFalse(PuzzleValidation.validateBottomRightCorner(puzzleList));
 
     }
     @Test
