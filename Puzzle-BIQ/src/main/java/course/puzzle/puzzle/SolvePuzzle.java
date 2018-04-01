@@ -6,20 +6,29 @@ import java.util.Map;
 
 public class SolvePuzzle {
 
-    private PuzzlePiece[][] solvedPuzzle;
-    private List<PuzzlePiece> puzzle;
-
-    public SolvePuzzle(List<PuzzlePiece> puzzle) {
-        this.puzzle = puzzle;
-    }
+	//members
+	private PuzzlePiece[][] solvedPuzzle;
+	public SolvePuzzle(List<PuzzlePiece> puzzle) {
+		super(puzzle);
+	}
 
     public Map<Integer, Integer> getPossibleSolutions() {
         Map<Integer, Integer> solutions = new HashMap<Integer, Integer>();
         int puzzleSize = puzzle.size();
-        for (int i = 1; i <= puzzleSize; i++) {
+		if (puzzleSize == 1) {
+			solutions.put(1, 1);
+		} else if (puzzleSize > 1) {
+			solutions.put(1, puzzleSize);
+			solutions.put(puzzleSize, 1);
+			for (int i = 2; i < puzzleSize; i++) {
+				if (puzzleSize % i == 0) {
+					int num = puzzleSize / i;
+					solutions.put(i, num);
+				}
 
-        }
-
+			}
+		
+		}
         return solutions;
     }
 
