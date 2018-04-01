@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileReaderWriter {
+public class FileReader {
 	
 	ArrayList<String> list = new ArrayList<>();
 	

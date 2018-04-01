@@ -6,86 +6,153 @@ import course.puzzle.puzzle.PuzzlePiece;
 
 public class FileDataValidation {
 
-	private int numberOfPieces = 24;
-	private ArrayList<String> list = new ArrayList<>();
-    private ArrayList<PuzzlePiece> listOfPiecesOutPut = new ArrayList<>();
-	
-	public FileDataValidation(ArrayList<String> list) {
-		this.list = list;
-	}
-
-	public ArrayList<PuzzlePiece> fileDataValidator() {
-
+    private int numOfPieces;
+	private ArrayList<String> inPutlist = new ArrayList<>();
+	ArrayList<PuzzlePiece> listOfPuzzlePieces = new ArrayList<>();
+	ArrayList<PuzzlePiece> listOfPuzzlePiecesAfterAfterAllValidation = new ArrayList<>();
+	/** The method return list of puzzle pieces after all data from file was validated .
+	 * @param inPutlist
+	 * @return listOfPuzzlePieces
+	 */
+	public ArrayList<PuzzlePiece> fileDataValidator(ArrayList<String> inPutlist) {
+		ArrayList<Integer> validSetOfIntegers = null;
+		
 		try {
-			int numOfPuzzlePices = Integer.parseInt(list.get(0));
-			if (numOfPuzzlePices == numberOfPieces) {
-				for (int i = 1; i < list.size(); i++) {
-					ArrayList<Integer> validIntegersList = new ArrayList<>(); ;
-					ArrayList<Integer> listOfIntegers = convertStringToIntegers(list.get(i).replaceAll(" ", ""));
 
-					if (listOfIntegers.get(0) >= 0 && listOfIntegers.get(0) <= numberOfPieces) {
-						validIntegersList.add(listOfIntegers.get(0));
-						for (int j = 1; j < listOfIntegers.size(); j++) {
-							if (listOfIntegers.get(j) >= -1 && listOfIntegers.get(j) <= 1) {
-								validIntegersList.add(listOfIntegers.get(j));
-							} else {
-								// TO DO write to Error File .
-								break;
-							}
-						}
+			int numOfPieces = firstLineValidator(inPutlist.get(0));
+
+			if (numOfPieces != -1) {
+                
+				for (int i = 1; i < inPutlist.size(); i++) {
+
+					validSetOfIntegers = integersListValidation(inPutlist.get(i));
+
+					if (!validSetOfIntegers.isEmpty()) {
+						listOfPuzzlePiecesAfterAfterAllValidation = PuzzlePieceBuilder(validSetOfIntegers);
 					} else {
-						throw new Exception();
-						// TO DO write to Error File .
-					}
-
-					if (validIntegersList.size() == 5) {
-
-						PuzzlePieceBuilder(validIntegersList);
-
-					} else {
-						throw new Exception();
+						
 						// TO DO write to Error File .
 					}
 				}
 			} else {
-				throw new Exception();
 				// TO DO write to Error File .
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			// TO DO write to Error File .
 		}
-		return listOfPiecesOutPut;
-	}
-	
-	private ArrayList<Integer> convertStringToIntegers(String str) {
-		ArrayList<Integer> numbers = new ArrayList<>();
-		String [] arrOfString =	str.split(",");
 		
-		try {
-			for (int i = 0; i < arrOfString.length; i++) {
-				int num = Integer.parseInt(arrOfString[i]);
-				numbers.add(num);
-			}
-		} catch (NumberFormatException e) {
-			// TO DO Error message to file .
-			e.printStackTrace();
+		if (listOfPuzzlePiecesAfterAfterAllValidation.size() == numOfPieces) {
+			return listOfPuzzlePiecesAfterAfterAllValidation;
 		}
-		return numbers;
+		else {
+			listOfPuzzlePiecesAfterAfterAllValidation.clear();
+			return listOfPuzzlePiecesAfterAfterAllValidation;
+		}
+			
 	}
 
-	private ArrayList<PuzzlePiece> PuzzlePieceBuilder(ArrayList<Integer> listOfvalidintegers) {
+	/** firstLineValidator designed to verify the format of first line only .
+	 * @param firstLine
+	 * @return integer with number of pieces in case of good scenario and -1 in case of bag scenario .
+	 */
+	protected int firstLineValidator(String firstLine) {
+		int numOfPieces = 0;
+
+		String[] arrStr = firstLine.trim().split("=");
+
+		if (arrStr[0].equals("NumElements")) {
+			if (Integer.parseInt(arrStr[1]) > 1) {
+				numOfPieces = Integer.parseInt(arrStr[1]);
+			} else {
+				numOfPieces = -1;
+			}
+		} else {
+			numOfPieces = -1;
+			// TO DO write error to file .
+		}
+		
+		setNumOfPieces(numOfPieces);
+		
+		return numOfPieces;
+	}
+	
+	protected int idNumberValidation(int idNum) {
+		int returnIdNum = 0 ;
+		if (idNum <=  numOfPieces && idNum > 0) {
+			returnIdNum = idNum ;
+		}
+		else {
+			returnIdNum = -1;
+			//  // TO DO write error to file .
+		}
+		return returnIdNum;	
+	}
+
+	/** Every line include the 5 integers 1 number it's piece Id ,others  4 are sides of puzzle.
+	 * 
+	 * @param str
+	 * @return
+	 */
+	protected ArrayList<Integer> integersListValidation(String str) {
+		int numOfPiece = 0;
+		ArrayList<Integer> listOfIntegers = new ArrayList<>();
+		
+		String[] afterSplit = str.trim().split(" ");
+		int idNum;
+		try {
+			int validId = idNumberValidation(Integer.parseInt(afterSplit[0]));
+			    if (validId != -1) {
+			    	listOfIntegers.add(validId);
+			    }
+			    
+		} catch (NumberFormatException e1) {
+			// TO DO write error to file .
+			e1.printStackTrace();
+		}
+		
+		for (int i = 1; i < afterSplit.length; i++) {
+			if (afterSplit[i].equals("-1") || afterSplit[i].equals("0") || afterSplit[i].equals("1")) {
+				int currNum;
+				try {
+					currNum = Integer.parseInt(afterSplit[i]);
+				} catch (Exception e) {
+					throw new NumberFormatException();
+					// TO DO write error to file .
+				}
+				listOfIntegers.add(currNum);
+			} else {
+				listOfIntegers.clear();
+				// TO DO write error to file .
+				break;
+				
+			}
+		}
+		return listOfIntegers;
+	}
+
+	/**
+	 * @param listOfvalidintegers
+	 * @return
+	 */
+	protected ArrayList<PuzzlePiece> PuzzlePieceBuilder(ArrayList<Integer> listOfvalidintegers) {
 
 		int id = listOfvalidintegers.get(0);
 		int left = listOfvalidintegers.get(1);
 		int top = listOfvalidintegers.get(2);
 		int right = listOfvalidintegers.get(3);
 		int bottom = listOfvalidintegers.get(4);
-			
-		PuzzlePiece piece= new PuzzlePiece(id, left, top, right, bottom);
-		
-		listOfPiecesOutPut.add(piece);
-		
-		return listOfPiecesOutPut;
+
+		PuzzlePiece piece = new PuzzlePiece(id, left, top, right, bottom);
+
+		listOfPuzzlePieces.add(piece);
+
+		return listOfPuzzlePieces;
 	}
+
+	public void setNumOfPieces(int numOfPieces) {
+		this.numOfPieces = numOfPieces;
+	}
+	
+	
 }
