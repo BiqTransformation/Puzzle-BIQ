@@ -1,0 +1,2 @@
+Cannot solve puzzle:
+missing corner element: BL

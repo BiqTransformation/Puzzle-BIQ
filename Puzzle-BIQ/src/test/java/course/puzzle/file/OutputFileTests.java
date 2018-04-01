@@ -19,7 +19,7 @@ public class OutputFileTests {
 	public void WriteReadtoOutputFile() throws IOException{
 		//clean file
 		try{
-			PrintWriter writer = new PrintWriter("output.txt");
+			PrintWriter writer = new PrintWriter("src/main/resources/files/output.txt");
 			writer.print("");
 			writer.close();
 		}

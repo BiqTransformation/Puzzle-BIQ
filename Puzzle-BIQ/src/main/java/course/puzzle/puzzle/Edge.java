@@ -17,7 +17,7 @@ public class Edge {
         return false;
     }
 
-	public Integer getValue() {
+	public int getValue() {
 		return value;
 	}
 

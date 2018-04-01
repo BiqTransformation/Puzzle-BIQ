@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 public class FileOutput {
-	private static String path = "output.txt";
+	private static String path = "src/main/resources/files/output.txt";
 	private static  boolean append_to_file = true;
 	
 	
