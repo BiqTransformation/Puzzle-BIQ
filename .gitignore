@@ -6,3 +6,4 @@
 *.log
 *.prefs
 /Puzzle-BIQ/target/*
+/Puzzle-BIQ/.idea/*
