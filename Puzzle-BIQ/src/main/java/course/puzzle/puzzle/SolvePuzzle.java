@@ -15,10 +15,20 @@ public class SolvePuzzle extends Puzzle {
 	public Map<Integer, Integer> getPossibleSolutions() {
 		Map<Integer, Integer> solutions = new HashMap<Integer, Integer>();
 		int puzzleSize = puzzle.size();
-		for(int i = 1; i <= puzzleSize;i++ ){
+		if (puzzleSize == 1) {
+			solutions.put(1, 1);
+		} else if (puzzleSize > 1) {
+			solutions.put(1, puzzleSize);
+			solutions.put(puzzleSize, 1);
+			for (int i = 2; i < puzzleSize; i++) {
+				if (puzzleSize % i == 0) {
+					int num = puzzleSize / i;
+					solutions.put(i, num);
+				}
 
+			}
+		
 		}
-
 		return solutions;
 	}
 
