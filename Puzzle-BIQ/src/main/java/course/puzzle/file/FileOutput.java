@@ -6,12 +6,24 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Writer;
+
+import course.puzzle.puzzle.PuzzlePiece;
 
 public class FileOutput {
-	private static String path = "src/main/resources/files/output.txt";
-	private static  boolean append_to_file = true;
+	public static String path = "src/main/resources/files/output.txt";
+	public static boolean append_to_file = true;
 	
-	
+	public static void cleanOutputFile(){
+		try{
+			PrintWriter writer = new PrintWriter(path);
+			writer.print("");
+			writer.close();
+		}
+		catch(IOException e){
+			
+		}
+	}
 	
 	public static void saveAsTextFile(String message) throws IOException {
 		PrintWriter print=null;
@@ -40,6 +52,28 @@ public class FileOutput {
 			}
 		}
 		return sb.toString();		
+	}
+	
+	public static void printSolution(PuzzlePiece[][] solution){
+		
+		PrintWriter print=null;
+		try{
+			FileWriter write = new FileWriter(path,append_to_file);
+			print = new  PrintWriter(write);
+			for(int i =0;i<solution.length;i++){
+				for(int j=0;j<solution[i].length;j++){
+					int id =solution[i][j].getId();
+					print.print(id + " ");
+				}
+				print.print('\n');
+			}
+		}
+		catch(IOException e){	
+			  			
+		}
+		finally{
+			print.close();
+		}
 	}
 	
 }
