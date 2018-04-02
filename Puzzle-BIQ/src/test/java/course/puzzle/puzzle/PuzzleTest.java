@@ -85,13 +85,14 @@ public class PuzzleTest {
         puzzleList.add(p2);
         puzzleList.add(p3);
         puzzleList.add(p4);
-        
+
         assertFalse(PuzzleValidation.validateTopLeftCorner(puzzleList));
         assertFalse(PuzzleValidation.validateTopRightCorner(puzzleList));
         assertFalse(PuzzleValidation.validateTopLeftCorner(puzzleList));
         assertFalse(PuzzleValidation.validateBottomRightCorner(puzzleList));
 
     }
+
     @Test
     public void goodTestValidateSolution() {
 
@@ -103,8 +104,9 @@ public class PuzzleTest {
 
         PuzzlePiece[][] good = new PuzzlePiece[][]{{p1, p2}, {p3, p4}};
 
-        assertTrue(SolvePuzzle.validateSolution(good));
+        assertTrue(SolvePuzzle.verifySolution(good));
     }
+
     @Test
     public void badTestValidateSolution() {
 
@@ -115,7 +117,42 @@ public class PuzzleTest {
 
         PuzzlePiece[][] bad = new PuzzlePiece[][]{{p1, p2}, {p3, p4}};
 
-        assertFalse(SolvePuzzle.validateSolution(bad));
+        assertFalse(SolvePuzzle.verifySolution(bad));
     }
 
+    @Test
+    public void goodTestOneRowSolution() {
+
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
+        PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
+        PuzzlePiece p3 = new PuzzlePiece(3, -1, 0, 1, 0);
+        PuzzlePiece p4 = new PuzzlePiece(4, -1, 0, 1, 0);
+        List<PuzzlePiece> puzzle = new ArrayList<>();
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
+
+        PuzzlePiece[][] good = new SolvePuzzle(puzzle).prepareSolvedPuzzle();
+
+        assertTrue(SolvePuzzle.verifySolution(good));
+    }
+
+    @Test
+    public void goodTestOneColumnSolution() {
+
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 0, -1);
+        PuzzlePiece p2 = new PuzzlePiece(2, 0, 1, 0, 0);
+        PuzzlePiece p3 = new PuzzlePiece(3, 0, 1, 0, 1);
+        PuzzlePiece p4 = new PuzzlePiece(4, 0, -1, 0, -1);
+        List<PuzzlePiece> puzzle = new ArrayList<>();
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
+
+        PuzzlePiece[][] good = new SolvePuzzle(puzzle).prepareSolvedPuzzle();
+
+        assertTrue(SolvePuzzle.verifySolution(good));
+    }
 }

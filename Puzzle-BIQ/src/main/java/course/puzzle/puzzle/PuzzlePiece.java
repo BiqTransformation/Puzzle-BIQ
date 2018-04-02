@@ -11,36 +11,65 @@ public class PuzzlePiece {
     private Edge bottom;
     List<Edge> listOfEdges = new ArrayList<Edge>();
 
-    public PuzzlePiece(int id,int left, int top, int right, int bottom) {
+
+    private boolean isUsed;
+
+    public PuzzlePiece(int id, int left, int top, int right, int bottom) {
         this.id = id;
-        this.left = new Edge("left",left);
-        this.top = new Edge("top",top);
-        this.right = new Edge("right",right);
-        this.bottom = new Edge("bottom",bottom);
+        this.left = new Edge("left", left);
+        this.top = new Edge("top", top);
+        this.right = new Edge("right", right);
+        this.bottom = new Edge("bottom", bottom);
         listOfEdges.add(this.left);
         listOfEdges.add(this.top);
         listOfEdges.add(this.right);
         listOfEdges.add(this.bottom);
     }
 
-    public int getLeft() {
+    public int getLeftValue() {
         return left.getValue();
     }
 
-    public int getTop() {
+    public Edge getLeft() {
+        return left;
+    }
+
+    public int getTopValue() {
         return top.getValue();
     }
 
-    public int getRight() {
+    public Edge getTop() {
+        return top;
+    }
+
+
+    public int getRightValue() {
         return right.getValue();
     }
 
-    public int getBottom() {
+    public Edge getRight() {
+        return right;
+    }
+
+    public int getBottomValue() {
         return bottom.getValue();
     }
 
 
+    public Edge getBottom() {
+        return bottom;
+    }
+
     public int getId() {
         return id;
     }
+
+    public boolean isUsed() {
+        return isUsed;
+    }
+
+    public void setUsed(boolean used) {
+        isUsed = used;
+    }
+
 }

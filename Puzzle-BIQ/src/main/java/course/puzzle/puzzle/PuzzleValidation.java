@@ -109,6 +109,22 @@ public class PuzzleValidation {
         }
         return true;
     }
+    public static boolean isPossibleOneRow(List<PuzzlePiece> puzzle) {
+        if(getListOfPiecesWithSpecificEdge(puzzle,leftStraight,topStraight,bottomStraight).size() != 0
+                && getListOfPiecesWithSpecificEdge(puzzle,rightStraight,topStraight,bottomStraight).size() != 0) {
+
+            return true;
+        }
+        return false;
+    }
 
 
+    public static boolean isPossibleOneColumn(List<PuzzlePiece> puzzle) {
+        if(getListOfPiecesWithSpecificEdge(puzzle,leftStraight,topStraight,rightStraight).size() != 0
+                && getListOfPiecesWithSpecificEdge(puzzle,leftStraight,bottomStraight,rightStraight).size() != 0) {
+
+            return true;
+        }
+        return false;
+    }
 }
