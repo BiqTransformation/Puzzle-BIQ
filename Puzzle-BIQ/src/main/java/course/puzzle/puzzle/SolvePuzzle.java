@@ -6,10 +6,11 @@ import java.util.Map;
 
 public class SolvePuzzle extends Puzzle {
 
+
     //members
     private PuzzlePiece[][] solvedPuzzle;
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
-    private boolean noSolution = true;
+
     private static Edge leftStraight = new Edge("left", 0);
     private static Edge rightStraight = new Edge("right", 0);
     private static Edge topStraight = new Edge("top", 0);
@@ -39,7 +40,7 @@ public class SolvePuzzle extends Puzzle {
         return solutions;
     }
 
-    public boolean isPuzzleSolved() {
+    public PuzzlePiece [][] findSolution() {
         getPossibleSolutions();
 
         for (Map.Entry<Integer, Integer> s : solutions.entrySet()) {
@@ -49,18 +50,25 @@ public class SolvePuzzle extends Puzzle {
 
                 if (rows == cols && rows == 1) {
 
-                    solvedPuzzle = new PuzzlePiece[][]{{puzzle.get(0)}, {}};
-                    return true;
+                    return new PuzzlePiece[][]{{puzzle.get(0)}, {}};
+
                 } else if (rows == 1 && PuzzleValidation.isPossibleOneRow(puzzle)) {
                     solvePuzzleOneRow(cols);
-                    return verifySolution(solvedPuzzle);
+                    if(verifySolution(solvedPuzzle)){
+                        return solvedPuzzle;
+                    }
+
                 } else if (cols == 1 && PuzzleValidation.isPossibleOneColumn(puzzle)) {
                     solvePuzzileOneColumn(rows);
-                    return verifySolution(solvedPuzzle);
+                    if(verifySolution(solvedPuzzle)){
+                        return solvedPuzzle;
+                    }
                 } else if (rows > 1 && cols > 1) {
                     if(PuzzleValidation.validateNumberOfStraightEdges(puzzle,rows,cols)){
                         puzzleSolution(rows, cols);
-                        return verifySolution(solvedPuzzle);
+                        if(verifySolution(solvedPuzzle)){
+                            return solvedPuzzle;
+                        }
                     }
 
                 }
@@ -68,7 +76,7 @@ public class SolvePuzzle extends Puzzle {
 
 
         }
-        return false;
+        return null;
     }
 
     public void puzzleSolution(int rows, int cols) {
@@ -238,4 +246,6 @@ public class SolvePuzzle extends Puzzle {
         }
         return sum;
     }
+
+
 }

@@ -55,7 +55,7 @@ public class OutputFileTests {
         puzzle.add(p3);
         puzzle.add(p4);
         
-        PuzzlePiece[][] good = new SolvePuzzle(puzzle).prepareSolvedPuzzle();
+        PuzzlePiece[][] good = new SolvePuzzle(puzzle).findSolution();
         FileOutput.printSolution(good);
         String str =  FileOutput.loadFromTextFile();
         System.out.println(str);

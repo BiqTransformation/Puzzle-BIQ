@@ -22,7 +22,7 @@ public class PuzzleValidation {
         return specificEdges;
     }
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge1, Edge edge2) {
-        List<PuzzlePiece> specificEdges = new ArrayList<PuzzlePiece>();
+        List<PuzzlePiece> specificEdges = new ArrayList<>();
         for (PuzzlePiece p : puzzle) {
             if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2)) {
                 specificEdges.add(p);
@@ -33,7 +33,7 @@ public class PuzzleValidation {
     }
 
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge1, Edge edge2, Edge edge3) {
-        List<PuzzlePiece> specificEdges = new ArrayList<PuzzlePiece>();
+        List<PuzzlePiece> specificEdges = new ArrayList<>();
         for (PuzzlePiece p : puzzle) {
             if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2) && p.listOfEdges.contains(edge3)) {
                 specificEdges.add(p);

@@ -133,7 +133,9 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        assertTrue(new SolvePuzzle(puzzle).isPuzzleSolved());
+
+
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
     }
 
     @Test
@@ -149,7 +151,7 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        assertTrue(new SolvePuzzle(puzzle).isPuzzleSolved());
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
     }
 
     @Test
@@ -165,7 +167,7 @@ public class PuzzleTest {
         puzzleList.add(p3);
         puzzleList.add(p4);
 
-        assertTrue(new SolvePuzzle(puzzleList).isPuzzleSolved());
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzleList).findSolution()));
     }
 
     @Test
@@ -185,13 +187,13 @@ public class PuzzleTest {
         puzzleList.add(p5);
         puzzleList.add(p6);
 
-        assertTrue(new SolvePuzzle(puzzleList).isPuzzleSolved());
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzleList).findSolution()));
     }
 
     @Test
     public void goodTestMatrix3x2Solution() {
 
-        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
+        List<PuzzlePiece> puzzleList = new ArrayList<>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, -1);
         PuzzlePiece p3 = new PuzzlePiece(3, 1, 1, 0, 0);
@@ -205,7 +207,7 @@ public class PuzzleTest {
         puzzleList.add(p5);
         puzzleList.add(p6);
 
-        assertTrue(new SolvePuzzle(puzzleList).isPuzzleSolved());
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzleList).findSolution()));
     }
 
 }
