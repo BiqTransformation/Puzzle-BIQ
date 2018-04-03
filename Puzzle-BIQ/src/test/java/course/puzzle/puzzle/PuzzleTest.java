@@ -133,9 +133,7 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        PuzzlePiece[][] good = new SolvePuzzle(puzzle).prepareSolvedPuzzle();
-
-        assertTrue(SolvePuzzle.verifySolution(good));
+        assertTrue(new SolvePuzzle(puzzle).isPuzzleSolved());
     }
 
     @Test
@@ -151,8 +149,63 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        PuzzlePiece[][] good = new SolvePuzzle(puzzle).prepareSolvedPuzzle();
-
-        assertTrue(SolvePuzzle.verifySolution(good));
+        assertTrue(new SolvePuzzle(puzzle).isPuzzleSolved());
     }
+
+    @Test
+    public void goodTestMatrix2x2Solution() {
+
+        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
+        PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, -1);
+        PuzzlePiece p3 = new PuzzlePiece(3, 1, 1, 0, 0);
+        PuzzlePiece p4 = new PuzzlePiece(4, 0, -1, -1, 0);
+        puzzleList.add(p1);
+        puzzleList.add(p2);
+        puzzleList.add(p3);
+        puzzleList.add(p4);
+
+        assertTrue(new SolvePuzzle(puzzleList).isPuzzleSolved());
+    }
+
+    @Test
+    public void goodTestMatrix2x3Solution() {
+
+        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
+        PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, -1);
+        PuzzlePiece p3 = new PuzzlePiece(3, 1, 1, 0, 0);
+        PuzzlePiece p4 = new PuzzlePiece(4, 0, -1, -1, 0);
+        PuzzlePiece p5 = new PuzzlePiece(5, -1, 0, 1, 0);
+        PuzzlePiece p6 = new PuzzlePiece(6, 1, 0, -1, 0);
+        puzzleList.add(p1);
+        puzzleList.add(p2);
+        puzzleList.add(p3);
+        puzzleList.add(p4);
+        puzzleList.add(p5);
+        puzzleList.add(p6);
+
+        assertTrue(new SolvePuzzle(puzzleList).isPuzzleSolved());
+    }
+
+    @Test
+    public void goodTestMatrix3x2Solution() {
+
+        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
+        PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, -1);
+        PuzzlePiece p3 = new PuzzlePiece(3, 1, 1, 0, 0);
+        PuzzlePiece p4 = new PuzzlePiece(4, 0, -1, -1, 0);
+        PuzzlePiece p5 = new PuzzlePiece(5, 0, -1, 1, 1);
+        PuzzlePiece p6 = new PuzzlePiece(6, -1, 1, 0, -1);
+        puzzleList.add(p1);
+        puzzleList.add(p2);
+        puzzleList.add(p3);
+        puzzleList.add(p4);
+        puzzleList.add(p5);
+        puzzleList.add(p6);
+
+        assertTrue(new SolvePuzzle(puzzleList).isPuzzleSolved());
+    }
+
 }

@@ -1,6 +1,6 @@
 package course.puzzle.puzzle;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +8,8 @@ public class SolvePuzzle extends Puzzle {
 
     //members
     private PuzzlePiece[][] solvedPuzzle;
-    private Map<Integer, Integer> solutions = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> solutions = new LinkedHashMap<>();
+    private boolean noSolution = true;
     private static Edge leftStraight = new Edge("left", 0);
     private static Edge rightStraight = new Edge("right", 0);
     private static Edge topStraight = new Edge("top", 0);
@@ -33,119 +34,152 @@ public class SolvePuzzle extends Puzzle {
                     int num = puzzleSize / i;
                     solutions.put(i, num);
                 }
-
             }
-
         }
         return solutions;
     }
 
-    public PuzzlePiece[][] prepareSolvedPuzzle() {
+    public boolean isPuzzleSolved() {
         getPossibleSolutions();
+
         for (Map.Entry<Integer, Integer> s : solutions.entrySet()) {
-            int rows = s.getKey();
-            int cols = s.getValue();
 
-            if (rows == cols && rows == 1) {
-                return new PuzzlePiece[][]{{puzzle.get(0)}, {}};
-            }
-            else if(rows == 1 && PuzzleValidation.isPossibleOneRow(puzzle)) {
-                solvePuzzleOneRow(cols);
+                int rows = s.getKey();
+                int cols = s.getValue();
 
-            }
-            else if(cols == 1 && PuzzleValidation.isPossibleOneColumn(puzzle)) {
-                solvePuzzileOneColumn(rows);
+                if (rows == cols && rows == 1) {
 
-            }
-//            else{
-//
-//                puzzleSolution(rows, cols);
-//                if (verifySolution(solvedPuzzle)) {
-//                    return solvedPuzzle;
-//                } else {
-//                    System.out.println(Parameters.NO_PROPER_SOLUTION);
-//                }
-//            }
+                    solvedPuzzle = new PuzzlePiece[][]{{puzzle.get(0)}, {}};
+                    return true;
+                } else if (rows == 1 && PuzzleValidation.isPossibleOneRow(puzzle)) {
+                    solvePuzzleOneRow(cols);
+                    return verifySolution(solvedPuzzle);
+                } else if (cols == 1 && PuzzleValidation.isPossibleOneColumn(puzzle)) {
+                    solvePuzzileOneColumn(rows);
+                    return verifySolution(solvedPuzzle);
+                } else if (rows > 1 && cols > 1) {
+                    if(PuzzleValidation.validateNumberOfStraightEdges(puzzle,rows,cols)){
+                        puzzleSolution(rows, cols);
+                        return verifySolution(solvedPuzzle);
+                    }
+
+                }
+
+
+
         }
-        return solvedPuzzle;
+        return false;
     }
 
     public void puzzleSolution(int rows, int cols) {
+        solvedPuzzle = new PuzzlePiece[rows][cols];
+        //Prepare frame
+        //Get all corners and put it on the board
+        List<PuzzlePiece> listLT = PuzzleValidation.getSpecificPieces(puzzle, leftStraight, topStraight);
+        PuzzlePiece cornerLT = listLT.get(0);
+        puzzle.remove(cornerLT);
+
+        List<PuzzlePiece> listRT = PuzzleValidation.getSpecificPieces(puzzle, rightStraight, topStraight);
+        PuzzlePiece cornerRT = listRT.get(0);
+        puzzle.remove(cornerRT);
+
+        List<PuzzlePiece> listLB = PuzzleValidation.getSpecificPieces(puzzle, leftStraight, bottomStraight);
+        PuzzlePiece cornerLB = listLB.get(0);
+        puzzle.remove(cornerLB);
+
+        List<PuzzlePiece> listRB = PuzzleValidation.getSpecificPieces(puzzle, rightStraight, bottomStraight);
+        PuzzlePiece cornerRB = listRB.get(0);
+        puzzle.remove(cornerRB);
+
+        solvedPuzzle[0][0] = cornerLT;
+        solvedPuzzle[0][cols - 1] = cornerRT;
+        solvedPuzzle[rows - 1][0] = cornerLB;
+        solvedPuzzle[rows - 1][cols - 1] = cornerRB;
 
 
-
-
-        if (cols == 1 && PuzzleValidation.isPossibleOneColumn(puzzle)) {
-            solvePuzzileOneColumn(cols);
-
-        }
-
+        //Fill frame
+        //Top side
+        solvePuzzleRowRecursion(cornerLT, 0, 0, cols);
+        //Left side
+        solvePuzzleColumnRecursion(cornerLT, 0, 0, rows);
+        //Bottom side
+        solvePuzzleRowRecursion(cornerLB, rows - 1, 0, cols);
+        //Right side
+        solvePuzzleColumnRecursion(cornerRT, 0, cols - 1, rows);
     }
 
     private void solvePuzzileOneColumn(int rows) {
         solvedPuzzle = new PuzzlePiece[rows][1];
-        List<PuzzlePiece> list1 = PuzzleValidation.getListOfPiecesWithSpecificEdge(puzzle, leftStraight, topStraight, rightStraight);
+        List<PuzzlePiece> list1 = PuzzleValidation.getSpecificPieces(puzzle, leftStraight, topStraight, rightStraight);
         PuzzlePiece first = list1.get(0);
         puzzle.remove(first);
         solvedPuzzle[0][0] = first;
 
-        List<PuzzlePiece> list2 = PuzzleValidation.getListOfPiecesWithSpecificEdge(puzzle, rightStraight, bottomStraight, leftStraight);
+        List<PuzzlePiece> list2 = PuzzleValidation.getSpecificPieces(puzzle, rightStraight, bottomStraight, leftStraight);
         PuzzlePiece last = list2.get(0);
         puzzle.remove(last);
-
-
-        PuzzlePiece current = first;
-        int ind = 0;
-        solvePuzzleColumnRecursion(current, ind, rows);
-
         solvedPuzzle[rows - 1][0] = last;
+
+        solvePuzzleColumnRecursion(first, 0, 0, rows);
+
     }
 
     private void solvePuzzleOneRow(int cols) {
         solvedPuzzle = new PuzzlePiece[1][cols];
-        List<PuzzlePiece> list1 = PuzzleValidation.getListOfPiecesWithSpecificEdge(puzzle, leftStraight, topStraight, bottomStraight);
+        List<PuzzlePiece> list1 = PuzzleValidation.getSpecificPieces(puzzle, leftStraight, topStraight, bottomStraight);
         PuzzlePiece first = list1.get(0);
         puzzle.remove(first);
         solvedPuzzle[0][0] = first;
 
-        List<PuzzlePiece> list2 = PuzzleValidation.getListOfPiecesWithSpecificEdge(puzzle, rightStraight, topStraight, bottomStraight);
+        List<PuzzlePiece> list2 = PuzzleValidation.getSpecificPieces(puzzle, rightStraight, topStraight, bottomStraight);
         PuzzlePiece last = list2.get(0);
         puzzle.remove(last);
 
 
         PuzzlePiece current = first;
         int ind = 0;
-        solvePuzzleRowRecursion(current, ind, cols);
+        solvePuzzleRowRecursion(current, 0, 0, cols);
 
         solvedPuzzle[0][cols - 1] = last;
     }
 
-    private void solvePuzzleRowRecursion(PuzzlePiece current, int ind, int cols) {
+    private void solvePuzzleRowRecursion(PuzzlePiece current, int row, int col, int cols) {
 
-        if (ind == cols - 2) {
+        if (col == cols - 2) {
             return;
         } else {
-            List<PuzzlePiece> list = PuzzleValidation.getListOfPiecesWithSpecificEdge(puzzle, current.getRight().getMatch());
+            List<PuzzlePiece> list = PuzzleValidation.getSpecificPieces(puzzle, current.getRight().getMatch());
+            if (list.size() == 0) {
+                System.out.println("no solution");
+                return;
+            }
+            else{
+                current = list.get(0);
+                solvedPuzzle[row][++col] = current;
+                puzzle.remove(current);
+            }
 
-            current = list.get(0);
-            solvedPuzzle[0][++ind] = current;
-            puzzle.remove(current);
         }
-        solvePuzzleRowRecursion(current, ind, cols);
+        solvePuzzleRowRecursion(current, row, col, cols);
     }
 
-    private void solvePuzzleColumnRecursion(PuzzlePiece current, int ind, int rows) {
+    private void solvePuzzleColumnRecursion(PuzzlePiece current, int row, int col, int rows) {
 
-        if (ind == rows - 2) {
+        if (row == rows - 2) {
             return;
         } else {
-            List<PuzzlePiece> list = PuzzleValidation.getListOfPiecesWithSpecificEdge(puzzle, current.getBottom().getMatch());
-
-            current = list.get(0);
-            solvedPuzzle[++ind][0] = current;
-            puzzle.remove(current);
+            List<PuzzlePiece> list = PuzzleValidation.getSpecificPieces(puzzle, current.getBottom().getMatch());
+            if (list.size() == 0) {
+                System.out.println("no solution");
+                return;
+            }
+            else {
+                current = list.get(0);
+                solvedPuzzle[++row][col] = current;
+                puzzle.remove(current);
+            }
         }
-        solvePuzzleColumnRecursion(current, ind, rows);
+        solvePuzzleColumnRecursion(current, row, col, rows);
     }
 
 
