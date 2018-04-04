@@ -194,29 +194,6 @@ public class SolvePuzzle extends Puzzle {
     }
 
 
-    //check the case that piece1 exists on board and piece2 want
-//to connect to piece1 left side with piece2 right side
-    public boolean checkRightToLeft(PuzzlePiece puzzlePiece1, PuzzlePiece puzzlePiece2) {
-        return (puzzlePiece1.getLeftValue()) + (puzzlePiece2.getRightValue()) == 0;
-    }
-
-    //check the case that piece1 exists on board and piece2 want
-//to connect to piece1 right side with piece2 left side
-    public boolean checkLeftToRight(PuzzlePiece puzzlePiece1, PuzzlePiece puzzlePiece2) {
-        return puzzlePiece1.getRightValue() + puzzlePiece2.getLeftValue() == 0;
-    }
-
-    //check the case that piece1 exists on board and piece2 want
-//to connect to piece1 top side with piece2 bottom side
-    public boolean checkTopToBottom(PuzzlePiece puzzlePiece1, PuzzlePiece puzzlePiece2) {
-        return puzzlePiece1.getTopValue() + puzzlePiece2.getBottomValue() == 0;
-    }
-
-    //check the case that piece1 exists on board and piece2 want
-//to connect to piece1 bottom side with piece2 top side
-    public boolean checkBottomToTop(PuzzlePiece puzzlePiece1, PuzzlePiece puzzlePiece2) {
-        return puzzlePiece1.getBottomValue() + puzzlePiece2.getTopValue() == 0;
-    }
 
     public static boolean verifySolution(PuzzlePiece[][] solvedPuzzle) {
         int rowsSum = 0;
