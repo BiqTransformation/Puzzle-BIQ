@@ -11,87 +11,6 @@ import static org.junit.Assert.assertTrue;
 
 public class PuzzleTest {
 
-    @Test
-    public void badTestNumberOfLeftRightStraightEdges() {
-        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
-        PuzzlePiece p1 = new PuzzlePiece(1, 0, 1, 1, 1);
-        PuzzlePiece p2 = new PuzzlePiece(2, 1, 1, 1, 1);
-        puzzleList.add(p1);
-        puzzleList.add(p2);
-
-
-        assertFalse(PuzzleValidation.validateNumberOfStraightEdges(puzzleList));
-    }
-
-    @Test
-    public void badTestNumberOfTopBottomStraightEdges() {
-        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
-        PuzzlePiece p1 = new PuzzlePiece(1, -1, 0, 1, 1);
-        PuzzlePiece p2 = new PuzzlePiece(2, 1, 1, 1, -1);
-        puzzleList.add(p1);
-        puzzleList.add(p2);
-
-        assertFalse(PuzzleValidation.validateNumberOfStraightEdges(puzzleList));
-    }
-
-    @Test
-    public void goodTestNumberOfLeftRightStraightEdges() {
-        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
-        PuzzlePiece p1 = new PuzzlePiece(1, 0, 1, 1, 1);
-        PuzzlePiece p2 = new PuzzlePiece(2, 1, 1, 0, 1);
-        puzzleList.add(p1);
-        puzzleList.add(p2);
-
-        assertTrue(PuzzleValidation.validateNumberOfStraightEdges(puzzleList));
-    }
-
-    @Test
-    public void goodTestNumberOfTopBottomStraightEdges() {
-        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
-        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
-        PuzzlePiece p2 = new PuzzlePiece(2, 1, 1, 0, 0);
-        puzzleList.add(p1);
-        puzzleList.add(p2);
-
-        assertTrue(PuzzleValidation.validateNumberOfStraightEdges(puzzleList));
-    }
-
-    @Test
-    public void goodTestCorners() {
-        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
-        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
-        PuzzlePiece p2 = new PuzzlePiece(2, 1, 0, 0, -1);
-        PuzzlePiece p3 = new PuzzlePiece(3, 1, 1, 0, 0);
-        PuzzlePiece p4 = new PuzzlePiece(4, 0, 1, 1, 0);
-        puzzleList.add(p1);
-        puzzleList.add(p2);
-        puzzleList.add(p3);
-        puzzleList.add(p4);
-
-        assertTrue(PuzzleValidation.validateTopLeftCorner(puzzleList));
-        assertTrue(PuzzleValidation.validateTopRightCorner(puzzleList));
-        assertTrue(PuzzleValidation.validateBottomLeftCorner(puzzleList));
-        assertTrue(PuzzleValidation.validateBottomRightCorner(puzzleList));
-    }
-
-    @Test
-    public void badTestLeftTopCorner() {
-        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
-        PuzzlePiece p1 = new PuzzlePiece(1, 0, 1, 1, 1);
-        PuzzlePiece p2 = new PuzzlePiece(2, 1, 1, 1, 0);
-        PuzzlePiece p3 = new PuzzlePiece(3, 1, 1, 0, -1);
-        PuzzlePiece p4 = new PuzzlePiece(4, -1, 1, 1, 0);
-        puzzleList.add(p1);
-        puzzleList.add(p2);
-        puzzleList.add(p3);
-        puzzleList.add(p4);
-
-        assertFalse(PuzzleValidation.validateTopLeftCorner(puzzleList));
-        assertFalse(PuzzleValidation.validateTopRightCorner(puzzleList));
-        assertFalse(PuzzleValidation.validateTopLeftCorner(puzzleList));
-        assertFalse(PuzzleValidation.validateBottomRightCorner(puzzleList));
-
-    }
 
     @Test
     public void goodTestValidateSolution() {
@@ -121,7 +40,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestOneRowSolution() {
+    public void goodTestOneRowSolution() throws Exception {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
@@ -139,7 +58,25 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestOneColumnSolution() {
+    public void badTestOneRowSolution() throws Exception {
+
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
+        PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
+        PuzzlePiece p3 = new PuzzlePiece(3, 1, 0, 1, 0);
+        PuzzlePiece p4 = new PuzzlePiece(4, -1, 0, 1, 0);
+        List<PuzzlePiece> puzzle = new ArrayList<>();
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
+
+
+
+        assertFalse(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
+    }
+
+    @Test
+    public void goodTestOneColumnSolution() throws Exception {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 0, -1);
         PuzzlePiece p2 = new PuzzlePiece(2, 0, 1, 0, 0);
@@ -155,7 +92,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestMatrix2x2Solution() {
+    public void goodTestMatrix2x2Solution() throws Exception {
 
         List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
@@ -171,7 +108,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestMatrix2x3Solution() {
+    public void goodTestMatrix2x3Solution() throws Exception {
 
         List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
@@ -191,7 +128,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestMatrix3x2Solution() {
+    public void goodTestMatrix3x2Solution() throws Exception {
 
         List<PuzzlePiece> puzzleList = new ArrayList<>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);

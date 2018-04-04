@@ -25,7 +25,7 @@ public class FileOutput {
 		}
 	}
 	
-	public static void saveAsTextFile(String message) throws IOException {
+	public static void printToOutputFile(String message) throws IOException {
 		PrintWriter print=null;
 		try{
 			FileWriter write = new FileWriter(path,append_to_file);

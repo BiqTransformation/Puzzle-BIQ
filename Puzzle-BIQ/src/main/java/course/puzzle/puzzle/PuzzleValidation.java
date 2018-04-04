@@ -50,7 +50,7 @@ public class PuzzleValidation {
         }
 
         if (getSpecificPieces(puzzle,topStraight).size() != getSpecificPieces(puzzle,bottomStraight).size()) {
-            System.out.println(Parameters.WRONG_NUMBER_OF_STRAIGHT_EDGES);
+
             return false;
 
         }
@@ -108,6 +108,16 @@ public class PuzzleValidation {
             return false;
         }
         return true;
+    }
+
+    public static boolean validateSumOfEdges(List<PuzzlePiece> puzzle){
+        int sum = 0;
+        for(PuzzlePiece p : puzzle){
+            for(Edge e : p.listOfEdges){
+                sum += e.getValue();
+            }
+        }
+        return sum == 0;
     }
     public static boolean isPossibleOneRow(List<PuzzlePiece> puzzle) {
         if(getSpecificPieces(puzzle,leftStraight,topStraight,bottomStraight).size() != 0

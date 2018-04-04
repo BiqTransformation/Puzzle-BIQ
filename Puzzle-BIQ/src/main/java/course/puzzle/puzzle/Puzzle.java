@@ -1,19 +1,51 @@
 package course.puzzle.puzzle;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import course.puzzle.file.FileOutput;
+
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class Puzzle {
     protected List<PuzzlePiece> puzzle;
 
 
-    public Puzzle(List<PuzzlePiece> puzzle) {
+    public Puzzle(List<PuzzlePiece> puzzle) throws Exception {
         this.puzzle = puzzle;
+        validatePuzzle();
+
     }
 
+    public void validatePuzzle() throws Exception {
+        boolean isValid = true;
+        if (!PuzzleValidation.validateNumberOfStraightEdges(puzzle)) {
+            FileOutput.printToOutputFile(Parameters.WRONG_NUMBER_OF_STRAIGHT_EDGES);
+            isValid = false;
 
+        }
+        if (!PuzzleValidation.validateTopLeftCorner(puzzle)) {
+            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_TL);
+            isValid = false;
+        }
+        if (!PuzzleValidation.validateTopRightCorner(puzzle)) {
+            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_TR);
+            isValid = false;
+        }
+        if (!PuzzleValidation.validateBottomRightCorner(puzzle)) {
+            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_BR);
+            isValid = false;
+        }
+        if (!PuzzleValidation.validateBottomLeftCorner(puzzle)) {
+            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_BL);
+            isValid = false;
+        }
+        if (!PuzzleValidation.validateSumOfEdges(puzzle)) {
+            FileOutput.printToOutputFile(Parameters.SUM_OF_EDGES_IS_NOT_ZERO);
+            isValid = false;
+        }
+        if(!isValid){
+            throw new Exception(Parameters.CANNOT_SOLVE_PUZZLE);
+        }
+    }
 
 
 }

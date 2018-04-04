@@ -2,12 +2,7 @@ package course.puzzle.file;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +22,10 @@ public class OutputFileTests {
 		
 		//save
 		String message = Parameters.CANNOT_SOLVE_PUZZLE;
-		FileOutput.saveAsTextFile(message);		
+		FileOutput.printToOutputFile(message);
 		//save again
 		String message2 = Parameters.MISSING_CORNER_BL;
-		FileOutput.saveAsTextFile(message2);
+		FileOutput.printToOutputFile(message2);
 		//load
 		//message2 =message +"\n" + message2;
 		//System.out.println("message2 " + message2);
@@ -42,7 +37,7 @@ public class OutputFileTests {
 	}
 	
 	@Test
-	public void testPuzzleSolutionPrint() throws IOException{
+	public void testPuzzleSolutionPrint() throws Exception {
 		FileOutput.path="src/main/resources/files/output.txt";
 	    FileOutput.cleanOutputFile();
 	    PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
