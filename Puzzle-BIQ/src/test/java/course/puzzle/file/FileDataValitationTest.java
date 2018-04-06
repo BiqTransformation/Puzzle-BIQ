@@ -13,13 +13,12 @@ import org.junit.Test;
 
 import course.puzzle.puzzle.PuzzlePiece;
 
-public class FileReaderTest {
+public class FileDataValitationTest {
 	@Ignore
 	@Test
 	public void goodValidatorIntegrationFlow() throws IOException  {
 		String fromPath = "src/main/resources/files/puzzle1";
-		FileReader file = new FileReader();
-		ArrayList rawData = file.readFromFile(fromPath);		
+		ArrayList rawData = FileReader.readFromFile(fromPath);		
 		FileDataValidation validator = new FileDataValidation();
 		ArrayList<PuzzlePiece> actualPiecesList = validator.fileDataValidator(rawData);
 

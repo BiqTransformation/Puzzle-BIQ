@@ -66,6 +66,7 @@ public class FileDataValidation {
 	 *         of bad scenario .
 	 * @throws IOException 
 	 */
+	
 	protected int firstLineValidator(String firstLine) throws IOException {
 		int numOfPieces = -1;
 
@@ -186,7 +187,6 @@ public class FileDataValidation {
 	 * @return  true/false
 	 */
 	protected boolean basicFileValidator(ArrayList<String> inputlist) {
-
 		if (inputlist.size() <= 2) {
 			return false;
 		} else {
