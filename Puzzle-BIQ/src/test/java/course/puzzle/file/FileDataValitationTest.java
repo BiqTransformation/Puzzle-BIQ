@@ -42,6 +42,13 @@ public class FileDataValitationTest {
 		assertEquals(expectedPiecesList,actualPiecesList);
 	}
 	
+	@Test (expected=Exception.class)
+	public void fileReaderException() throws IOException {
+		String fromPath = "src/main/resources/files/input111.txt";
+		FileReader reader = new FileReader();
+		ArrayList rawData = reader.readFromFile(fromPath);	
+	}
+	
 	@Test 
 	public void goodfileDataValidator() throws IOException {
 			
