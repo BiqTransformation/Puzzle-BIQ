@@ -14,10 +14,10 @@ import org.junit.Test;
 import course.puzzle.puzzle.PuzzlePiece;
 
 public class FileDataValitationTest {
-	@Ignore
+	
 	@Test
 	public void goodValidatorIntegrationFlow() throws IOException  {
-		String fromPath = "src/main/resources/files/puzzle1";
+		String fromPath = "src/main/resources/files/input.txt";
 		ArrayList rawData = FileReader.readFromFile(fromPath);		
 		FileDataValidation validator = new FileDataValidation();
 		ArrayList<PuzzlePiece> actualPiecesList = validator.fileDataValidator(rawData);
@@ -25,6 +25,7 @@ public class FileDataValitationTest {
 		ArrayList<PuzzlePiece> expectedPiecesList = new ArrayList<>();
 		expectedPiecesList.add(new PuzzlePiece(1, -1, 0, 0, 0));
 		expectedPiecesList.add(new PuzzlePiece(2, 0, 0, 0, 0));
+		expectedPiecesList.add(new PuzzlePiece(3, 0, 0, 0, 0));
 		
 		assertEquals(expectedPiecesList,actualPiecesList);
 	}
