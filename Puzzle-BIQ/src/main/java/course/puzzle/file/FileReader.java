@@ -17,6 +17,7 @@ public class FileReader {
 				while((currentLine = in.readLine()) !=null) {
 					list.add(currentLine);	
 				}
+		in.close();		
 		return list;	
 	}
 }

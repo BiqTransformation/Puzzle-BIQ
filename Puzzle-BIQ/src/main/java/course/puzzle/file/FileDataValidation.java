@@ -3,17 +3,15 @@ package course.puzzle.file;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
-
 import course.puzzle.puzzle.PuzzlePiece;
 
 public class FileDataValidation {
     
-	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	private int numOfPieces;
 	private ArrayList<String> inPutlist = new ArrayList<>();
-	ArrayList<PuzzlePiece> listOfPuzzlePieces = new ArrayList<>();
-	ArrayList<PuzzlePiece> listOfPuzzlePiecesAfterAllValidation = new ArrayList<>();
+	private ArrayList<PuzzlePiece> listOfPuzzlePieces = new ArrayList<>();
+	private ArrayList<PuzzlePiece> listOfPuzzlePiecesAfterAllValidation = new ArrayList<>();
 
 	/**
 	 * The method return list of puzzle pieces after all data from file was
@@ -26,29 +24,17 @@ public class FileDataValidation {
 	public ArrayList<PuzzlePiece> fileDataValidator(ArrayList<String> inPutlist) throws IOException {
 		ArrayList<Integer> validSetOfIntegers = null;
 		if (basicFileValidator(inPutlist)) {
-			try {
+			
 				numOfPieces = firstLineValidator(inPutlist.get(0));
 				if (numOfPieces != -1) {
-
 					for (int i = 1; i < inPutlist.size(); i++) {
-
 						validSetOfIntegers = integersListValidation(inPutlist.get(i));
-
-						if (validSetOfIntegers.size() == 5) {  ///// Should be prepared !!!!!!!!!!!!!!!!!!!1
+						if (!validSetOfIntegers.isEmpty()) { 
 							listOfPuzzlePiecesAfterAllValidation = PuzzlePieceBuilder(validSetOfIntegers);
-						} else {
-							FileOutput.printToOutputFile(timestamp+" : "+"Puzzle will not be complited , one or more parametrs are incorrect. ");
-						}
+						} 
 					}
 				} 
-			} catch (Exception e) {
-
-				// TO DO write to Error File .
-			}
-		} else {
-			FileOutput.printToOutputFile(timestamp+ " : " + "Input list not valid !!!  ");
-		}
-
+		} 
 		if (listOfPuzzlePiecesAfterAllValidation.size() == numOfPieces) {
 			return listOfPuzzlePiecesAfterAllValidation;
 		} else {
@@ -78,11 +64,9 @@ public class FileDataValidation {
 					numOfPieces = Integer.parseInt(arrStr[1]);
 					setNumOfPieces(numOfPieces);
 					return numOfPieces;
-
 				} else {	
 						FileOutput.printToOutputFile(timestamp+" : "+"The NumElements less then 2 current number is "+ arrStr[1]);
 					return numOfPieces;
-				
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();		
@@ -97,22 +81,6 @@ public class FileDataValidation {
 	}
 
 	/**
-	 * @param idNum
-	 * @return returnIdNum
-	 */
-	protected int idNumberValidation(int idNum) {
-		int returnIdNum = -1;
-		if (idNum <= numOfPieces && idNum > 0) {
-			returnIdNum = idNum;
-			return returnIdNum;
-		} else {
-			return returnIdNum;
-			// // TO DO write error to file .
-		}
-
-	}
-
-	/**
 	 * Every line include the 5 integers 1 number it's piece Id ,others 4 are sides
 	 * of puzzle.
 	 * 
@@ -120,47 +88,52 @@ public class FileDataValidation {
 	 * @return listOfIntegers
 	 * @throws IOException 
 	 */
+	
 	protected ArrayList<Integer> integersListValidation(String str) throws IOException {
-		int currNum = 0;
+		//int currNum = 0;
 		ArrayList<Integer> listOfIntegers = new ArrayList<>();
-
 		String[] afterSplit = str.trim().split(" ");
-
 		try {
 			int validId = idNumberValidation(Integer.parseInt(afterSplit[0]));
 			if (validId != -1) {
 				listOfIntegers.add(validId);
 				for (int i = 1; i < afterSplit.length; i++) {
-					if (afterSplit[i].equals("-1") || afterSplit[i].equals("0") || afterSplit[i].equals("1")) {
-
-						try {
+					if (afterSplit[i].equals("-1") || afterSplit[i].equals("0") || afterSplit[i].equals("1")) {		
 							listOfIntegers.add(Integer.parseInt(afterSplit[i]));
-
-						} catch (NumberFormatException e) {
-							e.printStackTrace();
-							FileOutput.printToOutputFile(timestamp+" : "+"ParseInt failed , parameter is :"+ afterSplit[i]);
-						}
 					} else {
-						FileOutput.printToOutputFile(timestamp+"For Id : "+validId+" , parameter number :"+ i +" is incorrect : "+ afterSplit[i]);
-						//break;
+						FileOutput.printToOutputFile(timestamp+" : "+"For Id : "+validId+" , parameter number :"+ i +" is incorrect : "+ afterSplit[i]);
 					}
 				}
-			} else {
-				FileOutput.printToOutputFile(timestamp+" Id number incorrect !!!");
-				listOfIntegers.remove(0);	
-			}
-
+			} 
 		} catch (NumberFormatException e) {
-			
-			//FileOutput.saveAsTextFile(timestamp+" : "+"ParseInt failed , parameter is :"+ afterSplit[i]);
-			//listOfIntegers.clear();
-			// TO DO write error to file .
 			e.printStackTrace();
 		}
-
-		return listOfIntegers;
+		if (listOfIntegers.size() != 5) {
+			listOfIntegers.clear();
+			return 	listOfIntegers;
+		}
+		else {
+			FileOutput.printToOutputFile(timestamp+" : "+" List of integers defferent from 5 .");
+			return listOfIntegers;
+		}
+		
 	}
-
+	
+	/**
+	 * @param idNum
+	 * @return returnIdNum
+	 * @throws IOException 
+	 */
+	protected int idNumberValidation(int idNum) throws IOException {
+		int returnIdNum = -1;
+		if (idNum <= numOfPieces && idNum > 0) {
+			returnIdNum = idNum;
+			return returnIdNum;
+		} else {
+			FileOutput.printToOutputFile(timestamp+ " : " + "Id number not valid should be more then 0 and less then NumElements." );
+			return returnIdNum;	
+		}
+	}
 	/**
 	 * Method build the single puzzle piece and add him to list.
 	 * 
@@ -185,10 +158,12 @@ public class FileDataValidation {
 	/**
 	 * @param list
 	 * @return  true/false
+	 * @throws IOException 
 	 */
-	protected boolean basicFileValidator(ArrayList<String> inputlist) {
+	protected boolean basicFileValidator(ArrayList<String> inputlist) throws IOException {
 		if (inputlist.size() <= 2) {
-			return false;
+			FileOutput.printToOutputFile(timestamp+ " : " + "Input list not valid !!!  ");
+			return false;	
 		} else {
 			return true;
 		}
