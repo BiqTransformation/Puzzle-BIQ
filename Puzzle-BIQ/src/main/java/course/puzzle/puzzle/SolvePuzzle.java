@@ -1,5 +1,7 @@
 package course.puzzle.puzzle;
 
+import course.puzzle.file.FileOutput;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +29,9 @@ public class SolvePuzzle extends Puzzle {
         if (puzzleSize == 1) {
             solutions.put(1, 1);
         } else if (puzzleSize > 1) {
-
-            solutions.put(puzzleSize, 1);
             solutions.put(1, puzzleSize);
+            solutions.put(puzzleSize, 1);
+
             for (int i = 2; i < puzzleSize; i++) {
                 if (puzzleSize % i == 0) {
                     int num = puzzleSize / i;
@@ -40,7 +42,7 @@ public class SolvePuzzle extends Puzzle {
         return solutions;
     }
 
-    public PuzzlePiece[][] findSolution() {
+    public PuzzlePiece[][] findSolution() throws Exception {
         getPossibleSolutions();
 
         for (Map.Entry<Integer, Integer> s : solutions.entrySet()) {
@@ -72,7 +74,8 @@ public class SolvePuzzle extends Puzzle {
 
             }
         }
-        return null;
+        solvedPuzzle = null;
+        return solvedPuzzle;
     }
 
     public void puzzleSolution(int rows, int cols) {
@@ -218,17 +221,24 @@ public class SolvePuzzle extends Puzzle {
         return puzzlePiece1.getBottomValue() + puzzlePiece2.getTopValue() == 0;
     }
 
-    public static boolean verifySolution(PuzzlePiece[][] solvedPuzzle) {
-        int rowsSum = 0;
-        for (int row = 0; row < solvedPuzzle.length; row++) {
-            rowsSum += getRowSum(solvedPuzzle, row);
+    public static boolean verifySolution(PuzzlePiece[][] solvedPuzzle) throws Exception {
+        if(solvedPuzzle != null) {
+            int rowsSum = 0;
+            for (int row = 0; row < solvedPuzzle.length; row++) {
+                rowsSum += getRowSum(solvedPuzzle, row);
+            }
+            int colsSum = 0;
+            for (int col = 0; col < solvedPuzzle[0].length; col++) {
+                colsSum += getColsSum(solvedPuzzle, col);
+            }
+
+            return (rowsSum + colsSum) == 0;
         }
-        int colsSum = 0;
-        for (int col = 0; col < solvedPuzzle[0].length; col++) {
-            colsSum += getColsSum(solvedPuzzle, col);
+        else{
+            FileOutput.printToOutputFile(Parameters.CANNOT_SOLVE_PUZZLE);
+            throw new Exception(Parameters.CANNOT_SOLVE_PUZZLE);
         }
 
-        return (rowsSum + colsSum) == 0;
     }
 
     private static int getRowSum(PuzzlePiece[][] solvedPuzzle, int row) {

@@ -13,7 +13,7 @@ public class PuzzleTest {
 
 
     @Test
-    public void goodTestValidateSolution() {
+    public void goodTestValidateSolution() throws Exception {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, -1);
@@ -27,7 +27,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void badTestValidateSolution() {
+    public void badTestValidateSolution() throws Exception {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
         PuzzlePiece p2 = new PuzzlePiece(2, 1, 0, 0, -1);
@@ -58,21 +58,22 @@ public class PuzzleTest {
     }
 
     @Test
-    public void badTestOneRowSolution() throws Exception {
+    public void goodTestOneRowSolution1() throws Exception {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
-        PuzzlePiece p3 = new PuzzlePiece(3, 1, 0, 1, 0);
+        PuzzlePiece p3 = new PuzzlePiece(3, -1, 0, 1, 0);
         PuzzlePiece p4 = new PuzzlePiece(4, -1, 0, 1, 0);
+        PuzzlePiece p5 = new PuzzlePiece(4, 0, 0, 0, 0);
         List<PuzzlePiece> puzzle = new ArrayList<>();
         puzzle.add(p1);
         puzzle.add(p2);
         puzzle.add(p3);
         puzzle.add(p4);
+        puzzle.add(p5);
 
 
-
-        assertFalse(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
     }
 
     @Test

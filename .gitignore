@@ -7,3 +7,4 @@
 *.prefs
 /Puzzle-BIQ/target/*
 /Puzzle-BIQ/.idea/*
+/Puzzle-BIQ/src/main/resources/files/output.txt
