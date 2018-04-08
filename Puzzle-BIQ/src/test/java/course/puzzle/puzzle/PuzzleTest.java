@@ -13,7 +13,7 @@ public class PuzzleTest {
 
 
     @Test
-    public void goodTestValidateSolution() throws Exception {
+    public void goodTestValidateSolution() {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, -1);
@@ -27,7 +27,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void badTestValidateSolution() throws Exception {
+    public void badTestValidateSolution() {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
         PuzzlePiece p2 = new PuzzlePiece(2, 1, 0, 0, -1);
@@ -40,7 +40,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestOneRowSolution() throws Exception {
+    public void goodTestOneRowSolution() {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
@@ -58,13 +58,13 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestOneRowSolution1() throws Exception {
+    public void goodTestOneRowSolution1() {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
         PuzzlePiece p3 = new PuzzlePiece(3, -1, 0, 1, 0);
         PuzzlePiece p4 = new PuzzlePiece(4, -1, 0, 1, 0);
-        PuzzlePiece p5 = new PuzzlePiece(4, 0, 0, 0, 0);
+        PuzzlePiece p5 = new PuzzlePiece(5, 0, 0, 0, 0);
         List<PuzzlePiece> puzzle = new ArrayList<>();
         puzzle.add(p1);
         puzzle.add(p2);
@@ -77,7 +77,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestOneColumnSolution() throws Exception {
+    public void goodTestOneColumnSolution() {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 0, -1);
         PuzzlePiece p2 = new PuzzlePiece(2, 0, 1, 0, 0);
@@ -93,7 +93,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestMatrix2x2Solution() throws Exception {
+    public void goodTestMatrix2x2Solution() {
 
         List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
@@ -109,7 +109,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestMatrix2x3Solution() throws Exception {
+    public void goodTestMatrix2x3Solution() {
 
         List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
@@ -129,7 +129,7 @@ public class PuzzleTest {
     }
 
     @Test
-    public void goodTestMatrix3x2Solution() throws Exception {
+    public void goodTestMatrix3x2Solution() {
 
         List<PuzzlePiece> puzzleList = new ArrayList<>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);

@@ -9,13 +9,13 @@ public class Puzzle {
     protected List<PuzzlePiece> puzzle;
 
 
-    public Puzzle(List<PuzzlePiece> puzzle) throws Exception {
+    public Puzzle(List<PuzzlePiece> puzzle) {
         this.puzzle = puzzle;
         validatePuzzle();
 
     }
 
-    public void validatePuzzle() throws Exception {
+    public void validatePuzzle() {
         boolean isValid = true;
         if (!PuzzleValidation.validateNumberOfStraightEdges(puzzle)) {
             FileOutput.printToOutputFile(Parameters.WRONG_NUMBER_OF_STRAIGHT_EDGES);
@@ -43,7 +43,7 @@ public class Puzzle {
             isValid = false;
         }
         if(!isValid){
-            throw new Exception(Parameters.CANNOT_SOLVE_PUZZLE);
+            return;
         }
     }
 

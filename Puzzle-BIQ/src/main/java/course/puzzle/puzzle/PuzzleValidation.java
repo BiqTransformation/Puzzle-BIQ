@@ -1,7 +1,10 @@
 package course.puzzle.puzzle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import course.puzzle.file.FileOutput;
 
 public class PuzzleValidation {
     private static Edge leftStraight = new Edge("left", 0);
@@ -14,17 +17,19 @@ public class PuzzleValidation {
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge) {
         List<PuzzlePiece> specificEdges = new ArrayList<PuzzlePiece>();
         for (PuzzlePiece p : puzzle) {
-            if (p.listOfEdges.contains(edge)) {
+            if (p.listOfEdges.contains(edge) && !p.isUsed()) {
                 specificEdges.add(p);
             }
         }
 
         return specificEdges;
     }
+    
+    
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge1, Edge edge2) {
         List<PuzzlePiece> specificEdges = new ArrayList<>();
         for (PuzzlePiece p : puzzle) {
-            if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2)) {
+            if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2)  && !p.isUsed()) {
                 specificEdges.add(p);
             }
         }
@@ -35,7 +40,7 @@ public class PuzzleValidation {
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge1, Edge edge2, Edge edge3) {
         List<PuzzlePiece> specificEdges = new ArrayList<>();
         for (PuzzlePiece p : puzzle) {
-            if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2) && p.listOfEdges.contains(edge3)) {
+            if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2) && p.listOfEdges.contains(edge3)  && !p.isUsed()) {
                 specificEdges.add(p);
             }
         }
@@ -78,7 +83,7 @@ public class PuzzleValidation {
     public static boolean validateTopLeftCorner(List<PuzzlePiece> puzzle) {
 
         if(getSpecificPieces(puzzle,leftStraight,topStraight).size() == 0){
-            System.out.println(Parameters.MISSING_CORNER_TL);
+
             return false;
         }
 
@@ -88,15 +93,15 @@ public class PuzzleValidation {
     public static boolean validateBottomLeftCorner(List<PuzzlePiece> puzzle) {
 
         if(getSpecificPieces(puzzle,leftStraight,bottomStraight).size() == 0){
-            System.out.println(Parameters.MISSING_CORNER_BL);
+
             return false;
         }
         return true;
     }
 
-    public static boolean validateTopRightCorner(List<PuzzlePiece> puzzle) {
+    public static boolean validateTopRightCorner(List<PuzzlePiece> puzzle)  {
         if(getSpecificPieces(puzzle,rightStraight,topStraight).size() == 0){
-            System.out.println(Parameters.MISSING_CORNER_TR);
+
             return false;
         }
 
@@ -104,7 +109,7 @@ public class PuzzleValidation {
     }
     public static boolean validateBottomRightCorner(List<PuzzlePiece> puzzle) {
         if(getSpecificPieces(puzzle,rightStraight,bottomStraight).size() == 0){
-            System.out.println(Parameters.MISSING_CORNER_BR);
+
             return false;
         }
         return true;
