@@ -1,7 +1,10 @@
 package course.puzzle.puzzle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import course.puzzle.file.FileOutput;
 
 public class PuzzleValidation {
     private static Edge leftStraight = new Edge("left", 0);
@@ -21,6 +24,8 @@ public class PuzzleValidation {
 
         return specificEdges;
     }
+    
+    
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge1, Edge edge2) {
         List<PuzzlePiece> specificEdges = new ArrayList<>();
         for (PuzzlePiece p : puzzle) {
@@ -75,36 +80,40 @@ public class PuzzleValidation {
     }
 
 
-    public static boolean validateTopLeftCorner(List<PuzzlePiece> puzzle) {
+    public static boolean validateTopLeftCorner(List<PuzzlePiece> puzzle) throws IOException {
 
         if(getSpecificPieces(puzzle,leftStraight,topStraight).size() == 0){
             System.out.println(Parameters.MISSING_CORNER_TL);
+            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_TL);
             return false;
         }
 
         return true;
     }
 
-    public static boolean validateBottomLeftCorner(List<PuzzlePiece> puzzle) {
+    public static boolean validateBottomLeftCorner(List<PuzzlePiece> puzzle) throws IOException {
 
         if(getSpecificPieces(puzzle,leftStraight,bottomStraight).size() == 0){
             System.out.println(Parameters.MISSING_CORNER_BL);
+            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_BL);
             return false;
         }
         return true;
     }
 
-    public static boolean validateTopRightCorner(List<PuzzlePiece> puzzle) {
+    public static boolean validateTopRightCorner(List<PuzzlePiece> puzzle) throws IOException {
         if(getSpecificPieces(puzzle,rightStraight,topStraight).size() == 0){
             System.out.println(Parameters.MISSING_CORNER_TR);
+            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_TR);
             return false;
         }
 
         return true;
     }
-    public static boolean validateBottomRightCorner(List<PuzzlePiece> puzzle) {
+    public static boolean validateBottomRightCorner(List<PuzzlePiece> puzzle) throws IOException {
         if(getSpecificPieces(puzzle,rightStraight,bottomStraight).size() == 0){
             System.out.println(Parameters.MISSING_CORNER_BR);
+            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_BR);
             return false;
         }
         return true;

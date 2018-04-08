@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,11 +17,11 @@ import course.puzzle.puzzle.PuzzlePiece;
 public class FileDataValitationTest {
 	
 	@Test
-	public void goodValidatorIntegrationFlow() throws IOException  {
+	public void goodValidatorIntegrationFlow() throws Exception  {
 		String fromPath = "src/main/resources/files/input.txt";
-		ArrayList rawData = FileReader.readFromFile(fromPath);		
+		List<String> rawData = FileReader.readFromFile(fromPath);		
 		FileDataValidation validator = new FileDataValidation();
-		ArrayList<PuzzlePiece> actualPiecesList = validator.fileDataValidator(rawData);
+		List<PuzzlePiece> actualPiecesList = validator.fileDataValidator(rawData);
 		ArrayList<PuzzlePiece> expectedPiecesList = new ArrayList<>();
 		expectedPiecesList.add(new PuzzlePiece(1, -1, 0, 0, 0));
 		expectedPiecesList.add(new PuzzlePiece(2, 0, 0, 0, 0));
@@ -29,12 +30,12 @@ public class FileDataValitationTest {
 	}
 	
 	@Test
-	public void goodValidatorIntegrationFlow1() throws IOException  {
+	public void goodValidatorIntegrationFlow1() throws Exception  {
 		String fromPath = "src/main/resources/files/input.txt";
 		FileReader reader = new FileReader();
-		ArrayList rawData = reader.readFromFile(fromPath);		
+		List<String> rawData = reader.readFromFile(fromPath);		
 		FileDataValidation validator = new FileDataValidation();
-		ArrayList<PuzzlePiece> actualPiecesList = validator.fileDataValidator(rawData);
+		List<PuzzlePiece> actualPiecesList = validator.fileDataValidator(rawData);
 		ArrayList<PuzzlePiece> expectedPiecesList = new ArrayList<>();
 		expectedPiecesList.add(new PuzzlePiece(1, -1, 0, 0, 0));
 		expectedPiecesList.add(new PuzzlePiece(2, 0, 0, 0, 0));
@@ -43,34 +44,34 @@ public class FileDataValitationTest {
 	}
 	
 	@Test (expected=Exception.class)
-	public void fileReaderException() throws IOException {
+	public void fileReaderException() throws Exception {
 		String fromPath = "src/main/resources/files/input111.txt";
 		FileReader reader = new FileReader();
-		ArrayList rawData = reader.readFromFile(fromPath);	
+		List<String> rawData = reader.readFromFile(fromPath);	
 	}
 	
 	@Test 
-	public void goodfileDataValidator() throws IOException {
+	public void goodfileDataValidator() throws Exception {
 			
 		ArrayList<String> input = new ArrayList<>();
 		input.add("NumElements=2");
-		input.add("1 -1 0 0 0");
-		input.add("2 0 0 0 0");
+		input.add("1 0 0 1 0");
+		input.add("2 -1 0 0 0");
 		
-		PuzzlePiece piece1 = new PuzzlePiece(1, -1, 0, 0, 0);
-		PuzzlePiece piece2 = new PuzzlePiece(2, 0, 0, 0, 0);
+		PuzzlePiece piece1 = new PuzzlePiece(1, 0, 0, 1, 0);
+		PuzzlePiece piece2 = new PuzzlePiece(2, -1, 0, 0, 0);
 		ArrayList<PuzzlePiece> expected = new ArrayList<>();
 		expected.add(piece1);
 		expected.add(piece2);
 		
 		FileDataValidation validator = new FileDataValidation();
-		ArrayList<PuzzlePiece> actual = validator.fileDataValidator(input);
+		List<PuzzlePiece> actual = validator.fileDataValidator(input);
 		assertEquals(expected.get(0).getId(), actual.get(0).getId());
 		
 	}
 	
 	@Test 
-	public void badfileDataValidator1() throws IOException {	
+	public void badfileDataValidator1() throws Exception {	
 		ArrayList<String> input = new ArrayList<>();
 		input.add("NumElements=2");
 		input.add("1 -1 0 0 0");
@@ -78,14 +79,14 @@ public class FileDataValitationTest {
 		input.add("3 0 0 0 0");
 		ArrayList<PuzzlePiece> expected = new ArrayList<>();	
 		FileDataValidation validator = new FileDataValidation();
-		ArrayList<PuzzlePiece> actual = validator.fileDataValidator(input);
+		List<PuzzlePiece> actual = validator.fileDataValidator(input);
 		// Empty list was received .
 		assertEquals(expected, actual);
 		
 	}
 	
 	@Test 
-	public void badfileDataValidator2() throws IOException {	
+	public void badfileDataValidator2() throws Exception {	
 		ArrayList<String> input = new ArrayList<>();
 		// NumElements more then actual received.
 		input.add("NumElements=3");
@@ -93,7 +94,7 @@ public class FileDataValitationTest {
 		input.add("2 0 0 0 0");
 		ArrayList<PuzzlePiece> expected = new ArrayList<>();
 		FileDataValidation validator = new FileDataValidation();
-		ArrayList<PuzzlePiece> actual = validator.fileDataValidator(input);
+		List<PuzzlePiece> actual = validator.fileDataValidator(input);
 		// Empty list was received .
 		assertEquals(expected, actual);
 		
@@ -301,4 +302,6 @@ public class FileDataValitationTest {
 		boolean expected = false ;
 		assertEquals(expected, actual);
 	}
+	
+
 }
