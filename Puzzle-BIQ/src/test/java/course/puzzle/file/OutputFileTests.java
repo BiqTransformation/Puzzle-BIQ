@@ -26,10 +26,7 @@ public class OutputFileTests {
 		//save again
 		String message2 = Parameters.MISSING_CORNER_BL;
 		FileOutput.printToOutputFile(message2);
-		//load
-		//message2 =message +"\n" + message2;
-		//System.out.println("message2 " + message2);
-		//System.out.println();
+		//load		
 		String message3 =  FileOutput.loadFromTextFile();
 		//System.out.println("message3 " + message3);
 		assertTrue(message3.contains("Cannot solve puzzle:"));
