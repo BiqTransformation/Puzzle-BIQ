@@ -3,7 +3,11 @@ package course.puzzle.file;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
+
+import course.puzzle.puzzle.Parameters;
 import course.puzzle.puzzle.PuzzlePiece;
+import course.puzzle.puzzle.SolvePuzzle;
 
 public class FileDataValidation {
     
@@ -19,10 +23,11 @@ public class FileDataValidation {
 	 * 
 	 * @param inPutlist
 	 * @return listOfPuzzlePieces
-	 * @throws IOException 
+	 * @throws Exception 
 	 */
-	public ArrayList<PuzzlePiece> fileDataValidator(ArrayList<String> inPutlist) throws IOException {
-		ArrayList<Integer> validSetOfIntegers = null;
+	public List<PuzzlePiece> fileDataValidator(List<String> inPutlist) throws Exception {
+		List<Integer> validSetOfIntegers = null;
+		
 		if (basicFileValidator(inPutlist)) {
 			
 				numOfPieces = firstLineValidator(inPutlist.get(0));
@@ -36,12 +41,20 @@ public class FileDataValidation {
 				} 
 		} 
 		if (listOfPuzzlePiecesAfterAllValidation.size() == numOfPieces) {
+			startPuzzle();
 			return listOfPuzzlePiecesAfterAllValidation;
 		} else {
-			FileOutput.printToOutputFile(timestamp+ " : " + "number of puzzle pieces not equal to requared : "+numOfPieces +" actual : "+ listOfPuzzlePiecesAfterAllValidation.size() ); 
+			//TODO need to get the missing ids
+			FileOutput.printToOutputFile(timestamp+ " : " +Parameters.MISSING_PUZZLE_ELEMENTS + numOfPieces +" actual : "+ listOfPuzzlePiecesAfterAllValidation.size() ); 
 			listOfPuzzlePiecesAfterAllValidation.clear();
 			return listOfPuzzlePiecesAfterAllValidation;
 		}
+	}
+	
+	public void startPuzzle() throws Exception{
+		SolvePuzzle solvePuzzle = new SolvePuzzle(listOfPuzzlePiecesAfterAllValidation);
+		PuzzlePiece[][] puz =solvePuzzle.findSolution();
+		FileOutput.printSolution(puz);
 	}
 
 	/**
@@ -60,7 +73,7 @@ public class FileDataValidation {
 
 		if (arrStr[0].equals("NumElements")) {
 			try {
-				if (Integer.parseInt(arrStr[1]) > 1) {
+				if (Integer.parseInt(arrStr[1]) >= 1) {
 					numOfPieces = Integer.parseInt(arrStr[1]);
 					setNumOfPieces(numOfPieces);
 					return numOfPieces;
@@ -109,11 +122,11 @@ public class FileDataValidation {
 			e.printStackTrace();
 		}
 		if (listOfIntegers.size() != 5) {
+			FileOutput.printToOutputFile(timestamp+" : "+" List of integers defferent from 5 .");
 			listOfIntegers.clear();
 			return 	listOfIntegers;
 		}
-		else {
-			FileOutput.printToOutputFile(timestamp+" : "+" List of integers defferent from 5 .");
+		else {			
 			return listOfIntegers;
 		}
 		
@@ -140,7 +153,7 @@ public class FileDataValidation {
 	 * @param listOfvalidintegers
 	 * @return listOfPuzzlePieces
 	 */
-	protected ArrayList<PuzzlePiece> PuzzlePieceBuilder(ArrayList<Integer> listOfvalidintegers) {
+	protected ArrayList<PuzzlePiece> PuzzlePieceBuilder(List<Integer> listOfvalidintegers) {
 
 		int id = listOfvalidintegers.get(0);
 		int left = listOfvalidintegers.get(1);
@@ -160,11 +173,13 @@ public class FileDataValidation {
 	 * @return  true/false
 	 * @throws IOException 
 	 */
-	protected boolean basicFileValidator(ArrayList<String> inputlist) throws IOException {
-		if (inputlist.size() <= 2) {
+	protected boolean basicFileValidator(List<String> inputlist) throws IOException {
+		if (inputlist.size() <2) {
 			FileOutput.printToOutputFile(timestamp+ " : " + "Input list not valid !!!  ");
-			return false;	
-		} else {
+			return false;					
+		} 
+		
+		else {
 			return true;
 		}
 	}
