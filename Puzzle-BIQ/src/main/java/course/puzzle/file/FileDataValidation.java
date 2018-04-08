@@ -91,7 +91,6 @@ public class FileDataValidation {
 			return numOfPieces;
 			
 		}
-		return numOfPieces;
 	}
 
 	/**
