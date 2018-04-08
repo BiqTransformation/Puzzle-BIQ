@@ -3,8 +3,6 @@ package course.puzzle.puzzle;
 public class Edge {
     private String name;
 
-
-
     private Integer value;
 
     public Edge(String name, Integer value) {
