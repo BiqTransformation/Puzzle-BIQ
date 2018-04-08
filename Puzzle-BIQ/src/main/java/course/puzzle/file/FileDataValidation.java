@@ -82,7 +82,7 @@ public class FileDataValidation {
 					return numOfPieces;
 				}
 			} catch (NumberFormatException e) {
-				e.printStackTrace();		
+						
 					FileOutput.printToOutputFile(timestamp+" : "+"ParseInt failed , parameter is :"+ arrStr[1]);
 				return numOfPieces;
 			}
@@ -91,6 +91,7 @@ public class FileDataValidation {
 			return numOfPieces;
 			
 		}
+		return numOfPieces;
 	}
 
 	/**
@@ -175,7 +176,7 @@ public class FileDataValidation {
 	 */
 	protected boolean basicFileValidator(List<String> inputlist) throws IOException {
 		if (inputlist.size() <2) {
-			FileOutput.printToOutputFile(timestamp+ " : " + "Input list not valid !!!  ");
+			FileOutput.printToOutputFile(timestamp+ " : " + "In put file does not contain enough information to create puzzle ");
 			return false;					
 		} 
 		

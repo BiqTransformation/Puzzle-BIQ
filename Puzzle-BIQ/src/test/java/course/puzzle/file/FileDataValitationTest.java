@@ -165,7 +165,7 @@ public class FileDataValitationTest {
 		int actual = validator.firstLineValidator(str);
 		assertEquals(expected, actual);
 	}
-	
+		
 	@Test
 	public void goodTestIntegersListValidation() throws IOException {
 		ArrayList<Integer> expectedList = new ArrayList<>();
