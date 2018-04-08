@@ -33,7 +33,7 @@ public class FileReader {
 				in.close();	
 			}
 			
-		sendListToValidate();
+		
 		return fromFile;	
 	}
 	

@@ -7,8 +7,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import course.puzzle.file.FileDataValidation;
 import course.puzzle.file.FileOutput;
 import course.puzzle.file.FileReader;
+import course.puzzle.puzzle.PuzzlePiece;
+import course.puzzle.puzzle.SolvePuzzle;
 
 public class E2ETests {
 
@@ -19,32 +22,37 @@ public class E2ETests {
 		String toPath = "src//test//resources//files//test1.out";
 		//clean output
 		FileOutput.path=toPath;
-	    FileOutput.cleanOutputFile();
-		FileReader.readFromFile(fromPath);
-		//List<String> rawData = FileReader.readFromFile(fromPath);
-		//assertTrue(rawData.contains("NumElements=1"));
-		//assertTrue(rawData.contains("1 0 0 0 0"));	
-		String message = FileOutput.loadFromTextFile();
-		//System.out.println(message);
+	    FileOutput.cleanOutputFile();	    
+		List<String> inputList =FileReader.readFromFile(fromPath);	
+		FileDataValidation fav = new FileDataValidation();
+		List<PuzzlePiece> puzzleList= fav.fileDataValidator(inputList);
+		SolvePuzzle sp = new SolvePuzzle(puzzleList);
+		PuzzlePiece[][] puz =sp.findSolution();
+		//TODO - SolvePuzzle should print
+		FileOutput.printSolution(puz);		
+		String message = FileOutput.loadFromTextFile();	
 		assertEquals(message.trim(),"1");		
 	}
 	
 	@Test
-	public void testSimpleE2EWith4ElementPuzzle() throws Exception{
+	public void testSimpleE2EWith1E4ementPuzzle() throws Exception{
 		String fromPath = "src//test//resources//files//test2.in";
 		String toPath = "src//test//resources//files//test2.out";
 		//clean output
 		FileOutput.path=toPath;
-	    FileOutput.cleanOutputFile();
-		FileReader.readFromFile(fromPath);
-		//List<String> rawData = FileReader.readFromFile(fromPath);
-		//assertTrue(rawData.contains("NumElements=1"));
-		//assertTrue(rawData.contains("1 0 0 0 0"));	
-		String message = FileOutput.loadFromTextFile();
-		//System.out.println(message);
+	    FileOutput.cleanOutputFile();	    
+		List<String> inputList =FileReader.readFromFile(fromPath);	
+		FileDataValidation fav = new FileDataValidation();
+		List<PuzzlePiece> puzzleList= fav.fileDataValidator(inputList);
+		SolvePuzzle sp = new SolvePuzzle(puzzleList);
+		PuzzlePiece[][] puz =sp.findSolution();
+		//TODO - SolvePuzzle should print
+		FileOutput.printSolution(puz);		
+		String message = FileOutput.loadFromTextFile();	
+		System.out.println(message);
 		assertTrue(message.contains("1 3"));
 		assertTrue(message.contains("2 4"));
-	}
+	}  
 	
 	@Test
 	public void testSimpleE2EWithMissing2Elements() throws Exception{

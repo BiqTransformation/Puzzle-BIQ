@@ -41,7 +41,7 @@ public class FileDataValidation {
 				} 
 		} 
 		if (listOfPuzzlePiecesAfterAllValidation.size() == numOfPieces) {
-			startPuzzle();
+			
 			return listOfPuzzlePiecesAfterAllValidation;
 		} else {
 			//TODO need to get the missing ids
