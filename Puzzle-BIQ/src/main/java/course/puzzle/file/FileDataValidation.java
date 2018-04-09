@@ -95,7 +95,10 @@ public class FileDataValidation {
 			return numOfPieces;
 			
 		}
+<<<<<<< HEAD
 		
+=======
+>>>>>>> 4abc902521ab37d4ae05a300b07a572a1228986e
 	}
 
 	/**
