@@ -149,7 +149,7 @@ public class FileDataValitationTest {
 	
 	@Test
 	public void badTestOFfirstLineValidatorIncorrectNumOfPieces_1() throws IOException {
-		int expected = -1;
+		int expected = 1;
 		FileDataValidation validator = new FileDataValidation();
 		String str = "NumElements=1";
 		int actual = validator.firstLineValidator(str);
@@ -299,7 +299,7 @@ public class FileDataValitationTest {
 		inputList.add("1");
 		inputList.add("2");
 		boolean actual = validator.basicFileValidator(inputList);
-		boolean expected = false ;
+		boolean expected = true ;
 		assertEquals(expected, actual);
 	}
 	

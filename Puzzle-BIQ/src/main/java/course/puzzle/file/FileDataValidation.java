@@ -28,27 +28,31 @@ public class FileDataValidation {
 	public List<PuzzlePiece> fileDataValidator(List<String> inPutlist) throws Exception {
 		List<Integer> validSetOfIntegers = null;
 		
-		if (basicFileValidator(inPutlist)) {
+		if (basicFileValidator(inPutlist)) {			
 			
 				numOfPieces = firstLineValidator(inPutlist.get(0));
 				if (numOfPieces != -1) {
 					for (int i = 1; i < inPutlist.size(); i++) {
-						validSetOfIntegers = integersListValidation(inPutlist.get(i));
-						if (!validSetOfIntegers.isEmpty()) { 
+						validSetOfIntegers = integersListValidation(inPutlist.get(i));						
+						if (!validSetOfIntegers.isEmpty()) { 							
 							listOfPuzzlePiecesAfterAllValidation = PuzzlePieceBuilder(validSetOfIntegers);
 						} 
 					}
 				} 
 		} 
-		if (listOfPuzzlePiecesAfterAllValidation.size() == numOfPieces) {
-			
+		if (listOfPuzzlePiecesAfterAllValidation.size() == numOfPieces) {			
 			return listOfPuzzlePiecesAfterAllValidation;
-		} else {
-			//TODO need to get the missing ids
-			FileOutput.printToOutputFile(timestamp+ " : " +Parameters.MISSING_PUZZLE_ELEMENTS + numOfPieces +" actual : "+ listOfPuzzlePiecesAfterAllValidation.size() ); 
-			listOfPuzzlePiecesAfterAllValidation.clear();
-			return listOfPuzzlePiecesAfterAllValidation;
+		} 
+		else if(listOfPuzzlePiecesAfterAllValidation.size()<numOfPieces){
+			int diff = numOfPieces -listOfPuzzlePiecesAfterAllValidation.size();
+			String message = Parameters.MISSING_PUZZLE_ELEMENTS;			
+			for(int i=diff+1;i<=numOfPieces;i++){
+				message +=i+",";
+		   }
+			FileOutput.printToOutputFile(message);					
+			listOfPuzzlePiecesAfterAllValidation.clear();			
 		}
+		return listOfPuzzlePiecesAfterAllValidation;
 	}
 	
 	public void startPuzzle() throws Exception{
@@ -91,7 +95,7 @@ public class FileDataValidation {
 			return numOfPieces;
 			
 		}
-		return numOfPieces;
+		
 	}
 
 	/**
@@ -109,6 +113,7 @@ public class FileDataValidation {
 		String[] afterSplit = str.trim().split(" ");
 		try {
 			int validId = idNumberValidation(Integer.parseInt(afterSplit[0]));
+			
 			if (validId != -1) {
 				listOfIntegers.add(validId);
 				for (int i = 1; i < afterSplit.length; i++) {
@@ -174,10 +179,10 @@ public class FileDataValidation {
 	 * @return  true/false
 	 * @throws IOException 
 	 */
-	protected boolean basicFileValidator(List<String> inputlist) throws IOException {
+	protected boolean basicFileValidator(List<String> inputlist) throws IOException {	
 		if (inputlist.size() <2) {
 			FileOutput.printToOutputFile(timestamp+ " : " + "In put file does not contain enough information to create puzzle ");
-			return false;					
+			return false;	
 		} 
 		
 		else {

@@ -52,22 +52,27 @@ public class E2ETests {
 		System.out.println(message);
 		assertTrue(message.contains("1 3"));
 		assertTrue(message.contains("2 4"));
+		//wait till full solution of recursion
 	}  
 	
 	@Test
-	public void testSimpleE2EWithMissing2Elements() throws Exception{
+	public void testSimpleNegativeE2EWithLessIDsThenNumElements() throws Exception{
 		String fromPath = "src//test//resources//files//test3.in";
 		String toPath = "src//test//resources//files//test3.out";
 		//clean output
 		FileOutput.path=toPath;
-	    FileOutput.cleanOutputFile();
-		FileReader.readFromFile(fromPath);
-		//List<String> rawData = FileReader.readFromFile(fromPath);
-		//assertTrue(rawData.contains("NumElements=1"));
-		//assertTrue(rawData.contains("1 0 0 0 0"));	
-		String message = FileOutput.loadFromTextFile();
-		System.out.println(message);//to fix		
-	}
+	    FileOutput.cleanOutputFile();	    
+		List<String> inputList =FileReader.readFromFile(fromPath);	
+		FileDataValidation fav = new FileDataValidation();
+		List<PuzzlePiece> puzzleList= fav.fileDataValidator(inputList);
+		//SolvePuzzle sp = new SolvePuzzle(puzzleList);
+		//PuzzlePiece[][] puz =sp.findSolution();
+		//TODO - SolvePuzzle should print
+		//FileOutput.printSolution(puz);		
+		String message = FileOutput.loadFromTextFile();	
+		System.out.println(message);
+		assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
+	} 
 	
 	
 	@Test
