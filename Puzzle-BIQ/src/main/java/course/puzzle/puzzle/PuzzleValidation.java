@@ -126,7 +126,8 @@ public class PuzzleValidation {
     }
     public static boolean isPossibleOneRow(List<PuzzlePiece> puzzle) {
         if(getSpecificPieces(puzzle,leftStraight,topStraight,bottomStraight).size() != 0
-                && getSpecificPieces(puzzle,rightStraight,topStraight,bottomStraight).size() != 0) {
+                && getSpecificPieces(puzzle,rightStraight,topStraight,bottomStraight).size() != 0
+                && validateNumberOfStraightEdges(puzzle,1,puzzle.size())) {
 
             return true;
         }
@@ -136,7 +137,8 @@ public class PuzzleValidation {
 
     public static boolean isPossibleOneColumn(List<PuzzlePiece> puzzle) {
         if(getSpecificPieces(puzzle,leftStraight,topStraight,rightStraight).size() != 0
-                && getSpecificPieces(puzzle,leftStraight,bottomStraight,rightStraight).size() != 0) {
+                && getSpecificPieces(puzzle,leftStraight,bottomStraight,rightStraight).size() != 0
+                && validateNumberOfStraightEdges(puzzle,puzzle.size(),1)) {
 
             return true;
         }

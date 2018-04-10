@@ -56,7 +56,7 @@ public class PuzzleValidationTest {
     }
 
     @Test
-    public void goodTestCorners() throws IOException {
+    public void goodTestCorners() {
         List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
         PuzzlePiece p2 = new PuzzlePiece(2, 1, 0, 0, -1);
@@ -74,7 +74,7 @@ public class PuzzleValidationTest {
     }
 
     @Test
-    public void badTestCorners() throws IOException {
+    public void badTestCorners() {
         List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 1, 1, 1);
         PuzzlePiece p2 = new PuzzlePiece(2, 1, 1, 1, 0);

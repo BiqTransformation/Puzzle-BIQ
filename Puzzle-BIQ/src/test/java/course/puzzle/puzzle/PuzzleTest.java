@@ -77,6 +77,34 @@ public class PuzzleTest {
     }
 
     @Test
+    public void goodTestTwoRowsSolution2() {
+
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
+        PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
+        PuzzlePiece p3 = new PuzzlePiece(3, -1, 0, 1, 0);
+        PuzzlePiece p4 = new PuzzlePiece(4, -1, 0, 1, 0);
+        PuzzlePiece p5 = new PuzzlePiece(5, 0, 0, 0, 0);
+        PuzzlePiece p6 = new PuzzlePiece(1, 0, 0, 1, 0);
+        PuzzlePiece p7 = new PuzzlePiece(2, -1, 0, 0, 0);
+        PuzzlePiece p8 = new PuzzlePiece(3, -1, 0, 1, 0);
+        PuzzlePiece p9 = new PuzzlePiece(4, -1, 0, 1, 0);
+        PuzzlePiece p10 = new PuzzlePiece(5, 0, 0, 0, 0);
+        List<PuzzlePiece> puzzle = new ArrayList<>();
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
+        puzzle.add(p5);
+        puzzle.add(p6);
+        puzzle.add(p7);
+        puzzle.add(p8);
+        puzzle.add(p9);
+        puzzle.add(p10);
+
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
+    }
+
+    @Test
     public void goodTestOneColumnSolution() {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 0, -1);
@@ -88,6 +116,24 @@ public class PuzzleTest {
         puzzle.add(p2);
         puzzle.add(p3);
         puzzle.add(p4);
+
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
+    }
+
+    @Test
+    public void goodTestOneColumnSolution1() {
+
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 0, -1);
+        PuzzlePiece p2 = new PuzzlePiece(2, 0, 1, 0, 0);
+        PuzzlePiece p3 = new PuzzlePiece(3, 0, 1, 0, 1);
+        PuzzlePiece p4 = new PuzzlePiece(4, 0, -1, 0, -1);
+        PuzzlePiece p5 = new PuzzlePiece(5, 0, 0, 0, 0);
+        List<PuzzlePiece> puzzle = new ArrayList<>();
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
+        puzzle.add(p5);
 
         assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
     }
