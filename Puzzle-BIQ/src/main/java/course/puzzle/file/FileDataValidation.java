@@ -40,8 +40,17 @@ public class FileDataValidation {
 					}
 				} 
 		} 
-		if (listOfPuzzlePiecesAfterAllValidation.size() == numOfPieces) {			
-			return listOfPuzzlePiecesAfterAllValidation;
+		if (listOfPuzzlePiecesAfterAllValidation.size() == numOfPieces) {
+			int num = validateIdSequance();
+			if(num == 0){
+				return listOfPuzzlePiecesAfterAllValidation;
+			}
+			else{
+				
+				String message = Parameters.PUZZLE_SIZE + listOfPuzzlePiecesAfterAllValidation.size() ;
+				message += Parameters.MISSING_PUZZLE_ELEMENTS + num;
+			}
+			
 		} 
 		else if(listOfPuzzlePiecesAfterAllValidation.size()<numOfPieces){
 			int diff = numOfPieces -listOfPuzzlePiecesAfterAllValidation.size();
@@ -55,6 +64,16 @@ public class FileDataValidation {
 		return listOfPuzzlePiecesAfterAllValidation;
 	}
 	
+	private int validateIdSequance() {
+		int num=0;
+		for(PuzzlePiece p : listOfPuzzlePiecesAfterAllValidation){
+			if(p.getId()>numOfPieces){
+				num=p.getId();
+			}
+		}
+		return num;
+	}
+
 	public void startPuzzle() throws Exception{
 		SolvePuzzle solvePuzzle = new SolvePuzzle(listOfPuzzlePiecesAfterAllValidation);
 		PuzzlePiece[][] puz =solvePuzzle.findSolution();

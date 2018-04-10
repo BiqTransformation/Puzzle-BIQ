@@ -15,7 +15,9 @@ public class Parameters {
     public static String WRONG_ELEMENT_ID = "Puzzle of size "+size + "cannot have the following IDs:";
     public static String WRONG_ELEMENT_FORMAT = "Puzzle ID" + id +"has wrong data:";   
     public static String SUM_OF_EDGES_IS_NOT_ZERO = "Sum of edges is not zero";
-    public static String NO_PROPER_SOLUTION = "it seems that there is no proper solution";
+    public static String NO_PROPER_SOLUTION = "It seems that there is no proper solution";
+    public static String PUZZLE_SIZE = "Puzzle of size";
+    public static String CANNOT_HAVE_THE_ID = "cannot have the following id(s):";
 
 
 }
