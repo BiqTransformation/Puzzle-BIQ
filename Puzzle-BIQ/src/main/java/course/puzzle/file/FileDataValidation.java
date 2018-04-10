@@ -64,6 +64,8 @@ public class FileDataValidation {
 		return listOfPuzzlePiecesAfterAllValidation;
 	}
 	
+	
+	
 	private int validateIdSequance() {
 		int num=0;
 		for(PuzzlePiece p : listOfPuzzlePiecesAfterAllValidation){
@@ -74,11 +76,11 @@ public class FileDataValidation {
 		return num;
 	}
 
-	public void startPuzzle() throws Exception{
+	/*public void startPuzzle() throws Exception{
 		SolvePuzzle solvePuzzle = new SolvePuzzle(listOfPuzzlePiecesAfterAllValidation);
 		PuzzlePiece[][] puz =solvePuzzle.findSolution();
 		FileOutput.printSolution(puz);
-	}
+	}*/
 
 	/**
 	 * firstLineValidator designed to verify the format of first line only !!! .
@@ -211,6 +213,19 @@ public class FileDataValidation {
 		}
 	}
 
+	protected boolean checkIdUniqueness(ArrayList<Integer> listOfIntegers) throws IOException {
+		boolean flag = true;
+		for (int i = 0; i < listOfIntegers.size()-1; i++) {
+			for (int j =i+1; j < (listOfIntegers.size()); j++) {
+				if ((listOfIntegers.get(i))==(listOfIntegers.get(j))) {
+					flag = false;
+					FileOutput.printToOutputFile(timestamp + " : " + "id not uniqness  " +listOfIntegers.get(j)+ " ");
+				}
+			}
+		}
+		return flag;
+	}
+	
 	public void setNumOfPieces(int numOfPieces) {
 		this.numOfPieces = numOfPieces;
 	}
