@@ -16,7 +16,7 @@ public class FileDataValidation {
 	private ArrayList<String> inPutlist = new ArrayList<>();
 	private ArrayList<PuzzlePiece> listOfPuzzlePieces = new ArrayList<>();
 	private ArrayList<PuzzlePiece> listOfPuzzlePiecesAfterAllValidation = new ArrayList<>();
-
+    private ArrayList<String> errorList = new ArrayList<>();
 	/**
 	 * The method return list of puzzle pieces after all data from file was
 	 * validated .
@@ -46,9 +46,9 @@ public class FileDataValidation {
 				return listOfPuzzlePiecesAfterAllValidation;
 			}
 			else{
-				
 				String message = Parameters.PUZZLE_SIZE + listOfPuzzlePiecesAfterAllValidation.size() ;
 				message += Parameters.MISSING_PUZZLE_ELEMENTS + num;
+				errorList.add(message);
 			}
 			
 		} 
@@ -84,7 +84,6 @@ public class FileDataValidation {
 
 	/**
 	 * firstLineValidator designed to verify the format of first line only !!! .
-	 * 
 	 * @param firstLine
 	 * @return integer with number of pieces in case of good scenario and -1 in case
 	 *         of bad scenario .
@@ -103,16 +102,15 @@ public class FileDataValidation {
 					setNumOfPieces(numOfPieces);
 					return numOfPieces;
 				} else {	
-						FileOutput.printToOutputFile(timestamp+" : "+"The NumElements less then 2 current number is "+ arrStr[1]);
+					errorList.add(timestamp+" : "+"The NumElements less then 2 current number is "+ arrStr[1]);
 					return numOfPieces;
 				}
 			} catch (NumberFormatException e) {
-						
-					FileOutput.printToOutputFile(timestamp+" : "+"ParseInt failed , parameter is :"+ arrStr[1]);
+				errorList.add(timestamp+" : "+"ParseInt failed , parameter is :"+ arrStr[1]);	
 				return numOfPieces;
 			}
 		} else {
-			FileOutput.printToOutputFile(timestamp+" : "+"Format error , expected parameter is NumElements ,but actual is :"+ arrStr[0]);
+			errorList.add(timestamp+" : "+"Format error , expected parameter is NumElements ,but actual is :"+ arrStr[0]);
 			return numOfPieces;
 			
 		}
@@ -143,22 +141,29 @@ public class FileDataValidation {
 					if (afterSplit[i].equals("-1") || afterSplit[i].equals("0") || afterSplit[i].equals("1")) {		
 							listOfIntegers.add(Integer.parseInt(afterSplit[i]));
 					} else {
-						FileOutput.printToOutputFile(timestamp+" : "+"For Id : "+validId+" , parameter number :"+ i +" is incorrect : "+ afterSplit[i]);
+						errorList.add(timestamp+" : "+"For Id : "+validId+" , parameter number :"+ i +" is incorrect : "+ afterSplit[i]);
 					}
 				}
 			} 
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			errorList.add("Unepected error");
 		}
 		if (listOfIntegers.size() != 5) {
-			FileOutput.printToOutputFile(timestamp+" : "+" List of integers defferent from 5 .");
+			errorList.add(timestamp+" : "+" List of integers defferent from 5 .");
 			listOfIntegers.clear();
 			return 	listOfIntegers;
 		}
-		else {			
-			return listOfIntegers;
-		}
-		
+		else {	
+			
+			if(checkIdUniqueness(listOfIntegers)) {
+				
+				return listOfIntegers;
+			}
+			else {
+				listOfIntegers.clear();
+				return listOfIntegers;
+			}
+		}	
 	}
 	
 	/**
@@ -172,7 +177,7 @@ public class FileDataValidation {
 			returnIdNum = idNum;
 			return returnIdNum;
 		} else {
-			FileOutput.printToOutputFile(timestamp+ " : " + "Id number not valid should be more then 0 and less then NumElements." );
+			errorList.add(timestamp+ " : " + "Id number not valid should be more then 0 and less then NumElements." );
 			return returnIdNum;	
 		}
 	}
@@ -204,7 +209,7 @@ public class FileDataValidation {
 	 */
 	protected boolean basicFileValidator(List<String> inputlist) throws IOException {	
 		if (inputlist.size() <2) {
-			FileOutput.printToOutputFile(timestamp+ " : " + "In put file does not contain enough information to create puzzle ");
+			errorList.add(timestamp+ " : " + "Input file does not contain enough information to create puzzle ");
 			return false;	
 		} 
 		
@@ -219,13 +224,19 @@ public class FileDataValidation {
 			for (int j =i+1; j < (listOfIntegers.size()); j++) {
 				if ((listOfIntegers.get(i))==(listOfIntegers.get(j))) {
 					flag = false;
-					FileOutput.printToOutputFile(timestamp + " : " + "id not uniqness  " +listOfIntegers.get(j)+ " ");
+					errorList.add(timestamp + " : " + "id not uniqness  " +listOfIntegers.get(j)+ " ");
 				}
 			}
 		}
 		return flag;
 	}
 	
+	public ArrayList<String> getErrorList() {
+		return errorList;
+	}
+
+
+
 	public void setNumOfPieces(int numOfPieces) {
 		this.numOfPieces = numOfPieces;
 	}
