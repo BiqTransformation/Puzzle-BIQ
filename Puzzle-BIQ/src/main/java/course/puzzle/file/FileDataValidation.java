@@ -40,8 +40,17 @@ public class FileDataValidation {
 					}
 				} 
 		} 
-		if (listOfPuzzlePiecesAfterAllValidation.size() == numOfPieces) {			
-			return listOfPuzzlePiecesAfterAllValidation;
+		if (listOfPuzzlePiecesAfterAllValidation.size() == numOfPieces) {
+			int num = validateIdSequance();
+			if(num == 0){
+				return listOfPuzzlePiecesAfterAllValidation;
+			}
+			else{
+				
+				String message = Parameters.PUZZLE_SIZE + listOfPuzzlePiecesAfterAllValidation.size() ;
+				message += Parameters.MISSING_PUZZLE_ELEMENTS + num;
+			}
+			
 		} 
 		else if(listOfPuzzlePiecesAfterAllValidation.size()<numOfPieces){
 			int diff = numOfPieces -listOfPuzzlePiecesAfterAllValidation.size();
@@ -55,11 +64,23 @@ public class FileDataValidation {
 		return listOfPuzzlePiecesAfterAllValidation;
 	}
 	
-	public void startPuzzle() throws Exception{
+	
+	
+	private int validateIdSequance() {
+		int num=0;
+		for(PuzzlePiece p : listOfPuzzlePiecesAfterAllValidation){
+			if(p.getId()>numOfPieces){
+				num=p.getId();
+			}
+		}
+		return num;
+	}
+
+	/*public void startPuzzle() throws Exception{
 		SolvePuzzle solvePuzzle = new SolvePuzzle(listOfPuzzlePiecesAfterAllValidation);
 		PuzzlePiece[][] puz =solvePuzzle.findSolution();
 		FileOutput.printSolution(puz);
-	}
+	}*/
 
 	/**
 	 * firstLineValidator designed to verify the format of first line only !!! .
@@ -192,6 +213,19 @@ public class FileDataValidation {
 		}
 	}
 
+	protected boolean checkIdUniqueness(ArrayList<Integer> listOfIntegers) throws IOException {
+		boolean flag = true;
+		for (int i = 0; i < listOfIntegers.size()-1; i++) {
+			for (int j =i+1; j < (listOfIntegers.size()); j++) {
+				if ((listOfIntegers.get(i))==(listOfIntegers.get(j))) {
+					flag = false;
+					FileOutput.printToOutputFile(timestamp + " : " + "id not uniqness  " +listOfIntegers.get(j)+ " ");
+				}
+			}
+		}
+		return flag;
+	}
+	
 	public void setNumOfPieces(int numOfPieces) {
 		this.numOfPieces = numOfPieces;
 	}

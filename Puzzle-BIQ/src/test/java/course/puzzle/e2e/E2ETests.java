@@ -105,30 +105,27 @@ private String filesPath = "src//test//resources//files//";
 	    FileOutput.cleanOutputFile();	    
 		List<String> inputList =FileReader.readFromFile(fromPath);	
 		FileDataValidation fav = new FileDataValidation();
-		List<PuzzlePiece> puzzleList= fav.fileDataValidator(inputList);
-		//SolvePuzzle sp = new SolvePuzzle(puzzleList);
-		//PuzzlePiece[][] puz =sp.findSolution();
-		//TODO - SolvePuzzle should print
-		//FileOutput.printSolution(puz);		
+		List<PuzzlePiece> puzzleList= fav.fileDataValidator(inputList);				
 		String message = FileOutput.loadFromTextFile();	
 		System.out.println(message);
 		assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
 	} 
 	
-	
 	@Test
-	public void testSimpleE2EWitheNotInRenageElement() throws Exception{
+	public void testSimpleNegativeE2EWithLessIDsNotInSequance() throws Exception{
 		String fromPath = "src//test//resources//files//test4.in";
 		String toPath = "src//test//resources//files//test4.out";
 		//clean output
 		FileOutput.path=toPath;
-	    FileOutput.cleanOutputFile();
-		FileReader.readFromFile(fromPath);
-		//List<String> rawData = FileReader.readFromFile(fromPath);
-		//assertTrue(rawData.contains("NumElements=1"));
-		//assertTrue(rawData.contains("1 0 0 0 0"));	
-		String message = FileOutput.loadFromTextFile();
-		System.out.println(message);//to fix
-		
+	    FileOutput.cleanOutputFile();	    
+		List<String> inputList =FileReader.readFromFile(fromPath);	
+		FileDataValidation fav = new FileDataValidation();
+		List<PuzzlePiece> puzzleList= fav.fileDataValidator(inputList);				
+		String message = FileOutput.loadFromTextFile();	
+		System.out.println(message);
+		//assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
 	}
+	
+	
+	
 }
