@@ -12,45 +12,33 @@ import course.puzzle.file.FileOutput;
 import course.puzzle.file.FileReader;
 import course.puzzle.puzzle.PuzzlePiece;
 import course.puzzle.puzzle.SolvePuzzle;
+import course.puzzle.puzzleManager.PuzzleManager;
 
 public class E2ETests {
 private String filesPath = "src//test//resources//files//";
 	
 	@Test
-	public void testSimpleE2EWith1ElementPuzzle() throws Exception{
+	public void testSimpleE2EWith1PuzzlePiecePuzzleManager() throws Exception{
 		String fromPath = "src//test//resources//files//test1.in";
 		String toPath = "src//test//resources//files//test1.out";
-		//clean output
-		FileOutput.path=toPath;
-	    FileOutput.cleanOutputFile();	    
-		List<String> inputList =FileReader.readFromFile(fromPath);	
-		FileDataValidation fav = new FileDataValidation();
-		List<PuzzlePiece> puzzleList= fav.fileDataValidator(inputList);
-		SolvePuzzle sp = new SolvePuzzle(puzzleList);
-		PuzzlePiece[][] puz =sp.findSolution();
-		//TODO - SolvePuzzle should print
-		FileOutput.printSolution(puz);		
+		PuzzleManager pm = new PuzzleManager(fromPath,toPath);
+		pm.handlePuzzle();
 		String message = FileOutput.loadFromTextFile();	
-		assertEquals(message.trim(),"1");		
+		System.out.println(message);
+		assertEquals(message.trim(),"1");
+		
 	}
 	
 	@Test
-	public void test3PiecesPuzzle() throws Exception{
-		String input = filesPath + "good3Pieces.in";
-		String output = filesPath + "good3Pieces.out";
-//		//clean output
-		FileOutput.path=output;
-	    FileOutput.cleanOutputFile();
-		List<String> inputList =FileReader.readFromFile(input);
-		FileDataValidation fav = new FileDataValidation();
-		List<PuzzlePiece> puzzleList= fav.fileDataValidator(inputList);
-		SolvePuzzle sp = new SolvePuzzle(puzzleList);
-		PuzzlePiece[][] puz =sp.findSolution();
-
-		FileOutput.printSolution(puz);		
+	public void testSimpleE2EWith4PuzzlePiecePuzzleManager() throws Exception{
+		String fromPath = "src//test//resources//files//test2.in";
+		String toPath = "src//test//resources//files//test2.out";
+		PuzzleManager pm = new PuzzleManager(fromPath,toPath);
+		pm.handlePuzzle();
 		String message = FileOutput.loadFromTextFile();	
-		System.out.println(message);
-		assertTrue(message.contains("3 1 2"));
+		//System.out.println(message);
+		assertTrue(message.contains("1 3"));
+		assertTrue(message.contains("2 4"));
 
 	}
 
