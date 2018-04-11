@@ -47,7 +47,34 @@ public class PuzzleValidation {
 
         return specificEdges;
     }
+    public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, List<Edge> edgeToSearch) {
 
+        List<PuzzlePiece> specificEdges = new ArrayList<>();
+        for (PuzzlePiece p : puzzle) {
+            if (!p.isUsed()) {
+                if (edgeToSearch.get(0) != null && p.listOfEdges.contains(edgeToSearch.get(0))) {
+                    if (edgeToSearch.get(1) != null && p.listOfEdges.contains(edgeToSearch.get(1))) {
+                        if (edgeToSearch.get(2) != null && p.listOfEdges.contains(edgeToSearch.get(2))) {
+                            if (edgeToSearch.get(3) != null && p.listOfEdges.contains(edgeToSearch.get(3))) {
+                                specificEdges.add(p);
+                            }
+                            else{
+                                specificEdges.add(p);
+                            }
+                        }
+                        else{
+                            specificEdges.add(p);
+                        }
+                    }
+                    else{
+                        specificEdges.add(p);
+                    }
+                }
+            }
+        }
+
+        return specificEdges;
+    }
     public static boolean validateNumberOfStraightEdges(List<PuzzlePiece> puzzle) {
 
         if (getSpecificPieces(puzzle,leftStraight).size() != getSpecificPieces(puzzle,rightStraight).size()) {

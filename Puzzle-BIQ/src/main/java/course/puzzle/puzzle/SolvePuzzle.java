@@ -2,6 +2,7 @@ package course.puzzle.puzzle;
 
 import course.puzzle.file.FileOutput;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ public class SolvePuzzle extends Puzzle {
     //members
     private PuzzlePiece[][] solvedPuzzle;
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
+
+    private List<Edge> toSearch = new ArrayList<>();
 
     private static Edge leftStraight = new Edge("left", 0);
     private static Edge rightStraight = new Edge("right", 0);
@@ -79,19 +82,10 @@ public class SolvePuzzle extends Puzzle {
         return solvedPuzzle;
     }
 
-    public boolean  puzzleSolution(int rows, int cols) {
 
-        boolean hasSolution = false;
-        List<PuzzlePiece> listTL = PuzzleValidation.getSpecificPieces(puzzle, leftStraight, topStraight, bottomStraight);
-        for (PuzzlePiece first : listTL) {
-            initPuzzle(rows, cols);
-        }
-        return hasSolution;
-
-    }
 
     private boolean solvePuzzleOneColumn(int rows) {
-         boolean hasSolution = false;
+        boolean hasSolution = false;
 
         List<PuzzlePiece> listTop = PuzzleValidation.getSpecificPieces(puzzle, leftStraight, topStraight, rightStraight);
         for (PuzzlePiece first : listTop) {
@@ -101,7 +95,7 @@ public class SolvePuzzle extends Puzzle {
             first.setUsed(true);
 
             hasSolution = solvePuzzleColumnRecursion(first, 0, 0, rows);
-            if(hasSolution){
+            if (hasSolution) {
                 return hasSolution;
             }
 
@@ -109,7 +103,6 @@ public class SolvePuzzle extends Puzzle {
         }//for all firsts
         return hasSolution;
     }
-
 
 
     private boolean solvePuzzleOneRow(int cols) {
@@ -124,7 +117,7 @@ public class SolvePuzzle extends Puzzle {
             first.setUsed(true);
 
             hasSolution = solvePuzzleRowRecursion(first, 0, 0, cols);
-            if(hasSolution){
+            if (hasSolution) {
                 return hasSolution;
             }
 
@@ -138,6 +131,10 @@ public class SolvePuzzle extends Puzzle {
         for (PuzzlePiece p : puzzle) {
             p.setUsed(false);
         }
+        toSearch.add(null);
+        toSearch.add(null);
+        toSearch.add(null);
+        toSearch.add(null);
     }
 
     private boolean solvePuzzleRowRecursion(PuzzlePiece current, int row, int col, int cols) {
@@ -152,12 +149,12 @@ public class SolvePuzzle extends Puzzle {
             }
         } else {
             edge1 = current.getRight().getMatch();
-            edge2 = new Edge("top",0);
+            edge2 = new Edge("top", 0);
 
-            List<PuzzlePiece> list = PuzzleValidation.getSpecificPieces(puzzle, edge1,edge2);
+            List<PuzzlePiece> list = PuzzleValidation.getSpecificPieces(puzzle, edge1, edge2);
 
             if (leftToRight(row, col, cols, list)) return true;
-            }
+        }
 
         return false;
     }
@@ -172,8 +169,8 @@ public class SolvePuzzle extends Puzzle {
             }
         } else {
             Edge edge1 = current.getBottom().getMatch();
-            Edge edge2 = new Edge("right",0);
-            List<PuzzlePiece> list = PuzzleValidation.getSpecificPieces(puzzle, edge1,edge2);
+            Edge edge2 = new Edge("right", 0);
+            List<PuzzlePiece> list = PuzzleValidation.getSpecificPieces(puzzle, edge1, edge2);
 
             if (list.size() > 0) {
                 for (PuzzlePiece p : list) {
@@ -195,12 +192,21 @@ public class SolvePuzzle extends Puzzle {
 
         return false;
     }
-    private boolean solvePuzzleRecursion(PuzzlePiece current, int row, int col, int rows, int cols) {
-        Edge edge1 = null;
-        Edge edge2 = null;
-        Edge edge3 = null;
-        List<PuzzlePiece> list = null;
+    public boolean puzzleSolution(int rows, int cols) {
 
+        boolean hasSolution = false;
+        List<PuzzlePiece> listTL = PuzzleValidation.getSpecificPieces(puzzle, leftStraight, topStraight);
+        for (PuzzlePiece first : listTL) {
+            initPuzzle(rows, cols);
+            solvedPuzzle[0][0] = first;
+            first.setUsed(true);
+            hasSolution = solvePuzzleRecursion(first, 0, 0, rows, cols);
+        }
+        return hasSolution;
+
+    }
+    private boolean solvePuzzleRecursion(PuzzlePiece current, int row, int col, int rows, int cols) {
+boolean changeDirection = false;
         if (col == cols - 1 && row == rows - 1) {
             if (verifySolution(solvedPuzzle)) {
                 return true;
@@ -208,20 +214,67 @@ public class SolvePuzzle extends Puzzle {
                 return false;
             }
         } else {
-            if(row == 0){
-               list = PuzzleValidation.getSpecificPieces(puzzle, current.getRight().getMatch(),new Edge("top",0));
+            if (col == cols - 1 && row <= rows - 2) {
+                col = 0;
+                current = solvedPuzzle[row][col];
+                toSearch.set(0, current.getBottom().getMatch());
+                toSearch.set(1, new Edge("left", 0));
+                if(row == rows - 2){
+                    toSearch.set(2, new Edge("bottom", 0));
+                }
+                ++row;
+                changeDirection = true;
             }
-            else if(row < rows - 1){
-               list = PuzzleValidation.getSpecificPieces(puzzle, current.getRight().getMatch(),solvedPuzzle[row-1][col+1].getBottom().getMatch());
-             }
-            else if(row == rows - 1){
-                    list = PuzzleValidation.getSpecificPieces(puzzle, current.getRight().getMatch(),new Edge("bottom",0));
+            else if (row == 0) {
+                toSearch.set(0, current.getRight().getMatch());
+                toSearch.set(1, new Edge("top", 0));
+                if (col == cols - 2) {
+                    toSearch.set(2, new Edge("right", 0));
+                }
             }
-            else if(col == cols - 2){
-                list = PuzzleValidation.getSpecificPieces(puzzle, current.getRight().getMatch(),new Edge("bottom",0),new Edge("top",0));
+            else if (row > 0 && row < rows - 1) {
+                toSearch.set(0, current.getRight().getMatch());
+                toSearch.set(1, solvedPuzzle[row - 1][col + 1].getBottom().getMatch());
+                if (col == cols - 2) {
+                    toSearch.set(2, new Edge("right", 0));
+                }
             }
+            else if (row == rows - 1) {
+                toSearch.set(0, current.getRight().getMatch());
+                toSearch.set(1, new Edge("bottom", 0));
+                if (col == cols - 2) {
+                    toSearch.set(2, new Edge("right", 0));
+                }
+            }
+//            if (col == 0) {
+//                toSearch.set(2, new Edge("left", 0));
+//            }
+//            if (col == cols - 2 && row != rows - 1) {
+//                toSearch.set(2, new Edge("right", 0));
+//             }
+            List<PuzzlePiece> list = PuzzleValidation.getSpecificPieces(puzzle, toSearch);
 
-            if (leftToRight(row, col, cols, list)) return true;
+            if (list.size() > 0) {
+                for (PuzzlePiece p : list) {
+                    p.setUsed(true);
+                    if(!changeDirection) {
+                        solvedPuzzle[row][++col] = p;
+                    }
+                    else{
+                        solvedPuzzle[row][col] = p;
+                    }
+                    current = p;
+
+                    boolean solved = solvePuzzleRecursion(current, row, col, rows, cols);
+
+                    if (solved) {
+                        return true;
+                    } else {
+                        p.setUsed(false);
+                        --col;
+                    }
+                }
+            }
         }
 
         return false;
@@ -247,6 +300,7 @@ public class SolvePuzzle extends Puzzle {
         }
         return false;
     }
+
     private boolean rightToLeft(int row, int col, int cols, List<PuzzlePiece> list) {
         PuzzlePiece current;
         if (list.size() > 0) {
