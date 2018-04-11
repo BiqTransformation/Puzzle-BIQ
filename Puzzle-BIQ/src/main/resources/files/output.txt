@@ -10,3 +10,5 @@ Cannot solve puzzle:
 Cannot solve puzzle:
 Cannot solve puzzle:
 Cannot solve puzzle:
+1 3 
+2 4 
