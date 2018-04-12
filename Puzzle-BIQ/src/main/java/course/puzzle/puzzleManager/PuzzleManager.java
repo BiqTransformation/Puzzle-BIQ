@@ -43,7 +43,10 @@ public class PuzzleManager {
 
             }
         } else {
-            System.out.println("the file validation failed - please look on output file to see the error ");
+			//send validations error to output
+			List<String> errors =fav.getErrorList();
+			//send the error list to output class
+			FileOutput.loadErrors(errors);
         }
 
     }

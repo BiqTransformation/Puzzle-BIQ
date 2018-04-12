@@ -1,6 +1,7 @@
 package course.puzzle.file;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -67,6 +68,35 @@ public class FileDataValitationTest {
 		FileDataValidation validator = new FileDataValidation();
 		List<PuzzlePiece> actual = validator.fileDataValidator(input);
 		assertEquals(expected.get(0).getId(), actual.get(0).getId());
+		
+	}
+	
+	@Test 
+	public void good_checkIdUniqueness_PuzzlePieceIdUniq() throws Exception {
+		PuzzlePiece piece1 = new PuzzlePiece(1, 0, 0, 1, 0);
+		PuzzlePiece piece2 = new PuzzlePiece(2, -1, 0, 0, 0);
+		ArrayList<PuzzlePiece> expected = new ArrayList<>();
+		expected.add(piece1);
+		expected.add(piece2);
+		
+		FileDataValidation validator = new FileDataValidation();
+		boolean actual = validator.checkIdUniqueness(expected);
+		assertTrue(actual);
+		
+	}
+	
+	
+	@Test 
+	public void bad_checkIdUniqueness_PuzzlePieceIdNotUniq() throws Exception {
+		PuzzlePiece piece1 = new PuzzlePiece(1, 0, 0, 1, 0);
+		PuzzlePiece piece2 = new PuzzlePiece(1, -1, 0, 0, 0);
+		ArrayList<PuzzlePiece> expected = new ArrayList<>();
+		expected.add(piece1);
+		expected.add(piece2);
+		
+		FileDataValidation validator = new FileDataValidation();
+		boolean actual = validator.checkIdUniqueness(expected);
+		assertFalse(actual);
 		
 	}
 	
