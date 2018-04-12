@@ -1,50 +1,45 @@
 package course.puzzle.e2e;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import org.junit.Test;
-
-import course.puzzle.file.FileDataValidation;
 import course.puzzle.file.FileOutput;
 import course.puzzle.file.FileReader;
-import course.puzzle.puzzle.PuzzlePiece;
-import course.puzzle.puzzle.SolvePuzzle;
 import course.puzzle.puzzleManager.PuzzleManager;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class E2ETests {
 
 
-private String filesPath = "src//test//resources//files//";
-	@Parameterized.Parameters
-	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-                {"good3Pieces"},{"good4Pieces"},{"good9Pieces"},{"good12Pieces"},{"good12PiecesA"},{"good20Pieces"},{"good12PiecesB"},{"good16Pieces"},{"good24Pieces"}
-		});
-	}
-	@Parameterized.Parameter // first data value (0) is default
-	public String fInput;
+    private String filesPath = "src//test//resources//files//";
 
-	@Test
-	public void testE2E() throws Exception{
-		String fromPath = filesPath + fInput +".in";
-		String toPath = filesPath + fInput +"Actual.txt";
-		String expected = filesPath + fInput +".out";
-        System.out.println("Puzzle from file: " + fromPath);
-		PuzzleManager pm = new PuzzleManager(fromPath,toPath);
-		pm.handlePuzzle();
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+                {"good3Pieces"}, {"good4Pieces"}, {"good9Pieces"}, {"good12Pieces"}, {"good12PiecesA"}, {"good20Pieces"}, {"good12PiecesB"}, {"good16Pieces"}, {"good24Pieces"}
+        });
+    }
 
-		assertTrue(FileOutput.fileCompare(expected,toPath));
+    @Parameterized.Parameter // first data value (0) is default
+    public String fInput;
 
-	}
+    @Test
+    public void testE2E() throws Exception {
+        String in = filesPath + fInput + ".in";
+        String out = filesPath + fInput + "Actual.txt";
+        String expected = filesPath + fInput + ".out";
+        System.out.println("Puzzle from file: " + in);
+        PuzzleManager pm = new PuzzleManager(in, out);
+        pm.handlePuzzle();
+
+        assertEquals(FileReader.readFromFile(expected), FileReader.readFromFile(out));
+    }
 
 //	@Test
 //	public void testSimpleE2EWith1PuzzlePiecePuzzleManager() throws Exception{
@@ -131,6 +126,6 @@ private String filesPath = "src//test//resources//files//";
 //		//assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
 //	}
 //
-	
-	
+
+
 }

@@ -89,37 +89,7 @@ public class FileOutput {
         }
     }
 
-    public static boolean fileCompare(String file1, String file2) {
-        boolean areFilesIdentical = true;
-        File f1 = new File(file1);
-        File f2 = new File(file2);
-
-        try {
-            FileInputStream fis1 = new FileInputStream(f1);
-            FileInputStream fis2 = new FileInputStream(f2);
-            int i1 = fis1.read();
-            int i2 = fis2.read();
-            while (i1 != -1) {
-                if (i1 != i2) {
-                    areFilesIdentical = false;
-                    break;
-                }
-                i1 = fis1.read();
-                i2 = fis2.read();
-            }
-            fis1.close();
-            fis2.close();
-            System.out.println(areFilesIdentical);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(file1 + " and " + file2 + " are identical: " + areFilesIdentical);
-        return areFilesIdentical;
-    }
-
-
+  
 }
 
 
