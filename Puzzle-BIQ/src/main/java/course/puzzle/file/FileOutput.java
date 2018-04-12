@@ -84,6 +84,8 @@ public class FileOutput {
 			print = new  PrintWriter(write);
 			for(String str: errors)
 			print.println(str);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

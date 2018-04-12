@@ -50,29 +50,22 @@ public class PuzzleValidation {
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, List<Edge> edgeToSearch) {
 
         List<PuzzlePiece> specificEdges = new ArrayList<>();
+
         for (PuzzlePiece p : puzzle) {
-            if (!p.isUsed()) {
-                if (edgeToSearch.get(0) != null && p.listOfEdges.contains(edgeToSearch.get(0))) {
-                    if (edgeToSearch.get(1) != null && p.listOfEdges.contains(edgeToSearch.get(1))) {
-                        if (edgeToSearch.get(2) != null && p.listOfEdges.contains(edgeToSearch.get(2))) {
-                            if (edgeToSearch.get(3) != null && p.listOfEdges.contains(edgeToSearch.get(3))) {
-                                specificEdges.add(p);
-                            }
-                            else{
-                                specificEdges.add(p);
-                            }
-                        }
-                        else{
-                            specificEdges.add(p);
-                        }
-                    }
-                    else{
-                        specificEdges.add(p);
+            if(!p.isUsed()){
+                boolean addToList = true;
+                for(Edge e : edgeToSearch){
+                    if (e != null && !p.listOfEdges.contains(e)) {
+                        addToList = false;
                     }
                 }
-            }
-        }
+                if(addToList){
+                    specificEdges.add(p);
+                }
 
+            }
+
+        }
         return specificEdges;
     }
     public static boolean validateNumberOfStraightEdges(List<PuzzlePiece> puzzle) {

@@ -27,13 +27,11 @@ private String filesPath = "src//test//resources//files//";
 	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{"good16Pieces"}
+                {"good3Pieces"},{"good4Pieces"},{"good9Pieces"},{"good12Pieces"},{"good12PiecesA"},{"good20Pieces"},{"good12PiecesB"},{"good16Pieces"},{"good24Pieces"}
 		});
 	}
 	@Parameterized.Parameter // first data value (0) is default
 	public String fInput;
-//{"good3Pieces"},{"good4Pieces"},{"good9Pieces"},{"good12Pieces"},{"good12PiecesA"},{"good20Pieces"},,{"good12PiecesB"},
-//                {"good24Pieces"}
 
 	@Test
 	public void testE2E() throws Exception{

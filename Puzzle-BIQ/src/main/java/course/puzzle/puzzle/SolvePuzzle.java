@@ -1,7 +1,5 @@
 package course.puzzle.puzzle;
 
-import course.puzzle.file.FileOutput;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -83,7 +81,6 @@ public class SolvePuzzle {
     }
 
 
-
     private boolean solvePuzzleOneColumn(int rows) {
         boolean hasSolution = false;
 
@@ -131,10 +128,17 @@ public class SolvePuzzle {
         for (PuzzlePiece p : puzzle) {
             p.setUsed(false);
         }
+        initToSearch();
+    }
+
+    private void initToSearch() {
         toSearch.add(null);
         toSearch.add(null);
         toSearch.add(null);
         toSearch.add(null);
+        for (int i = 0; i < toSearch.size(); i++) {
+            toSearch.set(i, null);
+        }
     }
 
     private boolean solvePuzzleRowRecursion(PuzzlePiece current, int row, int col, int cols) {
@@ -192,6 +196,7 @@ public class SolvePuzzle {
 
         return false;
     }
+
     public boolean puzzleSolution(int rows, int cols) {
 
         boolean hasSolution = false;
@@ -205,8 +210,10 @@ public class SolvePuzzle {
         return hasSolution;
 
     }
+
     private boolean solvePuzzleRecursion(PuzzlePiece current, int row, int col, int rows, int cols) {
-boolean changeDirection = false;
+        boolean changeDirection = false;
+
         if (col == cols - 1 && row == rows - 1) {
             if (verifySolution(solvedPuzzle)) {
                 return true;
@@ -214,32 +221,30 @@ boolean changeDirection = false;
                 return false;
             }
         } else {
+            initToSearch();
             if (col == cols - 1 && row <= rows - 2) {
                 col = 0;
                 current = solvedPuzzle[row][col];
                 toSearch.set(0, current.getBottom().getMatch());
                 toSearch.set(1, new Edge("left", 0));
-                if(row == rows - 2){
+                if (row == rows - 2) {
                     toSearch.set(2, new Edge("bottom", 0));
                 }
                 ++row;
                 changeDirection = true;
-            }
-            else if (row == 0) {
+            } else if (row == 0) {
                 toSearch.set(0, current.getRight().getMatch());
                 toSearch.set(1, new Edge("top", 0));
                 if (col == cols - 2) {
                     toSearch.set(2, new Edge("right", 0));
                 }
-            }
-            else if (row > 0 && row < rows - 1) {
+            } else if (row > 0 && row < rows - 1) {
                 toSearch.set(0, current.getRight().getMatch());
                 toSearch.set(1, solvedPuzzle[row - 1][col + 1].getBottom().getMatch());
                 if (col == cols - 2) {
                     toSearch.set(2, new Edge("right", 0));
                 }
-            }
-            else if (row == rows - 1) {
+            } else if (row == rows - 1) {
                 toSearch.set(0, current.getRight().getMatch());
                 toSearch.set(1, new Edge("bottom", 0));
                 if (col == cols - 2) {
@@ -252,10 +257,9 @@ boolean changeDirection = false;
             if (list.size() > 0) {
                 for (PuzzlePiece p : list) {
                     p.setUsed(true);
-                    if(!changeDirection) {
+                    if (!changeDirection) {
                         solvedPuzzle[row][++col] = p;
-                    }
-                    else{
+                    } else {
                         solvedPuzzle[row][col] = p;
                     }
                     current = p;
@@ -266,13 +270,11 @@ boolean changeDirection = false;
                         return true;
                     } else {
                         p.setUsed(false);
-                        if (!changeDirection) {
-                            --col;
-                        }
-                        else{
-                            col = cols - 1;
-                            --row;
-                            changeDirection = false;
+                        --col;
+                        if (col < 0) {
+                            col = 0;
+//                            --row;
+//                            changeDirection = false;
                         }
 
                     }
@@ -324,22 +326,23 @@ boolean changeDirection = false;
         }
         return false;
     }
-    public boolean validateSolution(){
-      return  verifyThatSolutionContainsAllPieces() && verifySolution(solvedPuzzle);
+
+    public boolean validateSolution() {
+        return verifyThatSolutionContainsAllPieces() && verifySolution(solvedPuzzle);
 
     }
 
-private boolean verifyThatSolutionContainsAllPieces(){
+    private boolean verifyThatSolutionContainsAllPieces() {
         boolean isValid = solvedPuzzle.length * solvedPuzzle[0].length == puzzle.size();
-        for(int i = 0; i < solvedPuzzle.length;i++){
-            for(int j = 0; j < solvedPuzzle[0].length; j++){
-                if(!puzzle.contains(solvedPuzzle[i][j])){
+        for (int i = 0; i < solvedPuzzle.length; i++) {
+            for (int j = 0; j < solvedPuzzle[0].length; j++) {
+                if (!puzzle.contains(solvedPuzzle[i][j])) {
                     isValid = false;
                 }
             }
         }
         return isValid;
-}
+    }
 
     public static boolean verifySolution(PuzzlePiece[][] solvedPuzzle) {
         if (solvedPuzzle != null) {
