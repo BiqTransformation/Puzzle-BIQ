@@ -7,10 +7,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SolvePuzzle extends Puzzle {
-
+public class SolvePuzzle {
 
     //members
+    private List<PuzzlePiece> puzzle;
     private PuzzlePiece[][] solvedPuzzle;
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
 
@@ -23,7 +23,7 @@ public class SolvePuzzle extends Puzzle {
 
 
     public SolvePuzzle(List<PuzzlePiece> puzzle) {
-        super(puzzle);
+        this.puzzle = puzzle;
     }
 
     public Map<Integer, Integer> getPossibleSolutions() {
@@ -246,12 +246,7 @@ boolean changeDirection = false;
                     toSearch.set(2, new Edge("right", 0));
                 }
             }
-//            if (col == 0) {
-//                toSearch.set(2, new Edge("left", 0));
-//            }
-//            if (col == cols - 2 && row != rows - 1) {
-//                toSearch.set(2, new Edge("right", 0));
-//             }
+
             List<PuzzlePiece> list = PuzzleValidation.getSpecificPieces(puzzle, toSearch);
 
             if (list.size() > 0) {
@@ -271,7 +266,15 @@ boolean changeDirection = false;
                         return true;
                     } else {
                         p.setUsed(false);
-                        --col;
+                        if (!changeDirection) {
+                            --col;
+                        }
+                        else{
+                            col = cols - 1;
+                            --row;
+                            changeDirection = false;
+                        }
+
                     }
                 }
             }
@@ -321,7 +324,22 @@ boolean changeDirection = false;
         }
         return false;
     }
+    public boolean validateSolution(){
+      return  verifyThatSolutionContainsAllPieces() && verifySolution(solvedPuzzle);
 
+    }
+
+private boolean verifyThatSolutionContainsAllPieces(){
+        boolean isValid = solvedPuzzle.length * solvedPuzzle[0].length == puzzle.size();
+        for(int i = 0; i < solvedPuzzle.length;i++){
+            for(int j = 0; j < solvedPuzzle[0].length; j++){
+                if(!puzzle.contains(solvedPuzzle[i][j])){
+                    isValid = false;
+                }
+            }
+        }
+        return isValid;
+}
 
     public static boolean verifySolution(PuzzlePiece[][] solvedPuzzle) {
         if (solvedPuzzle != null) {
@@ -336,7 +354,7 @@ boolean changeDirection = false;
 
             return (rowsSum + colsSum) == 0;
         } else {
-            FileOutput.printToOutputFile(Parameters.CANNOT_SOLVE_PUZZLE);
+
             return false;
         }
 

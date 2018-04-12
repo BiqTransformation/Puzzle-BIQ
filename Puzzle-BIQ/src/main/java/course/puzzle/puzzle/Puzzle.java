@@ -3,6 +3,7 @@ package course.puzzle.puzzle;
 import course.puzzle.file.FileOutput;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Puzzle {
@@ -17,32 +18,35 @@ public class Puzzle {
 
     public void validatePuzzle() {
         boolean isValid = true;
+        
+        StringBuilder stringBuilder = new StringBuilder();
         if (!PuzzleValidation.validateNumberOfStraightEdges(puzzle)) {
-            FileOutput.printToOutputFile(Parameters.WRONG_NUMBER_OF_STRAIGHT_EDGES);
+            stringBuilder.append(Parameters.WRONG_NUMBER_OF_STRAIGHT_EDGES);
             isValid = false;
 
         }
         if (!PuzzleValidation.validateTopLeftCorner(puzzle)) {
-            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_TL);
+            stringBuilder.append(Parameters.MISSING_CORNER_TL);
             isValid = false;
         }
         if (!PuzzleValidation.validateTopRightCorner(puzzle)) {
-            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_TR);
+            stringBuilder.append(Parameters.MISSING_CORNER_TR);
             isValid = false;
         }
         if (!PuzzleValidation.validateBottomRightCorner(puzzle)) {
-            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_BR);
+            stringBuilder.append(Parameters.MISSING_CORNER_BR);
             isValid = false;
         }
         if (!PuzzleValidation.validateBottomLeftCorner(puzzle)) {
-            FileOutput.printToOutputFile(Parameters.MISSING_CORNER_BL);
+            stringBuilder.append(Parameters.MISSING_CORNER_BL);
             isValid = false;
         }
         if (!PuzzleValidation.validateSumOfEdges(puzzle)) {
-            FileOutput.printToOutputFile(Parameters.SUM_OF_EDGES_IS_NOT_ZERO);
+            stringBuilder.append(Parameters.SUM_OF_EDGES_IS_NOT_ZERO);
             isValid = false;
         }
         if(!isValid){
+           FileOutput.printToOutputFile(stringBuilder.toString());
             return;
         }
     }
