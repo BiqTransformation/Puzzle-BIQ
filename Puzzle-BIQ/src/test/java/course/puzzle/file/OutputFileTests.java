@@ -33,6 +33,22 @@ public class OutputFileTests {
 		assertTrue(message3.contains("missing corner element: BL"));
 	}
 	
+	
+	@Test
+	public void testOutputFilewriteList() throws IOException{
+		FileOutput.path="src/main/resources/files/output.txt";
+	    FileOutput.cleanOutputFile();
+		List<String> list = new ArrayList<>();
+		String str1 = "test1";
+		String str2 = "test2";
+		list.add(str1);
+		list.add(str2);
+		FileOutput.loadErrors(list);
+		FileOutput.printListToOutputFile();
+		String message = FileOutput.loadFromTextFile();
+		System.out.println(message);
+	}
+	
 	@Test
 	public void testPuzzleSolutionPrint() throws Exception {
 		FileOutput.path="src/main/resources/files/output.txt";

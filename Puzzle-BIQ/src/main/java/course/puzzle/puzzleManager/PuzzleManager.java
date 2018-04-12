@@ -45,8 +45,9 @@ public class PuzzleManager {
         } else {
 			//send validations error to output
 			List<String> errors =fav.getErrorList();
-			//send the error list to output class
 			FileOutput.loadErrors(errors);
+			//send the error list to output class
+			FileOutput.printListToOutputFile();
         }
 
     }

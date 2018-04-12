@@ -94,38 +94,10 @@ public class E2ETests {
 //		assertTrue(message.contains("9 5 2"));
 //		assertTrue(message.contains("7 1 4"));
 //	}
-//
-//
-//	@Test
-//	public void testSimpleNegativeE2EWithLessIDsThenNumElements() throws Exception{
-//		String fromPath = "src//test//resources//files//test3.in";
-//		String toPath = "src//test//resources//files//test3.out";
-//		//clean output
-//		FileOutput.path=toPath;
-//	    FileOutput.cleanOutputFile();
-//		List<String> inputList =FileReader.readFromFile(fromPath);
-//		FileDataValidation fav = new FileDataValidation();
-//		List<PuzzlePiece> puzzleList= fav.fileDataValidator(inputList);
-//		String message = FileOutput.loadFromTextFile();
-//		System.out.println(message);
-//		assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
-//	}
-//
-//	@Test
-//	public void testSimpleNegativeE2EWithLessIDsNotInSequance() throws Exception{
-//		String fromPath = "src//test//resources//files//test4.in";
-//		String toPath = "src//test//resources//files//test4.out";
-//		//clean output
-//		FileOutput.path=toPath;
-//	    FileOutput.cleanOutputFile();
-//		List<String> inputList =FileReader.readFromFile(fromPath);
-//		FileDataValidation fav = new FileDataValidation();
-//		List<PuzzlePiece> puzzleList= fav.fileDataValidator(inputList);
-//		String message = FileOutput.loadFromTextFile();
-//		System.out.println(message);
-//		//assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
-//	}
-//
+
+
+
+
 
 
 }

@@ -78,16 +78,13 @@ public class FileOutput {
 	}
 	
 	public static void printListToOutputFile() {
-		PrintWriter print=null;
-		try{
-			FileWriter write = new FileWriter(path,append_to_file);
-			print = new  PrintWriter(write);
-			for(String str: errors)
-			print.println(str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	for(String str : errors){
+		printToOutputFile(str);
+	}
+		
+	}
+	
+
 
   
 }
