@@ -44,8 +44,8 @@ public class OutputFileTests {
 		String str2 = "test2";
 		list.add(str1);
 		list.add(str2);
-		FileOutput.loadErrors(list);
-		FileOutput.printListToOutputFile();
+//		FileOutput.loadErrors(list);
+		FileOutput.printListToOutputFile(list);
 		String message = FileOutput.loadFromTextFile();
 		System.out.println(message);
 	}
