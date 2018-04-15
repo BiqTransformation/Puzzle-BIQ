@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import course.puzzle.puzzle.Puzzle;
 import org.junit.Test;
 
 import course.puzzle.puzzle.Parameters;
@@ -47,7 +48,7 @@ public class OutputFileTests {
         puzzle.add(p3);
         puzzle.add(p4);
         
-        PuzzlePiece[][] good = new SolvePuzzle(puzzle).findSolution();
+        PuzzlePiece[][] good = new SolvePuzzle(new Puzzle(puzzle)).findSolution();
         FileOutput.printSolution(good);
         String str =  FileOutput.loadFromTextFile();
         System.out.println(str);

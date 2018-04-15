@@ -7,48 +7,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Puzzle {
-    protected List<PuzzlePiece> puzzle;
 
+
+    private List<PuzzlePiece> puzzle;
+    private List<String> errors = new ArrayList<>();
 
     public Puzzle(List<PuzzlePiece> puzzle) {
         this.puzzle = puzzle;
         validatePuzzle();
 
     }
+    public List<PuzzlePiece> getPuzzle() {
+        return puzzle;
+    }
+    public List<String> getErrors() {
+        return errors;
+    }
+    public PuzzlePiece getPieceById(int id){
+
+        for(PuzzlePiece p : puzzle){
+            if(p.getId() == id){
+                return p;
+            }
+
+        }
+        return null;
+    }
+    public void addError(String error) {
+        errors.add(error);
+    }
 
     public void validatePuzzle() {
-        boolean isValid = true;
-        
-        StringBuilder stringBuilder = new StringBuilder();
+
         if (!PuzzleValidation.validateNumberOfStraightEdges(puzzle)) {
-            stringBuilder.append(Parameters.WRONG_NUMBER_OF_STRAIGHT_EDGES);
-            isValid = false;
+            errors.add(Parameters.WRONG_NUMBER_OF_STRAIGHT_EDGES);
+           }
+        if (!PuzzleValidation.validateTopLeftCorner(puzzle)) {
+            errors.add(Parameters.MISSING_CORNER_TL);
+         }
+        if (!PuzzleValidation.validateTopRightCorner(puzzle)) {
+            errors.add(Parameters.MISSING_CORNER_TR);
 
         }
-        if (!PuzzleValidation.validateTopLeftCorner(puzzle)) {
-            stringBuilder.append(Parameters.MISSING_CORNER_TL);
-            isValid = false;
-        }
-        if (!PuzzleValidation.validateTopRightCorner(puzzle)) {
-            stringBuilder.append(Parameters.MISSING_CORNER_TR);
-            isValid = false;
-        }
         if (!PuzzleValidation.validateBottomRightCorner(puzzle)) {
-            stringBuilder.append(Parameters.MISSING_CORNER_BR);
-            isValid = false;
+            errors.add(Parameters.MISSING_CORNER_BR);
+
         }
         if (!PuzzleValidation.validateBottomLeftCorner(puzzle)) {
-            stringBuilder.append(Parameters.MISSING_CORNER_BL);
-            isValid = false;
-        }
+            errors.add(Parameters.MISSING_CORNER_BL);
+         }
         if (!PuzzleValidation.validateSumOfEdges(puzzle)) {
-            stringBuilder.append(Parameters.SUM_OF_EDGES_IS_NOT_ZERO);
-            isValid = false;
+            errors.add(Parameters.SUM_OF_EDGES_IS_NOT_ZERO);
+
         }
-        if(!isValid){
-           FileOutput.printToOutputFile(stringBuilder.toString());
-            return;
-        }
+
     }
 
 

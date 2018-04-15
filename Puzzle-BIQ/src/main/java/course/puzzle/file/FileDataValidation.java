@@ -225,7 +225,7 @@ public class FileDataValidation {
 			for (int j = i + 1; j < (listOfIds.size()); j++) {
 				if ((listOfIds.get(i)) == (listOfIds.get(j))) {
 					flag = false;
-					errorList.add(timestamp + " : " + "id not uniqness  " + listOfIds.get(j));
+					errorList.add(timestamp + " : " + "id is not unique " + listOfIds.get(j));
 				}
 			}
 		}

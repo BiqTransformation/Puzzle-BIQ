@@ -1,5 +1,7 @@
 package course.puzzle.puzzle;
 
+import course.puzzle.file.FileOutput;
+import course.puzzle.puzzleManager.PuzzleManager;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -122,5 +124,15 @@ public class PuzzleValidationTest {
 
         assertFalse(PuzzleValidation.validateSumOfEdges(puzzle));
     }
-
+    @Test
+    public void testSimpleNegativeE2EWithLessIDsThenNumElements() throws Exception{
+        String in = "src//test//resources//files//test3.in";
+        String out = "src//test//resources//files//test3.out";
+        //clean output
+        PuzzleManager pm = new PuzzleManager(in, out);
+        pm.handlePuzzle();
+        String message = FileOutput.loadFromTextFile();
+        System.out.println(message);
+        assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
+    }
 }

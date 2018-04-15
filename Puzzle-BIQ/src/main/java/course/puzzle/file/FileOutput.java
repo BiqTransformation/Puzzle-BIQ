@@ -77,7 +77,7 @@ public class FileOutput {
 		}		
 	}
 	
-	public static void printListToOutputFile() {
+	public static void printListToOutputFile(List<String> errors) {
 		PrintWriter print=null;
 		try{
 			FileWriter write = new FileWriter(path,append_to_file);
@@ -86,6 +86,9 @@ public class FileOutput {
 			print.println(str);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally{
+            print.close();
         }
     }
 

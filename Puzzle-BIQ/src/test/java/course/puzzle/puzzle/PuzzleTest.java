@@ -52,9 +52,7 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-
-
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -73,7 +71,7 @@ public class PuzzleTest {
         puzzle.add(p5);
 
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -101,7 +99,7 @@ public class PuzzleTest {
         puzzle.add(p9);
         puzzle.add(p10);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -117,7 +115,7 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -135,63 +133,63 @@ public class PuzzleTest {
         puzzle.add(p4);
         puzzle.add(p5);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzle).findSolution()));
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
     public void goodTestMatrix2x2Solution() {
 
-        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
+        List<PuzzlePiece> puzzle = new ArrayList<PuzzlePiece>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, -1);
         PuzzlePiece p3 = new PuzzlePiece(3, 1, 1, 0, 0);
         PuzzlePiece p4 = new PuzzlePiece(4, 0, -1, -1, 0);
-        puzzleList.add(p1);
-        puzzleList.add(p2);
-        puzzleList.add(p3);
-        puzzleList.add(p4);
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzleList).findSolution()));
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
     public void goodTestMatrix2x3Solution() {
 
-        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
+        List<PuzzlePiece> puzzle = new ArrayList<PuzzlePiece>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, -1);
         PuzzlePiece p3 = new PuzzlePiece(3, 1, 1, 0, 0);
         PuzzlePiece p4 = new PuzzlePiece(4, 0, -1, -1, 0);
         PuzzlePiece p5 = new PuzzlePiece(5, -1, 0, 1, 0);
         PuzzlePiece p6 = new PuzzlePiece(6, 1, 0, -1, 0);
-        puzzleList.add(p1);
-        puzzleList.add(p2);
-        puzzleList.add(p3);
-        puzzleList.add(p4);
-        puzzleList.add(p5);
-        puzzleList.add(p6);
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
+        puzzle.add(p5);
+        puzzle.add(p6);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzleList).findSolution()));
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
     public void goodTestMatrix3x2Solution() {
 
-        List<PuzzlePiece> puzzleList = new ArrayList<>();
+        List<PuzzlePiece> puzzle = new ArrayList<>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, -1);
         PuzzlePiece p3 = new PuzzlePiece(3, 1, 1, 0, 0);
         PuzzlePiece p4 = new PuzzlePiece(4, 0, -1, -1, 0);
         PuzzlePiece p5 = new PuzzlePiece(5, 0, -1, 1, 1);
         PuzzlePiece p6 = new PuzzlePiece(6, -1, 1, 0, -1);
-        puzzleList.add(p1);
-        puzzleList.add(p2);
-        puzzleList.add(p3);
-        puzzleList.add(p4);
-        puzzleList.add(p5);
-        puzzleList.add(p6);
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
+        puzzle.add(p5);
+        puzzle.add(p6);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(puzzleList).findSolution()));
+        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
     }
 
 }
