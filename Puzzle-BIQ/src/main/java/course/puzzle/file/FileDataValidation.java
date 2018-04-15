@@ -38,6 +38,10 @@ public class FileDataValidation {
 					if (!validSetOfIntegers.isEmpty()) {
 						listOfPuzzlePiecesAfterAllValidation = PuzzlePieceBuilder(validSetOfIntegers);
 					}
+					else{
+						listOfPuzzlePiecesAfterAllValidation.clear();
+						return listOfPuzzlePiecesAfterAllValidation;
+					}
 				}
 			}
 		}
@@ -62,6 +66,7 @@ public class FileDataValidation {
 			String message = Parameters.MISSING_PUZZLE_ELEMENTS;
 			for (int i = diff + 1; i <= numOfPieces; i++) {
 				message += i + ",";
+				
 			}
 			errorList.add(message);
 			listOfPuzzlePiecesAfterAllValidation.clear();
@@ -138,11 +143,15 @@ public class FileDataValidation {
 					}
 				}
 			}
+			else{
+				listOfIntegers.clear();
+				return listOfIntegers;
+			}
 		} catch (NumberFormatException e) {
 			errorList.add("Unepected error");
 		}
 		if (listOfIntegers.size() != 5) {
-			errorList.add(timestamp + " : " + " List of integers defferent from 5 .");
+			errorList.add(timestamp + " : " + " List of integers different from 5 .");
 			listOfIntegers.clear();
 			return listOfIntegers;
 		} else {
