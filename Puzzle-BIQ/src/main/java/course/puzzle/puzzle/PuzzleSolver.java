@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SolvePuzzle {
+public class PuzzleSolver {
 
     //members
     private List<PuzzlePiece> puzzle;
@@ -24,7 +24,7 @@ public class SolvePuzzle {
     private static Edge bottomStraight = new Edge("bottom", 0);
 
 
-    public SolvePuzzle(Puzzle puzzleInstance) {
+    public PuzzleSolver(Puzzle puzzleInstance) {
         this.puzzleInstance = puzzleInstance;
         puzzle = puzzleInstance.getPuzzle();
     }

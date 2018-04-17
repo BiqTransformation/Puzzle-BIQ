@@ -23,7 +23,7 @@ public class PuzzleTest {
 
         PuzzlePiece[][] good = new PuzzlePiece[][]{{p1, p2}, {p3, p4}};
 
-        assertTrue(SolvePuzzle.verifySolution(good));
+        assertTrue(PuzzleSolver.verifySolution(good));
     }
 
     @Test
@@ -36,7 +36,7 @@ public class PuzzleTest {
 
         PuzzlePiece[][] bad = new PuzzlePiece[][]{{p1, p2}, {p3, p4}};
 
-        assertFalse(SolvePuzzle.verifySolution(bad));
+        assertFalse(PuzzleSolver.verifySolution(bad));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
+        assertTrue(PuzzleSolver.verifySolution(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class PuzzleTest {
         puzzle.add(p5);
 
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
+        assertTrue(PuzzleSolver.verifySolution(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class PuzzleTest {
         puzzle.add(p9);
         puzzle.add(p10);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
+        assertTrue(PuzzleSolver.verifySolution(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -115,7 +115,7 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
+        assertTrue(PuzzleSolver.verifySolution(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -133,7 +133,7 @@ public class PuzzleTest {
         puzzle.add(p4);
         puzzle.add(p5);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
+        assertTrue(PuzzleSolver.verifySolution(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -149,7 +149,7 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
+        assertTrue(PuzzleSolver.verifySolution(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -169,7 +169,7 @@ public class PuzzleTest {
         puzzle.add(p5);
         puzzle.add(p6);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
+        assertTrue(PuzzleSolver.verifySolution(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
     }
 
     @Test
@@ -189,7 +189,7 @@ public class PuzzleTest {
         puzzle.add(p5);
         puzzle.add(p6);
 
-        assertTrue(SolvePuzzle.verifySolution(new SolvePuzzle(new Puzzle(puzzle)).findSolution()));
+        assertTrue(PuzzleSolver.verifySolution(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
     }
 
 }
