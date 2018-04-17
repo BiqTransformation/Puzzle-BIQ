@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import course.puzzle.puzzle.PuzzleErrors;
 import course.puzzle.puzzle.PuzzlePiece;
-import course.puzzle.puzzle.SolvePuzzle;
+
 
 public class OutputFileTests {
 	String path="src/main/resources/files/output.txt";
