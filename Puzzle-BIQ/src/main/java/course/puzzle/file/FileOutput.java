@@ -53,7 +53,7 @@ public class FileOutput {
         return sb.toString();
     }
 
-    public  void printSolution(PuzzlePiece[][] solution) {
+    public  void printSolution(PuzzlePiece[][] solution) throws IOException {
 
         PrintWriter print = null;
         try {
