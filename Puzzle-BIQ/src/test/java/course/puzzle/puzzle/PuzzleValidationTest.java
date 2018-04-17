@@ -12,6 +12,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class PuzzleValidationTest {
+	
+	
+	
     @Test
     public void badTestNumberOfLeftRightStraightEdges() {
         List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
@@ -129,9 +132,10 @@ public class PuzzleValidationTest {
         String in = "src//test//resources//files//test3.in";
         String out = "src//test//resources//files//test3.out";
         //clean output
+        FileOutput fo = new FileOutput(out);
         PuzzleManager pm = new PuzzleManager(in, out);
         pm.handlePuzzle();
-        String message = FileOutput.loadFromTextFile();
+        String message = fo.loadFromTextFile();
         System.out.println(message);
         assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
     }

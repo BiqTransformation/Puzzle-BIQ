@@ -8,11 +8,15 @@ import java.io.*;
 
 public class FileOutput {
 	
-    public static String path = "src/main/resources/files/output.txt";
-    public static boolean append_to_file = true;
-	private static List<String> errors = new ArrayList<>();
+    private  String path; 
+    private  boolean append_to_file = true;
+	private  List<String> errors = new ArrayList<>();
+	
+	public FileOutput(String path){
+		this.path=path;
+	}
 
-    public static void cleanOutputFile() {
+    public  void cleanOutputFile() {
         try {
             PrintWriter writer = new PrintWriter(path);
             writer.print("");
@@ -22,7 +26,7 @@ public class FileOutput {
         }
     }
 
-    public static void printToOutputFile(String message) {
+    public  void printToOutputFile(String message) {
         PrintWriter print = null;
         try {
             FileWriter write = new FileWriter(path, append_to_file);
@@ -36,7 +40,7 @@ public class FileOutput {
     }
 
 
-    public static String loadFromTextFile() throws IOException {
+    public  String loadFromTextFile() throws IOException {
         StringBuilder sb = new StringBuilder();
         try (FileInputStream fis = new FileInputStream(path)) {
             InputStreamReader reader = new InputStreamReader(fis);
@@ -49,7 +53,7 @@ public class FileOutput {
         return sb.toString();
     }
 
-    public static void printSolution(PuzzlePiece[][] solution) {
+    public  void printSolution(PuzzlePiece[][] solution) {
 
         PrintWriter print = null;
         try {
@@ -71,13 +75,9 @@ public class FileOutput {
 		}
 	}
 	
-	public static  void loadErrors(List<String> errosCollected){
-		for(String str : errosCollected){
-			errors.add(str);
-		}		
-	}
 	
-	public static void printListToOutputFile(List<String> errors) {
+	
+	public  void printListToOutputFile(List<String> errors) {
 		PrintWriter print=null;
 		try{
 			FileWriter write = new FileWriter(path,append_to_file);
