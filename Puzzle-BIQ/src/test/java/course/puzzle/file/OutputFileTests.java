@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import course.puzzle.puzzle.Puzzle;
+import course.puzzle.puzzle.PuzzleSolver;
 import org.junit.Test;
 
 import course.puzzle.puzzle.PuzzleErrors;
@@ -64,7 +65,7 @@ public class OutputFileTests {
         puzzle.add(p2);
         puzzle.add(p3);
         puzzle.add(p4);        
-        PuzzlePiece[][] good = new SolvePuzzle(new Puzzle(puzzle)).findSolution();
+        PuzzlePiece[][] good = new PuzzleSolver(new Puzzle(puzzle)).findSolution();
         fo.printSolution(good);
         String str =  fo.loadFromTextFile();
         System.out.println(str);

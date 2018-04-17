@@ -6,7 +6,7 @@ import course.puzzle.file.FileReader;
 import course.puzzle.puzzle.PuzzleErrors;
 import course.puzzle.puzzle.Puzzle;
 import course.puzzle.puzzle.PuzzlePiece;
-import course.puzzle.puzzle.SolvePuzzle;
+import course.puzzle.puzzle.PuzzleSolver;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class PuzzleManager {
     private String fromPath;
     private String toPath;
     private List<PuzzlePiece> puzzleList;
-    private SolvePuzzle solvePuzzle;
+    private PuzzleSolver solvePuzzle;
     private Puzzle newPuzzle;
     private List<String> validatePuzzleInputFile = new ArrayList<>();
     private List<String> validatePuzzleBeforeSolution = new ArrayList<>();
@@ -55,7 +55,7 @@ public class PuzzleManager {
                 return;
             }
             else{
-                solvePuzzle = new SolvePuzzle(newPuzzle);
+                solvePuzzle = new PuzzleSolver(newPuzzle);
                 PuzzlePiece[][] puz = solvePuzzle.findSolution();
                 if (solvePuzzle.validateSolution()) {
                     fo.printSolution(puz);

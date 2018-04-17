@@ -7,7 +7,6 @@ import java.util.List;
 
 import course.puzzle.puzzle.PuzzleErrors;
 import course.puzzle.puzzle.PuzzlePiece;
-import course.puzzle.puzzle.SolvePuzzle;
 
 public class FileDataValidation {
 
@@ -75,8 +74,8 @@ public class FileDataValidation {
 	}
 
 	/*
-	 * public void startPuzzle() throws Exception{ SolvePuzzle solvePuzzle = new
-	 * SolvePuzzle(listOfPuzzlePiecesAfterAllValidation); PuzzlePiece[][] puz
+	 * public void startPuzzle() throws Exception{ PuzzleSolver solvePuzzle = new
+	 * PuzzleSolver(listOfPuzzlePiecesAfterAllValidation); PuzzlePiece[][] puz
 	 * =solvePuzzle.findSolution(); FileOutput.printSolution(puz); }
 	 */
 

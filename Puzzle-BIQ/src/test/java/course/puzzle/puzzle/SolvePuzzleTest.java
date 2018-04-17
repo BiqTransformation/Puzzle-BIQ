@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import course.puzzle.puzzle.PuzzlePiece;
-import course.puzzle.puzzle.SolvePuzzle;
-
 public class SolvePuzzleTest {
 
 	List<PuzzlePiece> puzzle = new ArrayList<>();
@@ -31,7 +28,7 @@ public class SolvePuzzleTest {
 		puzzle.add(piece4);
 		puzzle.add(piece5);
 		puzzle.add(piece6);
-		SolvePuzzle solve = new SolvePuzzle(new Puzzle(puzzle));
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 6);
@@ -61,7 +58,7 @@ public class SolvePuzzleTest {
 		puzzle.add(piece6);
 		puzzle.add(piece7);
 		puzzle.add(piece8);
-		SolvePuzzle solve = new SolvePuzzle(new Puzzle(puzzle));
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 8);
@@ -80,7 +77,7 @@ public class SolvePuzzleTest {
 		puzzle.add(piece1);
 		puzzle.add(piece2);
 		puzzle.add(piece3);
-		SolvePuzzle solve = new SolvePuzzle(new Puzzle(puzzle));
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 3);
@@ -91,7 +88,7 @@ public class SolvePuzzleTest {
 //	@Test
 //	public void testgetPossiblesolutionWith0PuzzlePieces() throws Exception {
 //		puzzle.clear();
-//		SolvePuzzle solve = new SolvePuzzle(new Puzzle(puzzle));
+//		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
 //		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 //		assertTrue(mapUnderTest.isEmpty());
 //	}
@@ -101,7 +98,7 @@ public class SolvePuzzleTest {
 		PuzzlePiece piece1 = new PuzzlePiece(1, 0, 0, 0, 0);
 		puzzle.clear();
 		puzzle.add(piece1);
-		SolvePuzzle solve = new SolvePuzzle(new Puzzle(puzzle));
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 1);
@@ -115,7 +112,7 @@ public class SolvePuzzleTest {
 		puzzle.clear();
 		puzzle.add(piece1);
 		puzzle.add(piece2);
-		SolvePuzzle solve = new SolvePuzzle(new Puzzle(puzzle));
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 2);
