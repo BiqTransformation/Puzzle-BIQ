@@ -1,7 +1,5 @@
 package course.puzzle.puzzle;
 
-import course.puzzle.file.FileOutput;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -66,8 +64,7 @@ public class PuzzleSolver {
                     if (puzzleSolution(rows, cols)) {
                         return solvedPuzzle;
                     }
-                }
-                else{
+                } else {
                     puzzleInstance.addError("Number of straight edges does not match for this solution: " + rows + "x" + cols);
                 }
 
@@ -75,25 +72,6 @@ public class PuzzleSolver {
         }
         solvedPuzzle = null;
         return solvedPuzzle;
-    }
-
-
-     private void initPuzzle(int rows, int cols) {
-        solvedPuzzle = new PuzzlePiece[rows][cols];
-        for (PuzzlePiece p : puzzle) {
-            p.setUsed(false);
-        }
-        initToSearch();
-    }
-
-    private void initToSearch() {
-        toSearch.add(null);
-        toSearch.add(null);
-        toSearch.add(null);
-        toSearch.add(null);
-        for (int i = 0; i < toSearch.size(); i++) {
-            toSearch.set(i, null);
-        }
     }
 
 
@@ -111,11 +89,38 @@ public class PuzzleSolver {
 
     }
 
+
+    public boolean validateSolution() throws IOException {
+        return verifyThatSolutionContainsAllPieces() && checkSum(solvedPuzzle);
+    }
+
+
+    public static boolean checkSum(PuzzlePiece[][] solvedPuzzle) {
+        boolean isAllPiecesMatch = false;
+        if (solvedPuzzle != null) {
+            int rowsSum = 0;
+            for (int row = 0; row < solvedPuzzle.length; row++) {
+                rowsSum += getRowSum(solvedPuzzle, row);
+            }
+            int colsSum = 0;
+            for (int col = 0; col < solvedPuzzle[0].length; col++) {
+                colsSum += getColsSum(solvedPuzzle, col);
+            }
+
+            isAllPiecesMatch = ((rowsSum + colsSum) == 0);
+        }
+        return isAllPiecesMatch;
+
+    }
+
+    //    =============================================================================
+//                     Private methods
+//    =============================================================================
     private boolean solvePuzzleRecursion(PuzzlePiece current, int row, int col, int rows, int cols) {
         boolean changeDirection = false;
 
         if (col == cols - 1 && row == rows - 1) {
-            if (verifySolution(solvedPuzzle)) {
+            if (checkSum(solvedPuzzle)) {
                 return true;
             } else {
                 return false;
@@ -173,8 +178,7 @@ public class PuzzleSolver {
                         --col;
                         if (col < 0) {
                             col = 0;
-//                            --row;
-//                            changeDirection = false;
+
                         }
 
                     }
@@ -185,8 +189,22 @@ public class PuzzleSolver {
         return false;
     }
 
-    public boolean validateSolution() throws IOException {
-         return verifyThatSolutionContainsAllPieces() && verifySolution(solvedPuzzle);
+    private void initPuzzle(int rows, int cols) {
+        solvedPuzzle = new PuzzlePiece[rows][cols];
+        for (PuzzlePiece p : puzzle) {
+            p.setUsed(false);
+        }
+        initToSearch();
+    }
+
+    private void initToSearch() {
+        toSearch.add(null);
+        toSearch.add(null);
+        toSearch.add(null);
+        toSearch.add(null);
+        for (int i = 0; i < toSearch.size(); i++) {
+            toSearch.set(i, null);
+        }
     }
 
     private boolean verifyThatSolutionContainsAllPieces() {
@@ -199,24 +217,6 @@ public class PuzzleSolver {
             }
         }
         return isValid;
-    }
-
-    public static boolean verifySolution(PuzzlePiece[][] solvedPuzzle) {
-        boolean isAllPiecesMatch = false;
-        if (solvedPuzzle != null) {
-            int rowsSum = 0;
-            for (int row = 0; row < solvedPuzzle.length; row++) {
-                rowsSum += getRowSum(solvedPuzzle, row);
-            }
-            int colsSum = 0;
-            for (int col = 0; col < solvedPuzzle[0].length; col++) {
-                colsSum += getColsSum(solvedPuzzle, col);
-            }
-
-            isAllPiecesMatch = ((rowsSum + colsSum) == 0);
-        }
-        return isAllPiecesMatch;
-
     }
 
     private static int getRowSum(PuzzlePiece[][] solvedPuzzle, int row) {

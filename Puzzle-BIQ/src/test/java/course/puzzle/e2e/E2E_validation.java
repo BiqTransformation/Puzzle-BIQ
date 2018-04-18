@@ -39,7 +39,10 @@ public class E2E_validation {
 	     assertTrue(message.contains("Id number not valid should be more then 0 and less then NumElements"));
 	}
 	
-	
+	@Test
+	public void goodPuzzleValidationTest(){
+
+	}
 	
 
 

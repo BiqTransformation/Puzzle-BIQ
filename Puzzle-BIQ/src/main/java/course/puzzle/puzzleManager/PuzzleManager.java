@@ -94,7 +94,7 @@ public class PuzzleManager {
                 }
             }
         }
-        return solvePuzzle.verifySolution(actualSolution);
+        return solvePuzzle.checkSum(actualSolution);
     }
 
 
