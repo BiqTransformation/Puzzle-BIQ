@@ -1,6 +1,6 @@
 package course.puzzle.puzzleManager;
 
-import course.puzzle.file.PuzzleInPutDataValidation;
+import course.puzzle.file.PuzzleDataValidation;
 import course.puzzle.file.FileOutput;
 import course.puzzle.file.FileReader;
 import course.puzzle.puzzle.PuzzleErrors;
@@ -36,12 +36,17 @@ public class PuzzleManager {
     }
 
     public void handlePuzzle() throws Exception {
+<<<<<<< HEAD
+        FileOutput.path = toPath;
+        FileOutput.cleanOutputFile();
+        FileReader reader = new FileReader();
+=======
         
         fo.cleanOutputFile();
-        FileReader reader = new FileReader();
+>>>>>>> 01d04172ec39edd11843a6cb5b0c79e92c8069d8
         List<String> inputList = new ArrayList<>();
         inputList = reader.readFromFile(fromPath);
-        PuzzleInPutDataValidation fav = new PuzzleInPutDataValidation();
+        PuzzleDataValidation fav = new PuzzleDataValidation();
         puzzleList = fav.fileDataValidator(inputList);
         validatePuzzleInputFile = fav.getErrorList();
         if(validatePuzzleInputFile.size() > 0){
@@ -97,7 +102,7 @@ public class PuzzleManager {
                 }
             }
         }
-        return solvePuzzle.checkSum(actualSolution);
+        return solvePuzzle.verifySolution(actualSolution);
     }
 
 

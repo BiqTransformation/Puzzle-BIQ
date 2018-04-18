@@ -38,26 +38,26 @@ public class Puzzle {
     }
 
     public void validatePuzzle() {
-
+   
         if (!PuzzleValidation.validateNumberOfStraightEdges(puzzle)) {
-            errors.add(Parameters.WRONG_NUMBER_OF_STRAIGHT_EDGES);
+            errors.add(PuzzleErrors.WRONG_NUMBER_OF_STRAIGHT_EDGES);
            }
         if (!PuzzleValidation.validateTopLeftCorner(puzzle)) {
-            errors.add(Parameters.MISSING_CORNER_TL);
+            errors.add(PuzzleErrors.MISSING_CORNER_TL);
          }
         if (!PuzzleValidation.validateTopRightCorner(puzzle)) {
-            errors.add(Parameters.MISSING_CORNER_TR);
+            errors.add(PuzzleErrors.MISSING_CORNER_TR);
 
         }
         if (!PuzzleValidation.validateBottomRightCorner(puzzle)) {
-            errors.add(Parameters.MISSING_CORNER_BR);
+            errors.add(PuzzleErrors.MISSING_CORNER_BR);
 
         }
         if (!PuzzleValidation.validateBottomLeftCorner(puzzle)) {
-            errors.add(Parameters.MISSING_CORNER_BL);
+            errors.add(PuzzleErrors.MISSING_CORNER_BL);
          }
         if (!PuzzleValidation.validateSumOfEdges(puzzle)) {
-            errors.add(Parameters.SUM_OF_EDGES_IS_NOT_ZERO);
+            errors.add(PuzzleErrors.SUM_OF_EDGES_IS_NOT_ZERO);
 
         }
 

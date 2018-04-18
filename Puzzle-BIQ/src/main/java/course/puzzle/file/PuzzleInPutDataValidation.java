@@ -5,10 +5,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import course.puzzle.puzzle.Parameters;
+import course.puzzle.puzzle.PuzzleErrors;
 import course.puzzle.puzzle.PuzzlePiece;
 
-public class FileDataValidation {
+public class PuzzleInPutDataValidation {
 
 	private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	private int numOfPieces;
@@ -30,7 +30,7 @@ public class FileDataValidation {
 
 		if (basicFileValidator(inPutlist)) {
 
-			numOfPieces = firstLineValidator(inPutlist.get(0));
+			numOfPieces = getNumberOfElements(inPutlist.get(0));
 			if (numOfPieces != -1) {
 				for (int i = 1; i < inPutlist.size(); i++) {
 					validSetOfIntegers = integersListValidation(inPutlist.get(i));
@@ -55,14 +55,14 @@ public class FileDataValidation {
 				}
 
 			} else {
-				String message = Parameters.PUZZLE_SIZE + listOfPuzzlePiecesAfterAllValidation.size();
-				message += Parameters.MISSING_PUZZLE_ELEMENTS + num;
+				String message = PuzzleErrors.PUZZLE_SIZE + listOfPuzzlePiecesAfterAllValidation.size();
+				message += PuzzleErrors.MISSING_PUZZLE_ELEMENTS + num;
 				errorList.add(message);
 			}
 
 		} else if (listOfPuzzlePiecesAfterAllValidation.size() < numOfPieces) {
 			int diff = numOfPieces - listOfPuzzlePiecesAfterAllValidation.size();
-			String message = Parameters.MISSING_PUZZLE_ELEMENTS;
+			String message = PuzzleErrors.MISSING_PUZZLE_ELEMENTS;
 			for (int i = diff + 1; i <= numOfPieces; i++) {
 				message += i + ",";
 				
@@ -88,7 +88,7 @@ public class FileDataValidation {
 	 * @throws IOException
 	 */
 
-	protected int firstLineValidator(String firstLine) throws IOException {
+	protected int getNumberOfElements (String firstLine) throws IOException {
 		int numOfPieces = -1;
 
 		String[] arrStr = firstLine.trim().replaceAll(" ", "").split("=");
@@ -124,7 +124,7 @@ public class FileDataValidation {
 	 * @throws IOException
 	 */
 
-	protected ArrayList<Integer> integersListValidation(String str) throws IOException {
+	protected ArrayList<Integer> integersListValidation(String str) throws IOException  {
 		// int currNum = 0;
 		ArrayList<Integer> listOfIntegers = new ArrayList<>();
 		String[] afterSplit = str.trim().split(" ");
@@ -164,7 +164,7 @@ public class FileDataValidation {
 	 * @return returnIdNum
 	 * @throws IOException
 	 */
-	protected int idNumberValidation(int idNum) throws IOException {
+	protected int idNumberValidation(int idNum)  {
 		int returnIdNum = -1;
 		if (idNum <= numOfPieces && idNum > 0) {
 			returnIdNum = idNum;
@@ -201,7 +201,7 @@ public class FileDataValidation {
 	 * @return true/false
 	 * @throws IOException
 	 */
-	protected boolean basicFileValidator(List<String> inputlist) throws IOException {
+	protected boolean basicFileValidator(List<String> inputlist)  {
 		if (inputlist.size() < 2) {
 			errorList.add(timestamp + " : " + "Input file does not contain enough information to create puzzle ");
 			return false;
@@ -222,13 +222,12 @@ public class FileDataValidation {
 		return num;
 	}
 
-	protected boolean checkIdUniqueness(ArrayList<PuzzlePiece> puzzelPieces) throws IOException {
+	protected boolean checkIdUniqueness(ArrayList<PuzzlePiece> puzzelPieces)  {
 		boolean flag = true;
 		ArrayList<Integer> listOfIds = new ArrayList<>();
 		for (PuzzlePiece puzzlePiece : puzzelPieces) {
 			listOfIds.add(puzzlePiece.getId());
 		}
-
 		for (int i = 0; i < listOfIds.size() - 1; i++) {
 			for (int j = i + 1; j < (listOfIds.size()); j++) {
 				if ((listOfIds.get(i)) == (listOfIds.get(j))) {
