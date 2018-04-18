@@ -8,7 +8,7 @@ import java.util.List;
 import course.puzzle.puzzle.Parameters;
 import course.puzzle.puzzle.PuzzlePiece;
 
-public class FileDataValidation {
+public class PuzzleDataValidation {
 
 	private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	private int numOfPieces;
@@ -30,7 +30,7 @@ public class FileDataValidation {
 
 		if (basicFileValidator(inPutlist)) {
 
-			numOfPieces = firstLineValidator(inPutlist.get(0));
+			numOfPieces = getNumberOfElements(inPutlist.get(0));
 			if (numOfPieces != -1) {
 				for (int i = 1; i < inPutlist.size(); i++) {
 					validSetOfIntegers = integersListValidation(inPutlist.get(i));
@@ -88,7 +88,7 @@ public class FileDataValidation {
 	 * @throws IOException
 	 */
 
-	protected int firstLineValidator(String firstLine) throws IOException {
+	protected int getNumberOfElements (String firstLine) throws IOException {
 		int numOfPieces = -1;
 
 		String[] arrStr = firstLine.trim().replaceAll(" ", "").split("=");
@@ -228,7 +228,6 @@ public class FileDataValidation {
 		for (PuzzlePiece puzzlePiece : puzzelPieces) {
 			listOfIds.add(puzzlePiece.getId());
 		}
-
 		for (int i = 0; i < listOfIds.size() - 1; i++) {
 			for (int j = i + 1; j < (listOfIds.size()); j++) {
 				if ((listOfIds.get(i)) == (listOfIds.get(j))) {

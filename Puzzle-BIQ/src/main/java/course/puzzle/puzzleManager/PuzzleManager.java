@@ -1,6 +1,6 @@
 package course.puzzle.puzzleManager;
 
-import course.puzzle.file.FileDataValidation;
+import course.puzzle.file.PuzzleDataValidation;
 import course.puzzle.file.FileOutput;
 import course.puzzle.file.FileReader;
 import course.puzzle.puzzle.Parameters;
@@ -36,9 +36,10 @@ public class PuzzleManager {
     public void handlePuzzle() throws Exception {
         FileOutput.path = toPath;
         FileOutput.cleanOutputFile();
+        FileReader reader = new FileReader();
         List<String> inputList = new ArrayList<>();
-        inputList = FileReader.readFromFile(fromPath);
-        FileDataValidation fav = new FileDataValidation();
+        inputList = reader.readFromFile(fromPath);
+        PuzzleDataValidation fav = new PuzzleDataValidation();
         puzzleList = fav.fileDataValidator(inputList);
         validatePuzzleInputFile = fav.getErrorList();
         if(validatePuzzleInputFile.size() > 0){
