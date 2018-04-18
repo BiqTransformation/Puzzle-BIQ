@@ -16,7 +16,7 @@ public class FileReader {
 	
 	private static Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	
-	public static List<String> readFromFile(String fromPath) throws Exception  { 
+	public static List<String> readFromFile(String fromPath) throws IOException  { 
 		fromFile = new ArrayList<>();
 			BufferedReader in = null;
 			try {
@@ -25,23 +25,12 @@ public class FileReader {
 					while((currentLine = in.readLine()) !=null) {
 						fromFile.add(currentLine);	
 					}
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (FileNotFoundException e) {
 			}
 			finally{
-				//FileOutput.printToOutputFile(timestamp+" : "+"File reader proccess failed !!!");
 				in.close();	
 			}
-			
-		
 		return fromFile;	
 	}
 	
-	
-	public static void sendListToValidate() throws Exception{
-		PuzzleInPutDataValidation fileDataValidator = new PuzzleInPutDataValidation();
-		fileDataValidator.fileDataValidator(fromFile);
-	}
-	
-
 }
