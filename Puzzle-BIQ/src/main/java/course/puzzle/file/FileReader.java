@@ -39,7 +39,7 @@ public class FileReader {
 	
 	
 	public static void sendListToValidate() throws Exception{
-		FileDataValidation fileDataValidator = new FileDataValidation();
+		PuzzleInPutDataValidation fileDataValidator = new PuzzleInPutDataValidation();
 		fileDataValidator.fileDataValidator(fromFile);
 	}
 	

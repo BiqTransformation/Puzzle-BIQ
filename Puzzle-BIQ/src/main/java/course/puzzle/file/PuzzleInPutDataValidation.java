@@ -8,7 +8,7 @@ import java.util.List;
 import course.puzzle.puzzle.PuzzleErrors;
 import course.puzzle.puzzle.PuzzlePiece;
 
-public class PuzzleDataValidation {
+public class PuzzleInPutDataValidation {
 
 	private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	private int numOfPieces;
@@ -88,11 +88,7 @@ public class PuzzleDataValidation {
 	 * @throws IOException
 	 */
 
-<<<<<<< HEAD:Puzzle-BIQ/src/main/java/course/puzzle/file/PuzzleDataValidation.java
 	protected int getNumberOfElements (String firstLine) throws IOException {
-=======
-	protected int firstLineValidator(String firstLine)  {
->>>>>>> 01d04172ec39edd11843a6cb5b0c79e92c8069d8:Puzzle-BIQ/src/main/java/course/puzzle/file/FileDataValidation.java
 		int numOfPieces = -1;
 
 		String[] arrStr = firstLine.trim().replaceAll(" ", "").split("=");

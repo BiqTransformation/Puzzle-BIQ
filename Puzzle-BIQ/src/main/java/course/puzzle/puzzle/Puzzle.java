@@ -38,7 +38,7 @@ public class Puzzle {
     }
 
     public void validatePuzzle() {
-
+   
         if (!PuzzleValidation.validateNumberOfStraightEdges(puzzle)) {
             errors.add(PuzzleErrors.WRONG_NUMBER_OF_STRAIGHT_EDGES);
            }

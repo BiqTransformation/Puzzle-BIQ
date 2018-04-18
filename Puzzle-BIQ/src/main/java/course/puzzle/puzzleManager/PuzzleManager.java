@@ -1,6 +1,6 @@
 package course.puzzle.puzzleManager;
 
-import course.puzzle.file.PuzzleDataValidation;
+import course.puzzle.file.PuzzleInPutDataValidation;
 import course.puzzle.file.FileOutput;
 import course.puzzle.file.FileReader;
 import course.puzzle.puzzle.PuzzleErrors;
@@ -41,7 +41,7 @@ public class PuzzleManager {
         FileReader reader = new FileReader();
         List<String> inputList = new ArrayList<>();
         inputList = reader.readFromFile(fromPath);
-        PuzzleDataValidation fav = new PuzzleDataValidation();
+        PuzzleInPutDataValidation fav = new PuzzleInPutDataValidation();
         puzzleList = fav.fileDataValidator(inputList);
         validatePuzzleInputFile = fav.getErrorList();
         if(validatePuzzleInputFile.size() > 0){
