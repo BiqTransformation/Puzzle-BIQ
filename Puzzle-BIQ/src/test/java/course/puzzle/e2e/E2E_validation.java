@@ -20,7 +20,8 @@ public class E2E_validation {
 		//clean output
 		 PuzzleManager pm = new PuzzleManager(fromPath ,toPath);
 		 pm.handlePuzzle();
-		 String message = FileOutput.loadFromTextFile();
+		 FileOutput fo = new FileOutput(toPath);
+		 String message = fo.loadFromTextFile();
 		 System.out.println(message);
 	     assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
 	}
@@ -34,7 +35,8 @@ public class E2E_validation {
 		//clean output
 		 PuzzleManager pm = new PuzzleManager(fromPath ,toPath);
 		 pm.handlePuzzle();
-		 String message = FileOutput.loadFromTextFile();
+		 FileOutput fo = new FileOutput(toPath);
+		 String message = fo.loadFromTextFile();
 		 //System.out.println(message);
 	     assertTrue(message.contains("Id number not valid should be more then 0 and less then NumElements"));
 	}

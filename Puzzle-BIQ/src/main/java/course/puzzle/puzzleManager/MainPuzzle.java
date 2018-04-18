@@ -13,7 +13,8 @@ public class MainPuzzle {
 		String toPath = args[1];//"src//test//resources//files//test3.out";
 		PuzzleManager pm = new PuzzleManager(fromPath,toPath);
 		pm.handlePuzzle();
-		String message = FileOutput.loadFromTextFile();	
+		FileOutput fo = new FileOutput(toPath);
+		String message = fo.loadFromTextFile();	
 		System.out.println(message);
 		
 	
