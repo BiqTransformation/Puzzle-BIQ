@@ -16,6 +16,7 @@ public class FileOutput {
 		this.path=path;
 	}
 
+
     public  void cleanOutputFile() {
         try {
             PrintWriter writer = new PrintWriter(path);

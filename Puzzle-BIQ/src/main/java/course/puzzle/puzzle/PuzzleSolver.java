@@ -17,9 +17,8 @@ public class PuzzleSolver {
     private List<Edge> toSearch = new ArrayList<>();
 
     private static Edge leftStraight = new Edge("left", 0);
-    private static Edge rightStraight = new Edge("right", 0);
-    private static Edge topStraight = new Edge("top", 0);
-    private static Edge bottomStraight = new Edge("bottom", 0);
+     private static Edge topStraight = new Edge("top", 0);
+
 
 
     public PuzzleSolver(Puzzle puzzleInstance) {
@@ -95,7 +94,7 @@ public class PuzzleSolver {
     }
 
 
-    public static boolean checkSum(PuzzlePiece[][] solvedPuzzle) {
+    public boolean checkSum(PuzzlePiece[][] solvedPuzzle) {
         boolean isAllPiecesMatch = false;
         if (solvedPuzzle != null) {
             int rowsSum = 0;
@@ -219,7 +218,7 @@ public class PuzzleSolver {
         return isValid;
     }
 
-    private static int getRowSum(PuzzlePiece[][] solvedPuzzle, int row) {
+    private int getRowSum(PuzzlePiece[][] solvedPuzzle, int row) {
         int sum = solvedPuzzle[row][0].getLeftValue();
 
         for (int i = 0; i < solvedPuzzle[0].length - 1; i++) {
@@ -228,7 +227,7 @@ public class PuzzleSolver {
         return sum;
     }
 
-    private static int getColsSum(PuzzlePiece[][] solvedPuzzle, int col) {
+    private int getColsSum(PuzzlePiece[][] solvedPuzzle, int col) {
         int sum = solvedPuzzle[0][col].getTopValue();
 
         for (int i = 0; i < solvedPuzzle.length - 1; i++) {

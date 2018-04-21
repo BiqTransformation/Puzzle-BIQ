@@ -42,7 +42,7 @@ public class E2ETests {
         PuzzleManager pm = new PuzzleManager(in, out);
         pm.handlePuzzle();
 
-        assertTrue(pm.validateSolutionViaOutputFile());
+        assertTrue(pm.validateSolutionViaOutputFile(in,out));
     }
 
 

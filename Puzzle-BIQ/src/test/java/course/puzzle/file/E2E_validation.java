@@ -50,7 +50,7 @@ public class E2E_validation {
 		PuzzleManager pm = new PuzzleManager(in, out);
 		pm.handlePuzzle();
 
-		assertTrue(pm.validateSolutionViaOutputFile());
+		assertTrue(pm.validateSolutionViaOutputFile(in,out));
 	}
 
 	@Test
@@ -58,11 +58,11 @@ public class E2E_validation {
 		String in = "src//test//resources//files//good12Pieces.in";
 		String out = "src//test//resources//files//bad12Pieces.out";
 
-
+//
 		PuzzleManager pm = new PuzzleManager(in, out);
-		pm.handlePuzzle();
+//		pm.handlePuzzle();
 
-		assertFalse(pm.validateSolutionViaOutputFile());
+		assertFalse(pm.validateSolutionViaOutputFile(in,out));
 	}
 	
 

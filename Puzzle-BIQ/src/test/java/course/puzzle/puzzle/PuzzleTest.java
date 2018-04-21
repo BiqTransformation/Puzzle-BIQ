@@ -2,6 +2,7 @@ package course.puzzle.puzzle;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,35 +13,9 @@ import static org.junit.Assert.assertTrue;
 public class PuzzleTest {
 
 
-    @Test
-    public void goodTestValidateSolution() {
-
-        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
-        PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, -1);
-        PuzzlePiece p3 = new PuzzlePiece(3, 0, -1, 1, 0);
-        PuzzlePiece p4 = new PuzzlePiece(4, -1, 1, 0, 0);
-
-
-        PuzzlePiece[][] good = new PuzzlePiece[][]{{p1, p2}, {p3, p4}};
-
-        assertTrue(PuzzleSolver.checkSum(good));
-    }
 
     @Test
-    public void badTestValidateSolution() {
-
-        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
-        PuzzlePiece p2 = new PuzzlePiece(2, 1, 0, 0, -1);
-        PuzzlePiece p3 = new PuzzlePiece(3, 1, 1, 0, 0);
-        PuzzlePiece p4 = new PuzzlePiece(4, 0, 1, 1, 0);
-
-        PuzzlePiece[][] bad = new PuzzlePiece[][]{{p1, p2}, {p3, p4}};
-
-        assertFalse(PuzzleSolver.checkSum(bad));
-    }
-
-    @Test
-    public void goodTestOneRowSolution() {
+    public void goodTestOneRowSolution() throws IOException {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
@@ -52,11 +27,12 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        assertTrue(PuzzleSolver.checkSum(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
-    }
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        ps.findSolution();
+        assertTrue(ps.validateSolution());    }
 
     @Test
-    public void goodTestOneRowSolution1() {
+    public void goodTestOneRowSolution1() throws IOException {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
@@ -70,12 +46,12 @@ public class PuzzleTest {
         puzzle.add(p4);
         puzzle.add(p5);
 
-
-        assertTrue(PuzzleSolver.checkSum(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
-    }
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        ps.findSolution();
+        assertTrue(ps.validateSolution());    }
 
     @Test
-    public void goodTestTwoRowsSolution2() {
+    public void goodTestTwoRowsSolution2() throws IOException {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
         PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
@@ -99,11 +75,12 @@ public class PuzzleTest {
         puzzle.add(p9);
         puzzle.add(p10);
 
-        assertTrue(PuzzleSolver.checkSum(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
-    }
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        ps.findSolution();
+        assertTrue(ps.validateSolution());    }
 
     @Test
-    public void goodTestOneColumnSolution() {
+    public void goodTestOneColumnSolution() throws IOException {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 0, -1);
         PuzzlePiece p2 = new PuzzlePiece(2, 0, 1, 0, 0);
@@ -115,11 +92,13 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        assertTrue(PuzzleSolver.checkSum(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        ps.findSolution();
+        assertTrue(ps.validateSolution());
     }
 
     @Test
-    public void goodTestOneColumnSolution1() {
+    public void goodTestOneColumnSolution1() throws IOException {
 
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 0, -1);
         PuzzlePiece p2 = new PuzzlePiece(2, 0, 1, 0, 0);
@@ -133,11 +112,13 @@ public class PuzzleTest {
         puzzle.add(p4);
         puzzle.add(p5);
 
-        assertTrue(PuzzleSolver.checkSum(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        ps.findSolution();
+        assertTrue(ps.validateSolution());
     }
 
     @Test
-    public void goodTestMatrix2x2Solution() {
+    public void goodTestMatrix2x2Solution() throws IOException {
 
         List<PuzzlePiece> puzzle = new ArrayList<PuzzlePiece>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
@@ -149,11 +130,12 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        assertTrue(PuzzleSolver.checkSum(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
-    }
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        ps.findSolution();
+        assertTrue(ps.validateSolution());    }
 
     @Test
-    public void goodTestMatrix2x3Solution() {
+    public void goodTestMatrix2x3Solution() throws IOException {
 
         List<PuzzlePiece> puzzle = new ArrayList<PuzzlePiece>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
@@ -169,11 +151,12 @@ public class PuzzleTest {
         puzzle.add(p5);
         puzzle.add(p6);
 
-        assertTrue(PuzzleSolver.checkSum(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
-    }
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        ps.findSolution();
+        assertTrue(ps.validateSolution());    }
 
     @Test
-    public void goodTestMatrix3x2Solution() {
+    public void goodTestMatrix3x2Solution() throws IOException {
 
         List<PuzzlePiece> puzzle = new ArrayList<>();
         PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 1);
@@ -189,7 +172,8 @@ public class PuzzleTest {
         puzzle.add(p5);
         puzzle.add(p6);
 
-        assertTrue(PuzzleSolver.checkSum(new PuzzleSolver(new Puzzle(puzzle)).findSolution()));
-    }
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        ps.findSolution();
+        assertTrue(ps.validateSolution());    }
 
 }
