@@ -75,7 +75,7 @@ public class PuzzleSolver {
     }
 
 
-    public boolean puzzleSolution(int rows, int cols) {
+    private boolean puzzleSolution(int rows, int cols) {
 
         boolean hasSolution = false;
         List<PuzzlePiece> listTL = PuzzleValidation.getSpecificPieces(puzzle, leftStraight, topStraight);

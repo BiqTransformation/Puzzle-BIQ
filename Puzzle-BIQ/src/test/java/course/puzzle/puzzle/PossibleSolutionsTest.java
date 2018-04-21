@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SolvePuzzleTest {
+public class PossibleSolutionsTest {
 
 	List<PuzzlePiece> puzzle = new ArrayList<>();
 
@@ -84,14 +84,6 @@ public class SolvePuzzleTest {
 		testMap.put(3, 1);
 		assertEquals(mapUnderTest, testMap);
 	}
-
-//	@Test
-//	public void testgetPossiblesolutionWith0PuzzlePieces() throws Exception {
-//		puzzle.clear();
-//		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
-//		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
-//		assertTrue(mapUnderTest.isEmpty());
-//	}
 
 	@Test
 	public void testgetPossiblesolutionWith1PuzzlePieces() throws Exception {

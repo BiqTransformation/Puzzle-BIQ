@@ -1,4 +1,4 @@
-package course.puzzle.e2e;
+package course.puzzle.file;
 
 import static org.junit.Assert.*;
 
@@ -42,8 +42,27 @@ public class E2E_validation {
 	}
 	
 	@Test
-	public void goodPuzzleValidationTest(){
+	public void goodValidateSolutionViaOutputFile() throws Exception {
+		String in = "src//test//resources//files//good12Pieces.in";
+		String out = "src//test//resources//files//good12Pieces.out";
 
+
+		PuzzleManager pm = new PuzzleManager(in, out);
+		pm.handlePuzzle();
+
+		assertTrue(pm.validateSolutionViaOutputFile());
+	}
+
+	@Test
+	public void badValidateSolutionViaOutputFile() throws Exception {
+		String in = "src//test//resources//files//good12Pieces.in";
+		String out = "src//test//resources//files//bad12Pieces.out";
+
+
+		PuzzleManager pm = new PuzzleManager(in, out);
+		pm.handlePuzzle();
+
+		assertFalse(pm.validateSolutionViaOutputFile());
 	}
 	
 

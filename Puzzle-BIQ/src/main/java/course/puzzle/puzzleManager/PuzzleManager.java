@@ -74,7 +74,7 @@ public class PuzzleManager {
 
     }
 
-    public boolean validateSolutionViaOutputFile() throws IOException {
+    public boolean validateSolutionViaOutputFile(String in, String out) throws IOException {
 
 //        Verify that number of pieces in solved matrix is equal to number of pieces in the original puzzle
         String[] rows = fo.loadFromTextFile().split("\n");
