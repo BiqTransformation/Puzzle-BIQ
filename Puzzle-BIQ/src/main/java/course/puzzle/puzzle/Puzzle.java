@@ -11,13 +11,29 @@ public class Puzzle {
 
     private List<PuzzlePiece> puzzle;
     private List<String> errors = new ArrayList<>();
-
+    private boolean isRotate;
+    
     public Puzzle(List<PuzzlePiece> puzzle) {
         this.puzzle = puzzle;
+        this.isRotate=isRotate;
         validatePuzzle();
-
     }
-    public List<PuzzlePiece> getPuzzle() {
+    
+    
+    
+    public boolean isRotate() {
+		return isRotate;
+	}
+
+
+
+	public void setRotate(boolean isRotate) {
+		this.isRotate = isRotate;
+	}
+
+
+
+	public List<PuzzlePiece> getPuzzle() {
         return puzzle;
     }
     public List<String> getErrors() {
@@ -58,10 +74,59 @@ public class Puzzle {
          }
         if (!PuzzleValidation.validateSumOfEdges(puzzle)) {
             errors.add(PuzzleErrors.SUM_OF_EDGES_IS_NOT_ZERO);
-
         }
-
     }
+        
+	public List<PuzzlePiece> rotateAll() {
+		List<PuzzlePiece> allPieces = new ArrayList<>();
+		if (isRotate) {
+			for (PuzzlePiece p : puzzle) {
+				allPieces.add(p);
+				if (!p.isAllEdgesEquals(p)) {
+					PuzzlePiece temp1 = firstRotate(p);
+					allPieces.add(temp1);				
+					if (!p.isOposEdgesEquals(p)) {
+						PuzzlePiece temp2 = secondRotate(p);
+						allPieces.add(temp2);
+					}
+					PuzzlePiece temp3 = thirdRotate(p);
+					allPieces.add(temp3);
+				}
+			}
+		}
+		return allPieces;
+	}
+        		
+        			
+        		
+        	
+        		
+   
+        
+
+    
+
+
+
+	private PuzzlePiece firstRotate(PuzzlePiece p) {
+		PuzzlePiece p1 = new PuzzlePiece(p.getId(),p.getBottomValue(),p.getLeftValue(),p.getTopValue(),p.getRightValue());
+		p1.setRotateEdge(90);		
+		return p1;
+	}
+	
+	private PuzzlePiece secondRotate(PuzzlePiece p) {
+		PuzzlePiece p1 = new PuzzlePiece(p.getId(),p.getRightValue(),p.getBottomValue(),p.getLeftValue(),p.getTopValue());
+		p1.setRotateEdge(180);		
+		return p1;
+	}
+	
+	private PuzzlePiece thirdRotate(PuzzlePiece p) {
+		PuzzlePiece p1 = new PuzzlePiece(p.getId(),p.getBottomValue(),p.getLeftValue(),p.getTopValue(),p.getRightValue());
+		p1.setRotateEdge(270);		
+		return p1;
+	}
+	
+	
 
 
 }

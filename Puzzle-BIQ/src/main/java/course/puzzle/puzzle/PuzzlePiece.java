@@ -11,7 +11,7 @@ public class PuzzlePiece {
 	private Edge right;
 	private Edge bottom;
 	List<Edge> listOfEdges = new ArrayList<Edge>();
-
+	private int rotateEdge=0;	
 	private boolean isUsed;
 
 	public PuzzlePiece(int id, int left, int top, int right, int bottom) {
@@ -25,6 +25,20 @@ public class PuzzlePiece {
 		listOfEdges.add(this.right);
 		listOfEdges.add(this.bottom);
 	}
+	
+	
+
+	public int getRotateEdge() {
+		return rotateEdge;
+	}
+
+
+
+	public void setRotateEdge(int rotateEdge) {
+		this.rotateEdge = rotateEdge;
+	}
+
+
 
 	public int getLeftValue() {
 		return left.getValue();
@@ -81,5 +95,18 @@ public class PuzzlePiece {
 	        PuzzlePiece PuzzlePiece = (PuzzlePiece) o;
 	        return Objects.equals(getId(), PuzzlePiece.getId());
 	    }
+    
+    public boolean listOfEdgesEquals(PuzzlePiece p){
+    	return p.listOfEdges.equals(listOfEdges);
+    }
+    
+    public boolean isAllEdgesEquals(PuzzlePiece p){
+    	return p.getLeftValue()==p.getTopValue() && p.getLeftValue()==p.getTopValue()    			
+    		&& p.getLeftValue()==p.getRightValue() && p.getLeftValue()==p.getBottomValue();
+    }
+    
+    public boolean isOposEdgesEquals(PuzzlePiece p){
+    	return p.getLeftValue()==p.getRightValue() && p.getTopValue()==p.getBottomValue();
+    }
 
 }
