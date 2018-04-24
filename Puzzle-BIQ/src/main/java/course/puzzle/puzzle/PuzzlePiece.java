@@ -11,6 +11,7 @@ public class PuzzlePiece {
 	private Edge right;
 	private Edge bottom;
 	List<Edge> listOfEdges = new ArrayList<Edge>();
+	//TODO add member int rotate -Lior 
 
 	private boolean isUsed;
 

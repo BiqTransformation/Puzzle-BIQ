@@ -55,7 +55,7 @@ public class FileOutput {
     }
 
     public  void printSolution(PuzzlePiece[][] solution) throws IOException {
-
+//TODO -add id with rotation -Alex
         PrintWriter print = null;
         try {
             FileWriter write = new FileWriter(path, append_to_file);

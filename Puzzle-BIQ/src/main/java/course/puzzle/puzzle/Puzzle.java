@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Puzzle {
-
+//TODO implement rotate -Lior
 
     private List<PuzzlePiece> puzzle;
     private List<String> errors = new ArrayList<>();
