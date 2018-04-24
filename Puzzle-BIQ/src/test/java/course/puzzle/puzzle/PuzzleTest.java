@@ -11,7 +11,9 @@ import static org.junit.Assert.assertTrue;
 
 
 public class PuzzleTest {
-
+	
+	public boolean rotate= true;
+    public int numOfThreads=2;
 
 
     @Test
@@ -27,7 +29,7 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
         ps.findSolution();
         assertTrue(ps.validateSolution());    }
 
@@ -46,7 +48,7 @@ public class PuzzleTest {
         puzzle.add(p4);
         puzzle.add(p5);
 
-        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
         ps.findSolution();
         assertTrue(ps.validateSolution());    }
 
@@ -75,7 +77,7 @@ public class PuzzleTest {
         puzzle.add(p9);
         puzzle.add(p10);
 
-        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
         ps.findSolution();
         assertTrue(ps.validateSolution());    }
 
@@ -92,7 +94,7 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
         ps.findSolution();
         assertTrue(ps.validateSolution());
     }
@@ -112,7 +114,7 @@ public class PuzzleTest {
         puzzle.add(p4);
         puzzle.add(p5);
 
-        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
         ps.findSolution();
         assertTrue(ps.validateSolution());
     }
@@ -130,7 +132,7 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
         ps.findSolution();
         assertTrue(ps.validateSolution());    }
 
@@ -151,7 +153,7 @@ public class PuzzleTest {
         puzzle.add(p5);
         puzzle.add(p6);
 
-        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
         ps.findSolution();
         assertTrue(ps.validateSolution());    }
 
@@ -172,7 +174,7 @@ public class PuzzleTest {
         puzzle.add(p5);
         puzzle.add(p6);
 
-        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
         ps.findSolution();
         assertTrue(ps.validateSolution());    }
 

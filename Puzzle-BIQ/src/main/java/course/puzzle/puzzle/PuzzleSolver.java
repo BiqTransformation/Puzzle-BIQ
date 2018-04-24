@@ -13,6 +13,7 @@ public class PuzzleSolver {
     private PuzzlePiece[][] solvedPuzzle;
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
     private Puzzle puzzleInstance;
+    private int numOfThreads;
 
     private List<Edge> toSearch = new ArrayList<>();
 
@@ -21,8 +22,9 @@ public class PuzzleSolver {
 
 
 
-    public PuzzleSolver(Puzzle puzzleInstance) {
-        this.puzzleInstance = puzzleInstance;
+    public PuzzleSolver(Puzzle puzzleInstance,int numOfThreads) {
+        this.numOfThreads=numOfThreads;
+    	this.puzzleInstance = puzzleInstance;
         puzzle = puzzleInstance.getPuzzle();
     }
 

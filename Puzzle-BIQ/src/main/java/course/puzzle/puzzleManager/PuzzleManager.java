@@ -22,10 +22,13 @@ public class PuzzleManager {
     private List<String> validatePuzzleInputFile = new ArrayList<>();
     private List<String> validatePuzzleBeforeSolution = new ArrayList<>();
     FileOutput fo;
+    private boolean rotate;
+    private int numOfThreads;
 
-
-    public PuzzleManager(String fromPath, String toPath) {
-        if (fromPath != null) {
+    public PuzzleManager(String fromPath, String toPath,boolean rotate,int numOfThreads) {
+        this.rotate=rotate;
+        this.numOfThreads=numOfThreads;
+    	if (fromPath != null) {
             this.fromPath = fromPath;
         }
         if (toPath != null) {
@@ -52,14 +55,14 @@ public class PuzzleManager {
     }
 
     private void solvePuzzle() throws IOException {
-        newPuzzle = new Puzzle(puzzleList);
+        newPuzzle = new Puzzle(puzzleList,rotate);
         validatePuzzleBeforeSolution = newPuzzle.getErrors();
         if (validatePuzzleBeforeSolution.size() > 0) {
             fo.printListToOutputFile(validatePuzzleBeforeSolution);
             return;
         }
         else{
-            solvePuzzle = new PuzzleSolver(newPuzzle);
+            solvePuzzle = new PuzzleSolver(newPuzzle,numOfThreads);
             PuzzlePiece[][] puz = solvePuzzle.findSolution();
             if (solvePuzzle.validateSolution()) {
                 fo.printSolution(puz);
@@ -98,7 +101,7 @@ public class PuzzleManager {
             return false;
         }
 
-        Puzzle toValidate = new Puzzle(puzzlePieces);
+        Puzzle toValidate = new Puzzle(puzzlePieces,rotate);
         PuzzlePiece[][] actualSolution = new PuzzlePiece[rows][cols];
         int i = 0;
         for (String line : output) {
@@ -116,7 +119,7 @@ public class PuzzleManager {
             i++;
         }
 
-        return new PuzzleSolver(toValidate).checkSum(actualSolution);
+        return new PuzzleSolver(toValidate,numOfThreads).checkSum(actualSolution);
     }
 
 
