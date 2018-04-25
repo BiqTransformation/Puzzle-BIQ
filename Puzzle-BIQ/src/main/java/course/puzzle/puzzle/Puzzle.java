@@ -82,18 +82,23 @@ public class Puzzle {
 		if (isRotate) {
 			for (PuzzlePiece p : puzzle) {
 				allPieces.add(p);
-				if (!p.isAllEdgesEquals(p)) {
-					PuzzlePiece temp1 = firstRotate(p);
-					allPieces.add(temp1);				
+				if (!p.isAllEdgesEquals()) {
 					if (!p.isOposEdgesEquals(p)) {
+						PuzzlePiece temp1 = firstRotate(p);
+						allPieces.add(temp1);					
 						PuzzlePiece temp2 = secondRotate(p);
 						allPieces.add(temp2);
-					}
-					PuzzlePiece temp3 = thirdRotate(p);
-					allPieces.add(temp3);
+						PuzzlePiece temp3 = thirdRotate(p);
+						allPieces.add(temp3);
+						}
+					else{
+						PuzzlePiece temp1 = firstRotate(p);
+						allPieces.add(temp1);
+						}					
 				}
+					
 			}
-		}
+		}		
 		return allPieces;
 	}
         		

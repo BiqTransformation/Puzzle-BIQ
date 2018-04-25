@@ -100,9 +100,8 @@ public class PuzzlePiece {
     	return p.listOfEdges.equals(listOfEdges);
     }
     
-    public boolean isAllEdgesEquals(PuzzlePiece p){
-    	return p.getLeftValue()==p.getTopValue() && p.getLeftValue()==p.getTopValue()    			
-    		&& p.getLeftValue()==p.getRightValue() && p.getLeftValue()==p.getBottomValue();
+    public boolean isAllEdgesEquals(){
+    	return this.getLeftValue()==this.getTopValue() && this.getLeftValue()==this.getRightValue() && this.getLeftValue()==this.getBottomValue();
     }
     
     public boolean isOposEdgesEquals(PuzzlePiece p){
