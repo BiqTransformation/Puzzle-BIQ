@@ -3,10 +3,7 @@ package course.puzzle.puzzleManager;
 import course.puzzle.file.PuzzleInPutDataValidation;
 import course.puzzle.file.FileOutput;
 import course.puzzle.file.FileReader;
-import course.puzzle.puzzle.PuzzleErrors;
-import course.puzzle.puzzle.Puzzle;
-import course.puzzle.puzzle.PuzzlePiece;
-import course.puzzle.puzzle.PuzzleSolver;
+import course.puzzle.puzzle.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,7 +58,7 @@ public class PuzzleManager {
         else{
             solvePuzzle = new PuzzleSolver(newPuzzle);
             PuzzlePiece[][] puz = solvePuzzle.findSolution();
-            if (solvePuzzle.validateSolution()) {
+            if (puz != null) {
                 fo.printSolution(puz);
 
             } else {
@@ -116,7 +113,7 @@ public class PuzzleManager {
             i++;
         }
 
-        return new PuzzleSolver(toValidate).checkSum(actualSolution);
+        return new RunSolution(rows,cols).checkSum();
     }
 
 
