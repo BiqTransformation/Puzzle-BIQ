@@ -11,7 +11,13 @@ public class PuzzleValidation {
     private static Edge rightStraight = new Edge("right", 0);
     private static Edge topStraight = new Edge("top", 0);
     private static Edge bottomStraight = new Edge("bottom", 0);
-
+   //TODO - move rotate to this class
+   public static List<PuzzlePiece> getUniquShapes(List<PuzzlePiece> inputList){
+	   List<PuzzlePiece> uniquePieces = inputList;
+	   
+	   
+	   return uniquePieces;
+   }
 
 
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge) {
