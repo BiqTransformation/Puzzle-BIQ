@@ -1,4 +1,4 @@
-package course.puzzle.e2e;
+package course.puzzle.file;
 
 import static org.junit.Assert.*;
 
@@ -18,7 +18,9 @@ public class E2E_validation {
 		String fromPath = "src//test//resources//files//test3.in";
 		String toPath = "src//test//resources//files//test3.out";
 		//clean output
-		 PuzzleManager pm = new PuzzleManager(fromPath ,toPath);
+		boolean rotate = true;
+	    int numOfTreads = 2; 
+		PuzzleManager pm = new PuzzleManager(fromPath ,toPath,rotate,numOfTreads);
 		 pm.handlePuzzle();
 		 FileOutput fo = new FileOutput(toPath);
 		 String message = fo.loadFromTextFile();
@@ -33,7 +35,9 @@ public class E2E_validation {
 		String fromPath = "src//test//resources//files//test4.in";
 		String toPath = "src//test//resources//files//test4.out";
 		//clean output
-		 PuzzleManager pm = new PuzzleManager(fromPath ,toPath);
+		boolean rotate = true;
+	    int numOfTreads = 2;
+		 PuzzleManager pm = new PuzzleManager(fromPath ,toPath,rotate,numOfTreads);
 		 pm.handlePuzzle();
 		 FileOutput fo = new FileOutput(toPath);
 		 String message = fo.loadFromTextFile();
@@ -41,7 +45,28 @@ public class E2E_validation {
 	     assertTrue(message.contains("Id number not valid should be more then 0 and less then NumElements"));
 	}
 	
-	
+	@Test
+	public void goodValidateSolutionViaOutputFile() throws Exception {
+		String in = "src//test//resources//files//good12Pieces.in";
+		String out = "src//test//resources//files//good12Pieces.out";
+		boolean rotate = true;
+	    int numOfTreads = 2;
+		PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
+		pm.handlePuzzle();
+		assertTrue(pm.validateSolutionViaOutputFile(in,out));
+	}
+
+	@Test
+	public void badValidateSolutionViaOutputFile() throws Exception {
+		String in = "src//test//resources//files//good12Pieces.in";
+		String out = "src//test//resources//files//bad12Pieces.out";
+        boolean rotate = true;
+	    int numOfTreads = 2;
+		PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
+//		pm.handlePuzzle();
+
+		assertFalse(pm.validateSolutionViaOutputFile(in,out));
+	}
 	
 
 

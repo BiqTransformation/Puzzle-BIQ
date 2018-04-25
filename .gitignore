@@ -9,3 +9,4 @@
 /Puzzle-BIQ/.idea/*
 /Puzzle-BIQ/src/main/resources/files/output.txt
 /Puzzle-BIQ/puzzle.iml
+/Puzzle-BIQ/src/test/resources/files/*.out

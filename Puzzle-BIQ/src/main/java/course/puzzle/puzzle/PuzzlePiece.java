@@ -108,4 +108,9 @@ public class PuzzlePiece {
     	return p.getLeftValue()==p.getRightValue() && p.getTopValue()==p.getBottomValue();
     }
 
+	@Override
+	public String toString() {
+		String toPrint = "\n" + id + " " + getLeftValue() + " " + getTopValue() + " " + getRightValue() + " " + getBottomValue();
+		return toPrint;
+	}
 }

@@ -23,7 +23,7 @@ public class TestPuzzleRotate {
 		puzzleTest.add(p2);
 		puzzleTest.add(p3);
 		puzzleTest.add(p4);
-		Puzzle puzzle = new Puzzle(puzzleTest);
+		Puzzle puzzle = new Puzzle(puzzleTest,true);
 		puzzle.setRotate(true);
 		List<PuzzlePiece> retValue=puzzle.rotateAll();		
 		assertEquals(retValue,puzzleTest);		
@@ -39,7 +39,7 @@ public class TestPuzzleRotate {
 		puzzleTest.add(p1);
 		puzzleTest.add(p2);
 		puzzleTest.add(p3);	
-		Puzzle puzzle = new Puzzle(puzzleTest);
+		Puzzle puzzle = new Puzzle(puzzleTest,true);
 		puzzle.setRotate(true);
 		List<PuzzlePiece> retValue=puzzle.rotateAll();	
 		for(PuzzlePiece p : retValue){
