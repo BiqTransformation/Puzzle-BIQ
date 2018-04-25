@@ -7,14 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Puzzle {
-
+//TODO implement rotate -Lior
 
     private List<PuzzlePiece> puzzle;
     private List<String> errors = new ArrayList<>();
     private boolean isRotate;
     
-    public Puzzle(List<PuzzlePiece> puzzle) {
-        this.puzzle = puzzle;
+    public Puzzle(List<PuzzlePiece> puzzle,boolean rotate) {
+        this.rotate=rotate;
+    	this.puzzle = puzzle;
         this.isRotate=isRotate;
         validatePuzzle();
     }

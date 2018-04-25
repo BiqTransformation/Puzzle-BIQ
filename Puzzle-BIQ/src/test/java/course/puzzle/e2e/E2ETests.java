@@ -39,10 +39,12 @@ public class E2ETests {
         String out = filesPath + fInput + ".out";
 
         System.out.println("Puzzle from file: " + in);
-        PuzzleManager pm = new PuzzleManager(in, out);
+        boolean rotate = true;
+        int numOfTreads = 2;
+        PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
         pm.handlePuzzle();
 
-        assertTrue(pm.validateSolutionViaOutputFile());
+        assertTrue(pm.validateSolutionViaOutputFile(in,out));
     }
 
 

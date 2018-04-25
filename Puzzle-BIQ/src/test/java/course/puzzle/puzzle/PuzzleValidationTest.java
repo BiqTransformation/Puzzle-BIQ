@@ -133,7 +133,9 @@ public class PuzzleValidationTest {
         String out = "src//test//resources//files//test3.out";
         //clean output
         FileOutput fo = new FileOutput(out);
-        PuzzleManager pm = new PuzzleManager(in, out);
+        boolean rotate = true;
+	    int numOfTreads = 2;
+        PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
         pm.handlePuzzle();
         String message = fo.loadFromTextFile();
         System.out.println(message);

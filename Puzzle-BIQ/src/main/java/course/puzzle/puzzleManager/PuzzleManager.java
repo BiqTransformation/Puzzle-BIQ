@@ -3,10 +3,7 @@ package course.puzzle.puzzleManager;
 import course.puzzle.file.PuzzleInPutDataValidation;
 import course.puzzle.file.FileOutput;
 import course.puzzle.file.FileReader;
-import course.puzzle.puzzle.PuzzleErrors;
-import course.puzzle.puzzle.Puzzle;
-import course.puzzle.puzzle.PuzzlePiece;
-import course.puzzle.puzzle.PuzzleSolver;
+import course.puzzle.puzzle.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,10 +19,13 @@ public class PuzzleManager {
     private List<String> validatePuzzleInputFile = new ArrayList<>();
     private List<String> validatePuzzleBeforeSolution = new ArrayList<>();
     FileOutput fo;
+    private boolean rotate;
+    private int numOfThreads;
 
-
-    public PuzzleManager(String fromPath, String toPath) {
-        if (fromPath != null) {
+    public PuzzleManager(String fromPath, String toPath,boolean rotate,int numOfThreads) {
+        this.rotate=rotate;
+        this.numOfThreads=numOfThreads;
+    	if (fromPath != null) {
             this.fromPath = fromPath;
         }
         if (toPath != null) {
@@ -38,33 +38,10 @@ public class PuzzleManager {
     public void handlePuzzle() throws Exception {
         
         fo.cleanOutputFile();
-        FileReader reader = new FileReader();
-        List<String> inputList = new ArrayList<>();
-        inputList = reader.readFromFile(fromPath);
-        PuzzleInPutDataValidation fav = new PuzzleInPutDataValidation();
-        puzzleList = fav.fileDataValidator(inputList);
-        validatePuzzleInputFile = fav.getErrorList();
-        if(validatePuzzleInputFile.size() > 0){
-            fo.printListToOutputFile(validatePuzzleInputFile);
-            return;
-        }
-        if (puzzleList != null) {
-            newPuzzle = new Puzzle(puzzleList);
-            validatePuzzleBeforeSolution = newPuzzle.getErrors();
-            if (validatePuzzleBeforeSolution.size() > 0) {
-                fo.printListToOutputFile(validatePuzzleBeforeSolution);
-                return;
-            }
-            else{
-                solvePuzzle = new PuzzleSolver(newPuzzle);
-                PuzzlePiece[][] puz = solvePuzzle.findSolution();
-                if (solvePuzzle.validateSolution()) {
-                    fo.printSolution(puz);
-                } else {
-                    fo.printToOutputFile(PuzzleErrors.CANNOT_SOLVE_PUZZLE);
+        puzzleList = getPuzzlePiecesFromInputFile(fromPath);
 
-                }
-            }
+        if (puzzleList != null) {
+            solvePuzzle();
 
         } else {
 
@@ -74,30 +51,72 @@ public class PuzzleManager {
 
     }
 
-    public boolean validateSolutionViaOutputFile() throws IOException {
+    private void solvePuzzle() throws IOException {
+        newPuzzle = new Puzzle(puzzleList,rotate);
+        validatePuzzleBeforeSolution = newPuzzle.getErrors();
+        if (validatePuzzleBeforeSolution.size() > 0) {
+            fo.printListToOutputFile(validatePuzzleBeforeSolution);
+            return;
+        }
+        else{
+            solvePuzzle = new PuzzleSolver(newPuzzle,numOfThreads);
+            PuzzlePiece[][] puz = solvePuzzle.findSolution();
+            if (puz != null) {
+                fo.printSolution(puz);
 
+            } else {
+                fo.printToOutputFile(PuzzleErrors.CANNOT_SOLVE_PUZZLE);
+
+            }
+        }
+    }
+
+    private List<PuzzlePiece> getPuzzlePiecesFromInputFile(String inputFile) throws Exception {
+        List<PuzzlePiece> puzzlePieces;
+        FileReader reader = new FileReader();
+        List<String> inputList;
+        inputList = reader.readFromFile(inputFile);
+        PuzzleInPutDataValidation fav = new PuzzleInPutDataValidation();
+        puzzlePieces = fav.fileDataValidator(inputList);
+        validatePuzzleInputFile = fav.getErrorList();
+        if(validatePuzzleInputFile.size() > 0){
+            fo.printListToOutputFile(validatePuzzleInputFile);
+            return null;
+        }
+        return puzzlePieces;
+    }
+
+    public boolean validateSolutionViaOutputFile(String inputFile, String outputFile) throws Exception {
+
+        List<PuzzlePiece> puzzlePieces = getPuzzlePiecesFromInputFile(inputFile);
 //        Verify that number of pieces in solved matrix is equal to number of pieces in the original puzzle
-        String[] rows = fo.loadFromTextFile().split("\n");
-        String[] cols = rows[0].split("\\s+");
-        if (rows.length * cols.length != puzzleList.size()) {
+        List<String> output = FileReader.readFromFile(outputFile);
+
+        int rows = output.size();
+        int cols = output.get(0).split("\\s+").length;
+        if (rows * cols != puzzlePieces.size()) {
             return false;
         }
 
-        PuzzlePiece[][] actualSolution = new PuzzlePiece[rows.length][cols.length];
-        for (int i = 0; i < rows.length; i++) {
-            String[] row = rows[i].split("\\s+");
+        Puzzle toValidate = new Puzzle(puzzlePieces,rotate);
+        PuzzlePiece[][] actualSolution = new PuzzlePiece[rows][cols];
+        int i = 0;
+        for (String line : output) {
+            String[] row = line.split("\\s+");
             for (int j = 0; j < row.length; j++) {
                 int id = Integer.parseInt(row[j]);
-                PuzzlePiece current = newPuzzle.getPieceById(id);
+                PuzzlePiece current = toValidate.getPieceById(id);
                 if (current != null) {
                     actualSolution[i][j] = current;
                 } else {
-                    fo.printToOutputFile("Piece with id " + id + " does not exist in the puzzle!");
+                    new FileOutput(outputFile).printToOutputFile("Piece with id " + id + " does not exist in the puzzle!");
                     return false;
                 }
             }
+            i++;
         }
-        return solvePuzzle.verifySolution(actualSolution);
+
+        return new PuzzleSolver(toValidate,numOfThreads).checkSum(actualSolution);
     }
 
 

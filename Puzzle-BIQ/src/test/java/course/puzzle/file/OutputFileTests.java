@@ -64,8 +64,10 @@ public class OutputFileTests {
         puzzle.add(p1);
         puzzle.add(p2);
         puzzle.add(p3);
-        puzzle.add(p4);        
-        PuzzlePiece[][] good = new PuzzleSolver(new Puzzle(puzzle)).findSolution();
+        puzzle.add(p4);
+        boolean rotate=true;
+        int numOfTreads=2;
+        PuzzlePiece[][] good = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfTreads).findSolution();
         fo.printSolution(good);
         String str =  fo.loadFromTextFile();
         System.out.println(str);
