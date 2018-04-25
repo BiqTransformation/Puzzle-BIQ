@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Puzzle {
-//TODO implement rotate -Lior
+
 
     private List<PuzzlePiece> puzzle;
     private List<String> errors = new ArrayList<>();
@@ -80,7 +80,7 @@ public class Puzzle {
         
 	public List<PuzzlePiece> rotateAll() {
 		List<PuzzlePiece> allPieces = new ArrayList<>();
-		if (isRotate) {
+		
 			for (PuzzlePiece p : puzzle) {
 				allPieces.add(p);
 				if (!p.isAllEdgesEquals()) {
@@ -99,7 +99,7 @@ public class Puzzle {
 				}
 					
 			}
-		}		
+				
 		return allPieces;
 	}
         		
