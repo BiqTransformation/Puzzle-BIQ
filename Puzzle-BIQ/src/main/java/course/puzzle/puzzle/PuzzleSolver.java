@@ -1,10 +1,12 @@
 package course.puzzle.puzzle;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PuzzleSolver {
@@ -14,17 +16,15 @@ public class PuzzleSolver {
     private PuzzlePiece[][] solvedPuzzle;
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
     private Puzzle puzzleInstance;
-    private AtomicBoolean solved;
+    private AtomicBoolean solved = new AtomicBoolean();
     private int numOfThreads;
 
 
+    public PuzzleSolver(Puzzle puzzleInstance, int numOfThreads) {
+        this.numOfThreads = numOfThreads;
+        this.puzzleInstance = puzzleInstance;
+       puzzle = puzzleInstance.getPuzzle();
 
-
-
-    public PuzzleSolver(Puzzle puzzleInstance,int numOfThreads) {
-        this.numOfThreads=numOfThreads;
-    	this.puzzleInstance = puzzleInstance;
-        puzzle = puzzleInstance.getPuzzle();
     }
 
     public Map<Integer, Integer> getPossibleSolutions() {
@@ -52,21 +52,38 @@ public class PuzzleSolver {
         return solutions;
     }
 
-        public PuzzlePiece[][] findSolution() {
+    public PuzzlePiece[][] findSolution() {
         getPossibleSolutions();
+
 
         for (Map.Entry<Integer, Integer> s : solutions.entrySet()) {
             int rows = s.getKey();
             int cols = s.getValue();
-            RunSolution run = new RunSolution(rows, cols);
+            ExecutorService executor = Executors.newFixedThreadPool(2);
+            Callable<PuzzlePiece[][]> callable = new Callable<PuzzlePiece[][]>() {
+                @Override
+                public PuzzlePiece[][] call() {
+                    RunSolution worker = new RunSolution(puzzle,rows, cols);
+                    worker.puzzleSolution();
+                    solvedPuzzle = worker.getSolvedPuzzle();
+                    return solvedPuzzle;
+                }
+            };
+            Future<PuzzlePiece[][]> future = executor.submit(callable);
+             executor.shutdown();
 
-            solved.set(run.puzzleSolution());
-            solvedPuzzle = run.getSolvedPuzzle();
+            while (!executor.isTerminated()) {
+            }
 
-        }
-            solvedPuzzle = null;
-            return solvedPuzzle;
-        }
+            System.out.println("Finished all threads");
 
+          }
+
+        return solvedPuzzle;
     }
+
+    public boolean getSolved() {
+        return solved.get();
+    }
+}
 

@@ -1,6 +1,5 @@
 package course.puzzle.puzzle;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,59 +7,49 @@ public class RunSolution implements Runnable {
     private int rows;
     private int cols;
     private List<Edge> toSearch = new ArrayList<>();
-    private static ThreadLocal<PuzzlePiece[][]> solvedPuzzle;
-    private static ThreadLocal<List<PuzzlePiece>> puzzle = ThreadLocal.withInitial(() -> new ArrayList<>());
+    private PuzzlePiece[][] solvedPuzzle = new PuzzlePiece[][]{};
+    private List<PuzzlePiece> puzzle;
+    private List<PuzzlePiece> piecesUsed;
     private static Edge leftStraight = new Edge("left", 0);
     private static Edge topStraight = new Edge("top", 0);
+    private boolean isRotate = false;
 
 
-    public RunSolution(int rows, int cols) {
+    public RunSolution(List<PuzzlePiece> puzzle, int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        solvedPuzzle.set(new PuzzlePiece[rows][cols]);
+        this.puzzle = puzzle;
     }
 
     public boolean puzzleSolution() {
 
         boolean hasSolution = false;
-        List<PuzzlePiece> listTL = PuzzleValidation.getSpecificPieces(puzzle.get(), leftStraight, topStraight);
+        List<PuzzlePiece> listTL = PuzzleValidation.getSpecificPieces(puzzle, leftStraight, topStraight);
         for (PuzzlePiece first : listTL) {
             initPuzzle(rows, cols);
-            solvedPuzzle.get()[0][0] = first;
-            first.setUsed(true);
+            solvedPuzzle[0][0] = first;
+            piecesUsed.add(first);
             hasSolution = solvePuzzleRecursion(first, 0, 0, rows, cols);
+            if (hasSolution) {
+                return hasSolution;
+            } else {
+                piecesUsed.remove(first);
+            }
         }
         return hasSolution;
 
     }
 
-    private void initPuzzle(int rows, int cols) {
-        solvedPuzzle.set(new PuzzlePiece[rows][cols]);
-        for (PuzzlePiece p : puzzle.get()) {
-            p.setUsed(false);
-        }
-        initToSearch();
-    }
-
-    private void initToSearch() {
-        toSearch.add(null);
-        toSearch.add(null);
-        toSearch.add(null);
-        toSearch.add(null);
-        for (int i = 0; i < toSearch.size(); i++) {
-            toSearch.set(i, null);
-        }
-    }
 
     public PuzzlePiece[][] getSolvedPuzzle() {
-        return solvedPuzzle.get();
+        return solvedPuzzle;
     }
 
     private boolean solvePuzzleRecursion(PuzzlePiece current, int row, int col, int rows, int cols) {
         boolean changeDirection = false;
 
         if (col == cols - 1 && row == rows - 1) {
-            if (checkSum()) {
+            if (validateSolution()) {
                 return true;
             } else {
                 return false;
@@ -70,7 +59,7 @@ public class RunSolution implements Runnable {
             initToSearch();
             if (col == cols - 1 && row <= rows - 2) {
                 col = 0;
-                current = solvedPuzzle.get()[row][col];
+                current = solvedPuzzle[row][col];
                 toSearch.set(0, current.getBottom().getMatch());
                 toSearch.set(1, new Edge("left", 0));
                 if (row == rows - 2) {
@@ -86,7 +75,7 @@ public class RunSolution implements Runnable {
                 }
             } else if (row > 0 && row < rows - 1) {
                 toSearch.set(0, current.getRight().getMatch());
-                toSearch.set(1, solvedPuzzle.get()[row - 1][col + 1].getBottom().getMatch());
+                toSearch.set(1, solvedPuzzle[row - 1][col + 1].getBottom().getMatch());
                 if (col == cols - 2) {
                     toSearch.set(2, new Edge("right", 0));
                 }
@@ -98,15 +87,15 @@ public class RunSolution implements Runnable {
                 }
             }
 
-            List<PuzzlePiece> list = PuzzleValidation.getSpecificPieces(puzzle.get(), toSearch);
+            List<PuzzlePiece> list = getSpecificPieces(puzzle, toSearch, piecesUsed);
 
             if (list.size() > 0) {
                 for (PuzzlePiece p : list) {
-                    p.setUsed(true);
+                    piecesUsed.add(p);
                     if (!changeDirection) {
-                        solvedPuzzle.get()[row][++col] = p;
+                        solvedPuzzle[row][++col] = p;
                     } else {
-                        solvedPuzzle.get()[row][col] = p;
+                        solvedPuzzle[row][col] = p;
                     }
                     current = p;
 
@@ -115,7 +104,7 @@ public class RunSolution implements Runnable {
                     if (solved) {
                         return true;
                     } else {
-                        p.setUsed(false);
+                        piecesUsed.remove(p);
                         --col;
                         if (col < 0) {
                             col = 0;
@@ -131,63 +120,126 @@ public class RunSolution implements Runnable {
     }
 
 
-    private boolean verifyThatSolutionContainsAllPieces() {
-        boolean isValid = solvedPuzzle.get().length * solvedPuzzle.get()[0].length == puzzle.get().size();
-        for (int i = 0; i < solvedPuzzle.get().length; i++) {
-            for (int j = 0; j < solvedPuzzle.get()[0].length; j++) {
-                if (!puzzle.get().contains(solvedPuzzle.get()[i][j])) {
-                    isValid = false;
+    public List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, List<Edge> edgeToSearch, List<PuzzlePiece> used) {
+
+        List<PuzzlePiece> updatedList = new ArrayList<>();
+        for (PuzzlePiece p : puzzle) {
+            if (!used.contains(p)) {
+                updatedList.add(p);
+            }
+        }
+
+        if (isRotate) {
+            updatedList = rotateAll();
+        }
+
+        List<PuzzlePiece> specificEdges = new ArrayList<>();
+
+
+        for (PuzzlePiece p : updatedList) {
+
+            boolean addToList = true;
+            for (Edge e : edgeToSearch) {
+                if (e != null && !p.listOfEdges.contains(e)) {
+                    addToList = false;
                 }
             }
-        }
-        return isValid;
-    }
-
-
-    public boolean validateSolution() throws IOException {
-        return verifyThatSolutionContainsAllPieces() && checkSum();
-    }
-
-
-    public boolean checkSum() {
-        boolean isAllPiecesMatch = false;
-        if (solvedPuzzle != null) {
-            int rowsSum = 0;
-            for (int row = 0; row < solvedPuzzle.get().length; row++) {
-                rowsSum += getRowSum(row);
+            if (addToList) {
+                specificEdges.add(p);
             }
-            int colsSum = 0;
-            for (int col = 0; col < solvedPuzzle.get()[0].length; col++) {
-                colsSum += getColsSum(col);
-            }
-
-            isAllPiecesMatch = ((rowsSum + colsSum) == 0);
         }
-        return isAllPiecesMatch;
-
+        return specificEdges;
     }
 
-    private int getRowSum(int row) {
-        int sum = solvedPuzzle.get()[row][0].getLeftValue();
 
-        for (int i = 0; i < solvedPuzzle.get()[0].length - 1; i++) {
-            sum += solvedPuzzle.get()[row][i].getRightValue() + solvedPuzzle.get()[row][i + 1].getLeftValue();
-        }
-        return sum;
+    public boolean validateSolution() {
+        return verifyThatSolutionContainsAllPieces() && PuzzleValidation.checkSum(solvedPuzzle);
     }
 
-    private int getColsSum(int col) {
-        int sum = solvedPuzzle.get()[0][col].getTopValue();
-
-        for (int i = 0; i < solvedPuzzle.get().length - 1; i++) {
-            sum += solvedPuzzle.get()[i][col].getBottomValue() + solvedPuzzle.get()[i + 1][col].getTopValue();
-
-        }
-        return sum;
-    }
 
     @Override
     public void run() {
+        System.out.println(Thread.currentThread().getName()+" Start. Command");
+        puzzleSolution();
+        System.out.println(solvedPuzzle.toString());
+    }
 
+//    ========================================================================
+//                         Private methods
+//    ========================================================================
+
+    private List<PuzzlePiece> rotateAll() {
+        List<PuzzlePiece> allPieces = new ArrayList<>();
+
+        for (PuzzlePiece p : puzzle) {
+            allPieces.add(p);
+            if (!p.isAllEdgesEquals(p)) {
+                PuzzlePiece temp1 = firstRotate(p);
+                allPieces.add(temp1);
+                if (!p.isOposEdgesEquals(p)) {
+                    PuzzlePiece temp2 = secondRotate(p);
+                    allPieces.add(temp2);
+                }
+                PuzzlePiece temp3 = thirdRotate(p);
+                allPieces.add(temp3);
+            }
+        }
+
+        return allPieces;
+    }
+
+
+    private PuzzlePiece firstRotate(PuzzlePiece p) {
+        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getBottomValue(), p.getLeftValue(), p.getTopValue(), p.getRightValue());
+        p1.setRotateEdge(90);
+        return p1;
+    }
+
+    private PuzzlePiece secondRotate(PuzzlePiece p) {
+        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getRightValue(), p.getBottomValue(), p.getLeftValue(), p.getTopValue());
+        p1.setRotateEdge(180);
+        return p1;
+    }
+
+    private PuzzlePiece thirdRotate(PuzzlePiece p) {
+        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getBottomValue(), p.getLeftValue(), p.getTopValue(), p.getRightValue());
+        p1.setRotateEdge(270);
+        return p1;
+    }
+
+    private void initPuzzle(int rows, int cols) {
+        solvedPuzzle = new PuzzlePiece[rows][cols];
+        piecesUsed = new ArrayList<>();
+        initToSearch();
+    }
+
+    private void initToSearch() {
+        toSearch.add(null);
+        toSearch.add(null);
+        toSearch.add(null);
+        toSearch.add(null);
+        for (int i = 0; i < toSearch.size(); i++) {
+            toSearch.set(i, null);
+        }
+    }
+
+    private boolean verifyThatSolutionContainsAllPieces() {
+        if (!(solvedPuzzle.length * solvedPuzzle[0].length == puzzle.size())) {
+            return false;
+        }
+//        for(PuzzlePiece p : puzzle){
+//            if(Arrays.binarySearch(solvedPuzzle, p.getId()) == 0){
+//                return false;
+//            }
+//        }
+        for (int i = 0; i < solvedPuzzle.length; i++) {
+            for (int j = 0; j < solvedPuzzle[0].length; j++) {
+                if (!puzzle.contains(solvedPuzzle[i][j])) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

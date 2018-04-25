@@ -14,7 +14,7 @@ public class Puzzle {
     private boolean isRotate;
     
     public Puzzle(List<PuzzlePiece> puzzle,boolean rotate) {
-        this.rotate=rotate;
+        this.isRotate=rotate;
     	this.puzzle = puzzle;
         this.isRotate=isRotate;
         validatePuzzle();
@@ -98,16 +98,6 @@ public class Puzzle {
 		return allPieces;
 	}
         		
-        			
-        		
-        	
-        		
-   
-        
-
-    
-
-
 
 	private PuzzlePiece firstRotate(PuzzlePiece p) {
 		PuzzlePiece p1 = new PuzzlePiece(p.getId(),p.getBottomValue(),p.getLeftValue(),p.getTopValue(),p.getRightValue());

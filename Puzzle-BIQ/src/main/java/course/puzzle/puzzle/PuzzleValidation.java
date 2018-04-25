@@ -47,27 +47,7 @@ public class PuzzleValidation {
 
         return specificEdges;
     }
-    public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, List<Edge> edgeToSearch) {
 
-        List<PuzzlePiece> specificEdges = new ArrayList<>();
-
-        for (PuzzlePiece p : puzzle) {
-            if(!p.isUsed()){
-                boolean addToList = true;
-                for(Edge e : edgeToSearch){
-                    if (e != null && !p.listOfEdges.contains(e)) {
-                        addToList = false;
-                    }
-                }
-                if(addToList){
-                    specificEdges.add(p);
-                }
-
-            }
-
-        }
-        return specificEdges;
-    }
     public static boolean validateNumberOfStraightEdges(List<PuzzlePiece> puzzle) {
 
         if (getSpecificPieces(puzzle,leftStraight).size() != getSpecificPieces(puzzle,rightStraight).size()) {
@@ -163,5 +143,42 @@ public class PuzzleValidation {
             return true;
         }
         return false;
+    }
+
+    public static boolean checkSum(PuzzlePiece[][] solvedPuzzle) {
+        boolean isAllPiecesMatch = false;
+        if (solvedPuzzle != null) {
+            int rowsSum = 0;
+            for (int row = 0; row < solvedPuzzle.length; row++) {
+                rowsSum += getRowSum(solvedPuzzle,row);
+            }
+            int colsSum = 0;
+            for (int col = 0; col < solvedPuzzle[0].length; col++) {
+                colsSum += getColsSum(solvedPuzzle,col);
+            }
+
+            isAllPiecesMatch = ((rowsSum + colsSum) == 0);
+        }
+        return isAllPiecesMatch;
+
+    }
+
+    private static int getRowSum(PuzzlePiece[][] solvedPuzzle, int row) {
+        int sum = solvedPuzzle[row][0].getLeftValue();
+
+        for (int i = 0; i < solvedPuzzle[0].length - 1; i++) {
+            sum += solvedPuzzle[row][i].getRightValue() + solvedPuzzle[row][i + 1].getLeftValue();
+        }
+        return sum;
+    }
+
+    private static int getColsSum(PuzzlePiece[][] solvedPuzzle,int col) {
+        int sum = solvedPuzzle[0][col].getTopValue();
+
+        for (int i = 0; i < solvedPuzzle.length - 1; i++) {
+            sum += solvedPuzzle[i][col].getBottomValue() + solvedPuzzle[i + 1][col].getTopValue();
+
+        }
+        return sum;
     }
 }

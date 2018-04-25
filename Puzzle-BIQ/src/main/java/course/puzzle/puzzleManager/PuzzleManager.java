@@ -89,23 +89,30 @@ public class PuzzleManager {
     public boolean validateSolutionViaOutputFile(String inputFile, String outputFile) throws Exception {
 
         List<PuzzlePiece> puzzlePieces = getPuzzlePiecesFromInputFile(inputFile);
+        Puzzle original = new Puzzle(puzzlePieces,false);
+
 //        Verify that number of pieces in solved matrix is equal to number of pieces in the original puzzle
         List<String> output = FileReader.readFromFile(outputFile);
 
         int rows = output.size();
         int cols = output.get(0).split("\\s+").length;
         if (rows * cols != puzzlePieces.size()) {
+            new FileOutput(outputFile).printToOutputFile("Actual solution size does not equal to original puzzle");
             return false;
         }
 
-        Puzzle toValidate = new Puzzle(puzzlePieces,rotate);
+        List<PuzzlePiece> actual = new ArrayList<>();
         PuzzlePiece[][] actualSolution = new PuzzlePiece[rows][cols];
         int i = 0;
         for (String line : output) {
             String[] row = line.split("\\s+");
             for (int j = 0; j < row.length; j++) {
                 int id = Integer.parseInt(row[j]);
-                PuzzlePiece current = toValidate.getPieceById(id);
+                PuzzlePiece current = original.getPieceById(id);
+                if(!actual.contains(current)){
+                    actual.add(current);
+                }
+
                 if (current != null) {
                     actualSolution[i][j] = current;
                 } else {
@@ -116,7 +123,15 @@ public class PuzzleManager {
             i++;
         }
 
-        return new PuzzleSolver(toValidate,numOfThreads).checkSum(actualSolution);
+        if(!(actual.size() == puzzlePieces.size())){
+            new FileOutput(outputFile).printToOutputFile("Actual solution does not contains all pieces of original puzzle");
+            return false;
+        }
+        if(!PuzzleValidation.checkSum(actualSolution)){
+            new FileOutput(outputFile).printToOutputFile("Actual solution is not valid solution");
+            return false;
+        }
+        return true;
     }
 
 
