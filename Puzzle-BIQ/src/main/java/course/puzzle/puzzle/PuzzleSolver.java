@@ -15,13 +15,15 @@ public class PuzzleSolver {
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
     private Puzzle puzzleInstance;
     private AtomicBoolean solved;
+    private int numOfThreads;
 
 
 
 
 
-    public PuzzleSolver(Puzzle puzzleInstance) {
-        this.puzzleInstance = puzzleInstance;
+    public PuzzleSolver(Puzzle puzzleInstance,int numOfThreads) {
+        this.numOfThreads=numOfThreads;
+    	this.puzzleInstance = puzzleInstance;
         puzzle = puzzleInstance.getPuzzle();
     }
 

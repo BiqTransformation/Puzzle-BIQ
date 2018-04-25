@@ -11,7 +11,9 @@ import static org.junit.Assert.assertTrue;
 
 
 public class PuzzleTest {
-
+	
+	public boolean rotate= true;
+    public int numOfThreads=2;
 
 
     @Test
@@ -27,12 +29,18 @@ public class PuzzleTest {
         puzzle.add(p3);
         puzzle.add(p4);
 
-        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle));
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
         ps.findSolution();
         RunSolution rs = new RunSolution(2,2);
         assertTrue(rs.validateSolution());    }
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 
-//    @Test
+        PuzzleSolver ps = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 //    public void goodTestOneRowSolution1() throws IOException {
 //
 //        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);

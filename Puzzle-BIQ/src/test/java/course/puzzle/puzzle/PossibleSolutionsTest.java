@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 public class PossibleSolutionsTest {
-
+    public boolean rotate= true;
+    public int numOfThreads=2;
 	List<PuzzlePiece> puzzle = new ArrayList<>();
 
 	@Test
@@ -28,7 +29,7 @@ public class PossibleSolutionsTest {
 		puzzle.add(piece4);
 		puzzle.add(piece5);
 		puzzle.add(piece6);
-		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 6);
@@ -58,7 +59,7 @@ public class PossibleSolutionsTest {
 		puzzle.add(piece6);
 		puzzle.add(piece7);
 		puzzle.add(piece8);
-		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 8);
@@ -77,7 +78,7 @@ public class PossibleSolutionsTest {
 		puzzle.add(piece1);
 		puzzle.add(piece2);
 		puzzle.add(piece3);
-		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 3);
@@ -90,7 +91,7 @@ public class PossibleSolutionsTest {
 		PuzzlePiece piece1 = new PuzzlePiece(1, 0, 0, 0, 0);
 		puzzle.clear();
 		puzzle.add(piece1);
-		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 1);
@@ -104,7 +105,7 @@ public class PossibleSolutionsTest {
 		puzzle.clear();
 		puzzle.add(piece1);
 		puzzle.add(piece2);
-		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle));
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 2);
