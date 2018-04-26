@@ -45,17 +45,12 @@ public class TestPuzzleRotate {
 		for(PuzzlePiece p : retValue){
 			System.out.println(p.getId() + " " + p.getRotateEdge());
 		}
-		assertEquals(retValue.size(),8);
+		assertEquals(retValue.size(),7);
 		
 		
 		}
 	
-	@Test
-	public void testEqualEdges(){
-		PuzzlePiece p1 = new PuzzlePiece(1,0,0,0,0);
-		//System.out.println(p1.listOfEdgesEquals(p1));
-		assertTrue(p1.listOfEdgesEquals(p1));
-	}
+
 }
 
 

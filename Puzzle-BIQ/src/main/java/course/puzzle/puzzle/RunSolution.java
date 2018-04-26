@@ -180,7 +180,7 @@ public class RunSolution implements Callable {
 
         for (PuzzlePiece p : listToRotate) {
             allPieces.add(p);
-            if (!p.isAllEdgesEquals(p)) {
+            if (!p.isAllEdgesEquals()) {
                 PuzzlePiece temp1 = firstRotate(p);
                 allPieces.add(temp1);
                 if (!p.isOposEdgesEquals(p)) {
