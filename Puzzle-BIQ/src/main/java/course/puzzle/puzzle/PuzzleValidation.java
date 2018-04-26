@@ -13,11 +13,52 @@ public class PuzzleValidation {
     private static Edge bottomStraight = new Edge("bottom", 0);
    //TODO - move rotate to this class
    public static List<PuzzlePiece> getUniquShapes(List<PuzzlePiece> inputList){
+	   int counter=0;
+	   boolean[] arr = new boolean[inputList.size()];
 	   List<PuzzlePiece> uniquePieces = inputList;
+	   for(PuzzlePiece p :uniquePieces){		   
+		   arr= checkDupPiece(p,uniquePieces);	
+		   for(int i =0;i<arr.length;i++){
+			   if(arr[i]==true){
+				   counter++;
+			   }
+		   }
+		   if(counter>1){
+			   for(int i=0;i<arr.length;i++){
+				   if(arr[i]==true){
+					   arr[i]=false;
+					   break;
+				   }
+			   }
+			   for(int i=0;i<arr.length;i++){
+				   if(arr[i]==true){
+					   uniquePieces.remove(i);
+				   }
+			   }
+			   
+		   }
+			   
+	   }	   
+		   	   
 	   
 	   
 	   return uniquePieces;
-   }
+}
+
+
+   private static boolean[] checkDupPiece(PuzzlePiece p, List<PuzzlePiece> uniquePieces) {
+	boolean[] arr = new boolean[uniquePieces.size()];
+	for(int i =0;i<uniquePieces.size();i++){
+		if(p.listOfEdgesEquals(uniquePieces.get(i))){
+			arr[i]=true;
+		}
+	}
+	return arr;
+}
+
+
+
+
 
 
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge) {
