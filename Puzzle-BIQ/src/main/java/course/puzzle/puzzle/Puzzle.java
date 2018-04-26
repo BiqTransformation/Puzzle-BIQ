@@ -1,21 +1,20 @@
 package course.puzzle.puzzle;
 
-import course.puzzle.file.FileOutput;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Puzzle {
 //TODO implement rotate -Lior
 
-    private List<PuzzlePiece> puzzle;
+    private List<PuzzlePiece> puzzlePieces;
     private List<String> errors = new ArrayList<>();
     private boolean isRotate;
+    private AtomicBoolean solved = new AtomicBoolean();
     
     public Puzzle(List<PuzzlePiece> puzzle,boolean rotate) {
         this.isRotate=rotate;
-    	this.puzzle = puzzle;
+    	this.puzzlePieces = puzzle;
         this.isRotate=isRotate;
         validatePuzzle();
     }
@@ -26,23 +25,27 @@ public class Puzzle {
 		return isRotate;
 	}
 
-
-
 	public void setRotate(boolean isRotate) {
 		this.isRotate = isRotate;
 	}
 
+    public AtomicBoolean getSolved() {
+        return solved;
+    }
 
+    public void setSolved(AtomicBoolean solved) {
+        this.solved = solved;
+    }
 
 	public List<PuzzlePiece> getPuzzle() {
-        return puzzle;
+        return puzzlePieces;
     }
     public List<String> getErrors() {
         return errors;
     }
     public PuzzlePiece getPieceById(int id){
 
-        for(PuzzlePiece p : puzzle){
+        for(PuzzlePiece p : puzzlePieces){
             if(p.getId() == id){
                 return p;
             }
@@ -56,24 +59,24 @@ public class Puzzle {
 
     public void validatePuzzle() {
    
-        if (!PuzzleValidation.validateNumberOfStraightEdges(puzzle)) {
+        if (!PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces)) {
             errors.add(PuzzleErrors.WRONG_NUMBER_OF_STRAIGHT_EDGES);
            }
-        if (!PuzzleValidation.validateTopLeftCorner(puzzle)) {
+        if (!PuzzleValidation.validateTopLeftCorner(puzzlePieces)) {
             errors.add(PuzzleErrors.MISSING_CORNER_TL);
          }
-        if (!PuzzleValidation.validateTopRightCorner(puzzle)) {
+        if (!PuzzleValidation.validateTopRightCorner(puzzlePieces)) {
             errors.add(PuzzleErrors.MISSING_CORNER_TR);
 
         }
-        if (!PuzzleValidation.validateBottomRightCorner(puzzle)) {
+        if (!PuzzleValidation.validateBottomRightCorner(puzzlePieces)) {
             errors.add(PuzzleErrors.MISSING_CORNER_BR);
 
         }
-        if (!PuzzleValidation.validateBottomLeftCorner(puzzle)) {
+        if (!PuzzleValidation.validateBottomLeftCorner(puzzlePieces)) {
             errors.add(PuzzleErrors.MISSING_CORNER_BL);
          }
-        if (!PuzzleValidation.validateSumOfEdges(puzzle)) {
+        if (!PuzzleValidation.validateSumOfEdges(puzzlePieces)) {
             errors.add(PuzzleErrors.SUM_OF_EDGES_IS_NOT_ZERO);
         }
     }
@@ -81,7 +84,7 @@ public class Puzzle {
 	public List<PuzzlePiece> rotateAll() {
 		List<PuzzlePiece> allPieces = new ArrayList<>();
 		if (isRotate) {
-			for (PuzzlePiece p : puzzle) {
+			for (PuzzlePiece p : puzzlePieces) {
 				allPieces.add(p);
 				if (!p.isAllEdgesEquals(p)) {
 					PuzzlePiece temp1 = firstRotate(p);
