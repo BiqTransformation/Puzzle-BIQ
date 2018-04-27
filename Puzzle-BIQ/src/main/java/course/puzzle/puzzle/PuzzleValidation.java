@@ -12,49 +12,39 @@ public class PuzzleValidation {
     private static Edge topStraight = new Edge("top", 0);
     private static Edge bottomStraight = new Edge("bottom", 0);
    //TODO - move rotate to this class
-   public static List<PuzzlePiece> getUniquShapes(List<PuzzlePiece> inputList){
-	   int counter=0;
-	   boolean[] arr = new boolean[inputList.size()];
-	   List<PuzzlePiece> uniquePieces = inputList;
-	   for(PuzzlePiece p :uniquePieces){		   
-		   arr= checkDupPiece(p,uniquePieces);	
-		   for(int i =0;i<arr.length;i++){
-			   if(arr[i]==true){
-				   counter++;
-			   }
-		   }
-		   if(counter>1){
-			   for(int i=0;i<arr.length;i++){
-				   if(arr[i]==true){
-					   arr[i]=false;
-					   break;
-				   }
-			   }
-			   for(int i=0;i<arr.length;i++){
-				   if(arr[i]==true){
-					   uniquePieces.remove(i);
-				   }
-			   }
-			   
-		   }
-			   
-	   }	   
-		   	   
-	   
-	   
-	   return uniquePieces;
-}
-
-
-   private static boolean[] checkDupPiece(PuzzlePiece p, List<PuzzlePiece> uniquePieces) {
-	boolean[] arr = new boolean[uniquePieces.size()];
-	for(int i =0;i<uniquePieces.size();i++){
-		if(p.listOfEdgesEquals(uniquePieces.get(i))){
-			arr[i]=true;
+    
+    
+	public static List<PuzzlePiece> getUniquShapes(List<PuzzlePiece> inputList) {
+		List<PuzzlePiece> uniquePieces = inputList;
+		List<PuzzlePiece> checkDup = new ArrayList<>();
+		for (PuzzlePiece p : uniquePieces) {
+			if (p.getRotateEdge() != 0) {
+				checkDup.add(p);
+			}
 		}
+		if (checkDup.size() > 0) {
+			for (int i = 0; i < checkDup.size(); i++) {
+				PuzzlePiece p1 = checkDup.get(i);
+				checkDup.remove(p1);
+				if (checkDupPiece(p1, checkDup)) {
+					uniquePieces.remove(p1);
+				}
+			}
+		}
+		return uniquePieces;
 	}
-	return arr;
-}
+
+
+	private static boolean checkDupPiece(PuzzlePiece p, List<PuzzlePiece> uniquePieces) {
+		for (PuzzlePiece piece : uniquePieces) {
+			if (p.listOfEdgesEquals(piece)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+
 
 
 
