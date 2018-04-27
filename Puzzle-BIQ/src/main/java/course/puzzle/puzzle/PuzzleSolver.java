@@ -1,5 +1,6 @@
 package course.puzzle.puzzle;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class PuzzleSolver {
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
     private Puzzle puzzleInstance;
 
-    private int numOfThreads = 4;
+    private int numOfThreads = 3;
 
 
     public PuzzleSolver(Puzzle puzzleInstance, int numOfThreads) {
@@ -39,9 +40,9 @@ public class PuzzleSolver {
             for (int i = 2; i < puzzleSize; i++) {
                 if (puzzleSize % i == 0) {
                     int num = puzzleSize / i;
-//                    if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num)) {
+                    if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num)) {
                     solutions.put(i, num);
-//                  }
+                  }
 
                 }
             }
@@ -52,8 +53,10 @@ public class PuzzleSolver {
     public PuzzlePiece[][] findSolution() {
         getPossibleSolutions();
 
-        ExecutorService executor = Executors.newFixedThreadPool(numOfThreads);
+        ExecutorService executor = Executors.newFixedThreadPool(solutions.size());
+        CompletionService<PuzzlePiece[][]> service = new ExecutorCompletionService<>(executor);
 
+        List<Callable<PuzzlePiece[][]>> callables = new ArrayList<>();
 
         for (Map.Entry<Integer, Integer> s : solutions.entrySet()) {
 
@@ -61,34 +64,53 @@ public class PuzzleSolver {
             int cols = s.getValue();
             System.out.println(rows + "x" + cols);
 
-            Future<PuzzlePiece[][]> futureCall = executor.submit(new RunSolution(puzzleInstance, rows, cols));
+            System.out.println("*********************** Creating the thread");
+            Callable<PuzzlePiece[][]> solution = new RunSolution(puzzleInstance, rows, cols);
+            callables.add(solution);
+        }
+
+        for (Callable<PuzzlePiece[][]> solution : callables) {
+            service.submit(solution);
+        }
+
+        for (int i = 1; i <= numOfThreads; i++) {
+
+                System.out.println("*********************** Waiting to get result");
 
                 try {
-                    solvedPuzzle = futureCall.get();
-                    if(puzzleInstance.getSolved().get()){
-                        Thread.currentThread().interrupt();
+                    Future<PuzzlePiece[][]> future = service.take();
+                    try {
+                        solvedPuzzle = future.get();
+                        if(solvedPuzzle != null){
+                            return solvedPuzzle;
+                        }
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
                     }
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
                 }
-
                 System.out.println("Solved " + puzzleInstance.getSolved());
-        }
-        executor.shutdown();
-        try {
-            if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
-                executor.shutdownNow();
-            }
-        } catch (InterruptedException ex) {
-            executor.shutdownNow();
-            Thread.currentThread().interrupt();
-        }
-        System.out.println("Finished all threads");
 
-        return solvedPuzzle;
-    }
+
+        }
+
+            executor.shutdown();
+        while (!executor.isTerminated()) {
+        }
+//            try {
+//                if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+//                    executor.shutdownNow();
+//                }
+//            } catch (InterruptedException ex) {
+//                executor.shutdownNow();
+//                Thread.currentThread().interrupt();
+//            }
+            System.out.println("Finished all threads");
+
+            return solvedPuzzle;
+        }
 
     }
 
