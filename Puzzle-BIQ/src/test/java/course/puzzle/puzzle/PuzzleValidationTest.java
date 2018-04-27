@@ -141,4 +141,62 @@ public class PuzzleValidationTest {
         System.out.println(message);
         assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
     }
+    
+    
+    @Test
+    public void getUniquShapesRemoveDupShapes() {
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
+        p1.setRotateEdge(90);
+        PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
+        p2.setRotateEdge(180);
+        PuzzlePiece p3 = new PuzzlePiece(3, 1, 0, 1, 0);
+        p3.setRotateEdge(270);
+        PuzzlePiece p4 = new PuzzlePiece(4, 0, 0, 1, 0);
+        p4.setRotateEdge(270);
+        List<PuzzlePiece> puzzle = new ArrayList<>();
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
+        List<PuzzlePiece> testPuzzle= PuzzleValidation.getUniquShapes(puzzle);
+        //System.out.println(testPuzzle.size());        
+        assertTrue(testPuzzle.size()==3);
+    }
+    
+    
+    @Test
+    public void getUniquShapesNotRemoveNotRotateShapes() {
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);       
+        PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);        
+        PuzzlePiece p3 = new PuzzlePiece(3, 1, 0, 1, 0);        
+        PuzzlePiece p4 = new PuzzlePiece(4, 0, 0, 1, 0);        
+        List<PuzzlePiece> puzzle = new ArrayList<>();
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
+        List<PuzzlePiece> testPuzzle= PuzzleValidation.getUniquShapes(puzzle);
+        //System.out.println(testPuzzle.size());        
+        assertTrue(testPuzzle.size()==4);
+    }
+    
+    @Test
+    public void getUniquShapesNotRemoveNotDupShapes() {
+        PuzzlePiece p1 = new PuzzlePiece(1, 0, 0, 1, 0);
+        p1.setRotateEdge(90);
+        PuzzlePiece p2 = new PuzzlePiece(2, -1, 0, 0, 0);
+        p2.setRotateEdge(180);
+        PuzzlePiece p3 = new PuzzlePiece(3, 1, 0, 1, 0);
+        p3.setRotateEdge(270);
+        PuzzlePiece p4 = new PuzzlePiece(4, 0, 0, 1, 1);
+        p4.setRotateEdge(270);
+        List<PuzzlePiece> puzzle = new ArrayList<>();
+        puzzle.add(p1);
+        puzzle.add(p2);
+        puzzle.add(p3);
+        puzzle.add(p4);
+        List<PuzzlePiece> testPuzzle= PuzzleValidation.getUniquShapes(puzzle);
+        //System.out.println(testPuzzle.size());        
+        assertTrue(testPuzzle.size()==4);
+    }
 }
