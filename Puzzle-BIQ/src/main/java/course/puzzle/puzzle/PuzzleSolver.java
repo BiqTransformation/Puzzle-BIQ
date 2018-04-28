@@ -40,9 +40,9 @@ public class PuzzleSolver {
             for (int i = 2; i < puzzleSize; i++) {
                 if (puzzleSize % i == 0) {
                     int num = puzzleSize / i;
-                    if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num)) {
+//                    if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num)) {
                     solutions.put(i, num);
-                  }
+//                  }
 
                 }
             }

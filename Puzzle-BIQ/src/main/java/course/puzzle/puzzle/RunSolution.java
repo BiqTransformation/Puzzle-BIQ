@@ -3,6 +3,7 @@ package course.puzzle.puzzle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -13,10 +14,10 @@ public class RunSolution implements Callable {
     private PuzzlePiece[][] solvedPuzzle = new PuzzlePiece[][]{};
     private Puzzle puzzle;
     private List<PuzzlePiece> puzzlePieces;
-    private List<Integer> piecesUsed;
+    private Stack<Integer> piecesUsed;
     private static Edge leftStraight = new Edge("left", 0);
     private static Edge topStraight = new Edge("top", 0);
-    private boolean isRotate = false;
+    private boolean isRotate = true;
 
 
     public RunSolution(Puzzle puzzle, int rows, int cols) {
@@ -33,7 +34,7 @@ public class RunSolution implements Callable {
 
             toSearch.set(0, leftStraight);
             toSearch.set(1, topStraight);
-            List<PuzzlePiece> listTL = getSpecificPieces(puzzlePieces, toSearch, piecesUsed);
+            List<PuzzlePiece> listTL = getSpecificPieces();
             for (PuzzlePiece first : listTL) {
                 initPuzzle(rows, cols);
                 solvedPuzzle[0][0] = first;
@@ -56,7 +57,6 @@ public class RunSolution implements Callable {
     public PuzzlePiece[][] getSolvedPuzzle() {
         return solvedPuzzle;
     }
-
 
     private boolean solvePuzzleRecursion(PuzzlePiece current, int row, int col, int rows, int cols) {
         boolean changeDirection = false;
@@ -100,11 +100,11 @@ public class RunSolution implements Callable {
                 }
             }
 
-            List<PuzzlePiece> list = getSpecificPieces(puzzlePieces, toSearch, piecesUsed);
+            List<PuzzlePiece> list = getSpecificPieces();
 
             if (list.size() > 0) {
                 for (PuzzlePiece p : list) {
-                    piecesUsed.add(p.getId());
+                    piecesUsed.push(p.getId());
                     if (!changeDirection) {
                         solvedPuzzle[row][++col] = p;
                     } else {
@@ -117,7 +117,7 @@ public class RunSolution implements Callable {
                     if (solved) {
                         return true;
                     } else {
-                        piecesUsed.remove(p);
+                        piecesUsed.pop();
                         --col;
                         if (col < 0) {
                             col = 0;
@@ -133,12 +133,12 @@ public class RunSolution implements Callable {
     }
 
 
-    public List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, List<Edge> edgeToSearch, List<Integer> used) {
+    public List<PuzzlePiece> getSpecificPieces() {
 
         List<PuzzlePiece> updatedList = new ArrayList<>();
-        for (PuzzlePiece p : puzzle) {
+        for (PuzzlePiece p : puzzlePieces) {
 
-            if (!used.contains(p.getId())) {
+            if (!piecesUsed.contains(p.getId())) {
                 updatedList.add(p);
             }
         }
@@ -149,11 +149,10 @@ public class RunSolution implements Callable {
 
         List<PuzzlePiece> specificEdges = new ArrayList<>();
 
-
         for (PuzzlePiece p : updatedList) {
 
             boolean addToList = true;
-            for (Edge e : edgeToSearch) {
+            for (Edge e : toSearch) {
                 if (e != null && !p.listOfEdges.contains(e)) {
                     addToList = false;
                 }
@@ -217,7 +216,7 @@ public class RunSolution implements Callable {
 
     private void initPuzzle(int rows, int cols) {
         solvedPuzzle = new PuzzlePiece[rows][cols];
-        piecesUsed = new ArrayList<>();
+        piecesUsed = new Stack<>();
         initToSearch();
     }
 

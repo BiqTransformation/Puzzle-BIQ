@@ -20,7 +20,7 @@ public class E2ETests {
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"good12Pieces"}
+                {"good16Pieces"}
         });
     }
 
