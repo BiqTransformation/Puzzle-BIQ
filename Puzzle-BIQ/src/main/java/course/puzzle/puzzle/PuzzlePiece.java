@@ -110,7 +110,7 @@ public class PuzzlePiece {
 
 	@Override
 	public String toString() {
-		String toPrint = "\n" + id + " " + getLeftValue() + " " + getTopValue() + " " + getRightValue() + " " + getBottomValue();
+		String toPrint = "\n" + id + " " + " [" + rotateEdge + "] " + getLeftValue() + " " + getTopValue() + " " + getRightValue() + " " + getBottomValue();
 		return toPrint;
 	}
 }
