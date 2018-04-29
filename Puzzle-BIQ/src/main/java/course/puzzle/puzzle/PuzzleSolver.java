@@ -14,9 +14,7 @@ public class PuzzleSolver {
     private PuzzlePiece[][] solvedPuzzle;
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
     private Puzzle puzzleInstance;
-
-    private int numOfThreads = 3;
-
+    private int numOfThreads;
 
     public PuzzleSolver(Puzzle puzzleInstance, int numOfThreads) {
         this.numOfThreads = numOfThreads;
@@ -71,46 +69,35 @@ public class PuzzleSolver {
 
         for (Callable<PuzzlePiece[][]> solution : callables) {
             service.submit(solution);
+
         }
 
-        for (int i = 1; i <= numOfThreads; i++) {
 
-                System.out.println("*********************** Waiting to get result");
+        for (int i = 1; i <= solutions.size(); i++) {
+
+            System.out.println("*********************** Waiting to get result");
 
                 try {
-                    Future<PuzzlePiece[][]> future = service.take();
-                    try {
-                        solvedPuzzle = future.get();
-                        if(solvedPuzzle != null){
-                            return solvedPuzzle;
-                        }
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
+                    solvedPuzzle = service.take().get();
+                    if(solvedPuzzle != null){
 
+                        break;
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
                 }
-                System.out.println("Solved " + puzzleInstance.getSolved());
-
-
+            System.out.println("Solved " + puzzleInstance.getSolved());
         }
 
-            executor.shutdown();
-        while (!executor.isTerminated()) {
-        }
-//            try {
-//                if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
-//                    executor.shutdownNow();
-//                }
-//            } catch (InterruptedException ex) {
-//                executor.shutdownNow();
-//                Thread.currentThread().interrupt();
-//            }
-            System.out.println("Finished all threads");
+        executor.shutdownNow();
 
-            return solvedPuzzle;
-        }
 
+        System.out.println("Finished all threads");
+
+        return solvedPuzzle;
     }
+
+}
 

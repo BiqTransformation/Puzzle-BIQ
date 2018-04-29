@@ -17,7 +17,7 @@ public class RunSolution implements Callable {
     private Stack<Integer> piecesUsed;
     private static Edge leftStraight = new Edge("left", 0);
     private static Edge topStraight = new Edge("top", 0);
-    private boolean isRotate = true;
+    private boolean isRotate = false;
 
 
     public RunSolution(Puzzle puzzle, int rows, int cols) {
@@ -38,13 +38,13 @@ public class RunSolution implements Callable {
             for (PuzzlePiece first : listTL) {
                 initPuzzle(rows, cols);
                 solvedPuzzle[0][0] = first;
-                piecesUsed.add(first.getId());
+                piecesUsed.push(first.getId());
                 boolean res = solvePuzzleRecursion(first, 0, 0, rows, cols);
                 puzzle.getSolved().set(res);
                 if (puzzle.getSolved().get()) {
                    return;
                 } else {
-                    piecesUsed.remove(first);
+                    piecesUsed.pop();
                     initPuzzle(rows, cols);
                 }
             }
