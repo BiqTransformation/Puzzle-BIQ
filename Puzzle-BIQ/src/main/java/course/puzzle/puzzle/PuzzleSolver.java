@@ -58,7 +58,7 @@ public class PuzzleSolver {
 
 
     private void threadManager() {
-        ExecutorService executor = Executors.newFixedThreadPool(solutions.size());
+        ExecutorService executor = Executors.newFixedThreadPool(numOfThreads);
         CompletionService<PuzzlePiece[][]> service = new ExecutorCompletionService<>(executor);
 
         List<Callable<PuzzlePiece[][]>> callables = new ArrayList<>();
@@ -69,7 +69,6 @@ public class PuzzleSolver {
             int cols = s.getValue();
             System.out.println(rows + "x" + cols);
 
-            System.out.println("*********************** Creating the thread");
             Callable<PuzzlePiece[][]> solution = new RunSolution(puzzleInstance, rows, cols);
             callables.add(solution);
         }
@@ -80,24 +79,22 @@ public class PuzzleSolver {
 
         for (int i = 1; i <= solutions.size(); i++) {
 
-             System.out.println("*********************** Waiting to get result");
-
-                 try {
+                  try {
                      solvedPuzzle = service.take().get();
+                      System.out.println("Solved " + puzzleInstance.getSolved());
                      if(solvedPuzzle != null){
-
-                         break;
+                         System.out.println("Solved! " + puzzleInstance.getSolved());
+                        break;
                      }
                  } catch (InterruptedException e) {
                      e.printStackTrace();
                  } catch (ExecutionException e) {
                      e.printStackTrace();
                  }
-             System.out.println("Solved " + puzzleInstance.getSolved());
+
          }
 
         executor.shutdownNow();
-
 
         System.out.println("Finished all threads");
     }

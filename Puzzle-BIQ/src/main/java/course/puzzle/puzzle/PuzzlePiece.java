@@ -122,7 +122,7 @@ public class PuzzlePiece {
 	}
 
 	public PuzzlePiece thirdRotate(PuzzlePiece p) {
-		PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getBottomValue(), p.getLeftValue(), p.getTopValue(), p.getRightValue());
+		PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getTopValue(), p.getRightValue(), p.getBottomValue(), p.getLeftValue());
 		p1.setRotateEdge(270);
 		return p1;
 	}
