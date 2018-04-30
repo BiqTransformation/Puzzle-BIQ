@@ -65,7 +65,7 @@ public class FileOutput {
                     int id = solution[i][j].getId();
                     int deg = solution[i][j].getRotateEdge();
                     if (deg>0) {
-                    	print.print(id + " "+"["+deg+"]");
+                    	print.print(id + "[" + deg + "]"  + " ");
                     }
                     else {
                     	print.print(id + " ");

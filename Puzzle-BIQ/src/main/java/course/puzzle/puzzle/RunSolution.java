@@ -1,11 +1,9 @@
 package course.puzzle.puzzle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RunSolution implements Callable {
     private int rows;
@@ -17,7 +15,7 @@ public class RunSolution implements Callable {
     private Stack<Integer> piecesUsed;
     private static Edge leftStraight = new Edge("left", 0);
     private static Edge topStraight = new Edge("top", 0);
-    private boolean isRotate = false;
+    private boolean isRotate = true;
 
 
     public RunSolution(Puzzle puzzle, int rows, int cols) {
@@ -42,7 +40,7 @@ public class RunSolution implements Callable {
                 boolean res = solvePuzzleRecursion(first, 0, 0, rows, cols);
                 puzzle.getSolved().set(res);
                 if (puzzle.getSolved().get()) {
-                   return;
+                    return;
                 } else {
                     piecesUsed.pop();
                     initPuzzle(rows, cols);
@@ -170,48 +168,32 @@ public class RunSolution implements Callable {
     }
 
 
-
 //    ========================================================================
 //                         Private methods
 //    ========================================================================
 
-    private List<PuzzlePiece> rotateAll(List<PuzzlePiece> listToRotate) {
+    public List<PuzzlePiece> rotateAll(List<PuzzlePiece> list) {
         List<PuzzlePiece> allPieces = new ArrayList<>();
 
-        for (PuzzlePiece p : listToRotate) {
+
+        for (PuzzlePiece p : list) {
             allPieces.add(p);
+            PuzzlePiece p90 = p.firstRotate(p);
+            PuzzlePiece p180 = p.secondRotate(p);
+            PuzzlePiece p270 = p.thirdRotate(p);
             if (!p.isAllEdgesEquals()) {
-                PuzzlePiece temp1 = firstRotate(p);
-                allPieces.add(temp1);
                 if (!p.isOposEdgesEquals(p)) {
-                    PuzzlePiece temp2 = secondRotate(p);
-                    allPieces.add(temp2);
+                     allPieces.add(p90);
+                     allPieces.add(p180);
+                     allPieces.add(p270);
+                } else {
+                     allPieces.add(p90);
                 }
-                PuzzlePiece temp3 = thirdRotate(p);
-                allPieces.add(temp3);
             }
+
         }
 
         return allPieces;
-    }
-
-
-    private PuzzlePiece firstRotate(PuzzlePiece p) {
-        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getBottomValue(), p.getLeftValue(), p.getTopValue(), p.getRightValue());
-        p1.setRotateEdge(90);
-        return p1;
-    }
-
-    private PuzzlePiece secondRotate(PuzzlePiece p) {
-        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getRightValue(), p.getBottomValue(), p.getLeftValue(), p.getTopValue());
-        p1.setRotateEdge(180);
-        return p1;
-    }
-
-    private PuzzlePiece thirdRotate(PuzzlePiece p) {
-        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getBottomValue(), p.getLeftValue(), p.getTopValue(), p.getRightValue());
-        p1.setRotateEdge(270);
-        return p1;
     }
 
     private void initPuzzle(int rows, int cols) {
@@ -254,10 +236,9 @@ public class RunSolution implements Callable {
     public PuzzlePiece[][] call() throws Exception {
         System.out.println("Thread " + Thread.currentThread().getId());
         puzzleSolution();
-        if(puzzle.getSolved().get()){
+        if (puzzle.getSolved().get()) {
             return getSolvedPuzzle();
-        }
-        else{
+        } else {
             return null;
         }
 

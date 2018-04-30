@@ -51,6 +51,13 @@ public class PuzzleSolver {
     public PuzzlePiece[][] findSolution() {
         getPossibleSolutions();
 
+        threadManager();
+
+        return solvedPuzzle;
+    }
+
+
+    private void threadManager() {
         ExecutorService executor = Executors.newFixedThreadPool(solutions.size());
         CompletionService<PuzzlePiece[][]> service = new ExecutorCompletionService<>(executor);
 
@@ -69,34 +76,30 @@ public class PuzzleSolver {
 
         for (Callable<PuzzlePiece[][]> solution : callables) {
             service.submit(solution);
-
-        }
-
+       }
 
         for (int i = 1; i <= solutions.size(); i++) {
 
-            System.out.println("*********************** Waiting to get result");
+             System.out.println("*********************** Waiting to get result");
 
-                try {
-                    solvedPuzzle = service.take().get();
-                    if(solvedPuzzle != null){
+                 try {
+                     solvedPuzzle = service.take().get();
+                     if(solvedPuzzle != null){
 
-                        break;
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-            System.out.println("Solved " + puzzleInstance.getSolved());
-        }
+                         break;
+                     }
+                 } catch (InterruptedException e) {
+                     e.printStackTrace();
+                 } catch (ExecutionException e) {
+                     e.printStackTrace();
+                 }
+             System.out.println("Solved " + puzzleInstance.getSolved());
+         }
 
         executor.shutdownNow();
 
 
         System.out.println("Finished all threads");
-
-        return solvedPuzzle;
     }
 
 }

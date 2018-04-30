@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import course.puzzle.puzzle.RunSolution;
 import org.junit.Test;
 
 import course.puzzle.puzzle.Puzzle;
@@ -25,7 +26,7 @@ public class TestPuzzleRotate {
 		puzzleTest.add(p4);
 		Puzzle puzzle = new Puzzle(puzzleTest,true);
 		puzzle.setRotate(true);
-		List<PuzzlePiece> retValue=puzzle.rotateAll();		
+		List<PuzzlePiece> retValue=new RunSolution(puzzle,0,0).rotateAll(puzzle.getPuzzle());
 		assertEquals(retValue,puzzleTest);		
 		}
 	
@@ -41,7 +42,7 @@ public class TestPuzzleRotate {
 		puzzleTest.add(p3);	
 		Puzzle puzzle = new Puzzle(puzzleTest,true);
 		puzzle.setRotate(true);
-		List<PuzzlePiece> retValue=puzzle.rotateAll();	
+		List<PuzzlePiece> retValue=new RunSolution(puzzle,0,0).rotateAll(puzzle.getPuzzle());
 		for(PuzzlePiece p : retValue){
 			System.out.println(p.getId() + " " + p.getRotateEdge());
 		}

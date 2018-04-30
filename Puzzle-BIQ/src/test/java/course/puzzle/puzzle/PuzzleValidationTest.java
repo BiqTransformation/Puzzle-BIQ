@@ -4,7 +4,6 @@ import course.puzzle.file.FileOutput;
 import course.puzzle.puzzleManager.PuzzleManager;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,7 +157,7 @@ public class PuzzleValidationTest {
         puzzle.add(p2);
         puzzle.add(p3);
         puzzle.add(p4);
-        List<PuzzlePiece> testPuzzle= PuzzleValidation.getUniquShapes(puzzle);
+        List<PuzzlePiece> testPuzzle= PuzzleValidation.getUniqueShapes(puzzle);
         //System.out.println(testPuzzle.size());        
         assertTrue(testPuzzle.size()==3);
     }
@@ -175,7 +174,7 @@ public class PuzzleValidationTest {
         puzzle.add(p2);
         puzzle.add(p3);
         puzzle.add(p4);
-        List<PuzzlePiece> testPuzzle= PuzzleValidation.getUniquShapes(puzzle);
+        List<PuzzlePiece> testPuzzle= PuzzleValidation.getUniqueShapes(puzzle);
         //System.out.println(testPuzzle.size());        
         assertTrue(testPuzzle.size()==4);
     }
@@ -195,7 +194,7 @@ public class PuzzleValidationTest {
         puzzle.add(p2);
         puzzle.add(p3);
         puzzle.add(p4);
-        List<PuzzlePiece> testPuzzle= PuzzleValidation.getUniquShapes(puzzle);
+        List<PuzzlePiece> testPuzzle= PuzzleValidation.getUniqueShapes(puzzle);
         //System.out.println(testPuzzle.size());        
         assertTrue(testPuzzle.size()==4);
     }

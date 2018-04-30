@@ -14,7 +14,7 @@ public class PuzzleValidation {
    //TODO - move rotate to this class
     
     
-	public static List<PuzzlePiece> getUniquShapes(List<PuzzlePiece> inputList) {
+	public static List<PuzzlePiece> getUniqueShapes(List<PuzzlePiece> inputList) {
 		List<PuzzlePiece> uniquePieces = inputList;
 		List<PuzzlePiece> checkDup = new ArrayList<>();
 		for (PuzzlePiece p : uniquePieces) {
@@ -54,7 +54,7 @@ public class PuzzleValidation {
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge) {
         List<PuzzlePiece> specificEdges = new ArrayList<PuzzlePiece>();
         for (PuzzlePiece p : puzzle) {
-            if (p.listOfEdges.contains(edge) && !p.isUsed()) {
+            if (p.listOfEdges.contains(edge)) {
                 specificEdges.add(p);
             }
         }
@@ -66,7 +66,7 @@ public class PuzzleValidation {
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge1, Edge edge2) {
         List<PuzzlePiece> specificEdges = new ArrayList<>();
         for (PuzzlePiece p : puzzle) {
-            if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2)  && !p.isUsed()) {
+            if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2)) {
                 specificEdges.add(p);
             }
         }
@@ -77,7 +77,7 @@ public class PuzzleValidation {
     public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge1, Edge edge2, Edge edge3) {
         List<PuzzlePiece> specificEdges = new ArrayList<>();
         for (PuzzlePiece p : puzzle) {
-            if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2) && p.listOfEdges.contains(edge3)  && !p.isUsed()) {
+            if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2) && p.listOfEdges.contains(edge3)) {
                 specificEdges.add(p);
             }
         }

@@ -107,8 +107,8 @@ public class PuzzleManager {
         for (String line : output) {
             String[] row = line.split("\\s+");
             for (int j = 0; j < row.length; j++) {
-                int id = Integer.parseInt(row[j]);
-                PuzzlePiece current = original.getPieceById(id);
+                PuzzlePiece current = getPuzzlePiece(original,row[j]);
+
                 if(!actual.contains(current)){
                     actual.add(current);
                 }
@@ -116,7 +116,7 @@ public class PuzzleManager {
                 if (current != null) {
                     actualSolution[i][j] = current;
                 } else {
-                    new FileOutput(outputFile).printToOutputFile("Piece with id " + id + " does not exist in the puzzle!");
+                    new FileOutput(outputFile).printToOutputFile("Piece with id " + current.getId() + " does not exist in the puzzle!");
                     return false;
                 }
             }
@@ -135,4 +135,20 @@ public class PuzzleManager {
     }
 
 
+    private PuzzlePiece getPuzzlePiece(Puzzle puzzle, String str){
+        int id;
+        int angle;
+        if(!str.contains("[")){
+            id = Integer.parseInt(str);
+            angle = 0;
+        }
+        else{
+            id = Integer.parseInt(str.split("\\[")[0]);
+            angle = Integer.parseInt(str.split("\\[|\\]")[1]);
+        }
+
+        PuzzlePiece current = puzzle.getPieceById(id);
+
+        return current.rotatePiece(current,angle);
+    }
 }

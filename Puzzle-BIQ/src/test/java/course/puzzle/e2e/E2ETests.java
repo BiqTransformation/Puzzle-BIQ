@@ -20,11 +20,11 @@ public class E2ETests {
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"good16Pieces"}
+                {"good4PiecesR"},{"good5APiecesR"},{"good9Pieces"},{"good9PiecesR"},{"good12Pieces"},{"good12PiecesA"},{"good12PiecesB"},{"good16Pieces"},{"good20Pieces"},{"good24Pieces"}
         });
     }
 
-    //, {"good4Pieces"},
+    //{"good3Pieces"}, {"good4Pieces"},
 //                {"good9Pieces"}, {"good12Pieces"},
 //                {"good12PiecesA"}, {"good20Pieces"},
 //                {"good12PiecesB"}, {"good16Pieces"},
@@ -38,8 +38,8 @@ public class E2ETests {
         String out = filesPath + fInput + ".out";
 
         System.out.println("Puzzle from file: " + in);
-        boolean rotate = false;
-        int numOfTreads = 2;
+        boolean rotate = true;
+        int numOfTreads = 4;
         PuzzleManager pm = new PuzzleManager(in, out, rotate, numOfTreads);
         pm.handlePuzzle();
         boolean solved = pm.validateSolutionViaOutputFile(in, out);

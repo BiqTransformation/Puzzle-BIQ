@@ -12,7 +12,6 @@ public class PuzzlePiece {
 	private Edge bottom;
 	List<Edge> listOfEdges = new ArrayList<Edge>();
 	private int rotateEdge=0;	
-	private boolean isUsed;
 
 	public PuzzlePiece(int id, int left, int top, int right, int bottom) {
 		this.id = id;
@@ -25,20 +24,14 @@ public class PuzzlePiece {
 		listOfEdges.add(this.right);
 		listOfEdges.add(this.bottom);
 	}
-	
-	
 
 	public int getRotateEdge() {
 		return rotateEdge;
 	}
 
-
-
 	public void setRotateEdge(int rotateEdge) {
 		this.rotateEdge = rotateEdge;
 	}
-
-
 
 	public int getLeftValue() {
 		return left.getValue();
@@ -76,18 +69,13 @@ public class PuzzlePiece {
 		return id;
 	}
 
-	public boolean isUsed() {
-		return isUsed;
-	}
-
-	public void setUsed(boolean used) {
-		isUsed = used;
-	}
 
 	@Override
 	public int hashCode() {
 		return id;
 	}
+
+
     @Override
 	 public boolean equals(Object o) {
 	        if (this == o) return true;
@@ -107,6 +95,37 @@ public class PuzzlePiece {
     public boolean isOposEdgesEquals(PuzzlePiece p){
     	return p.getLeftValue()==p.getRightValue() && p.getTopValue()==p.getBottomValue();
     }
+
+    public PuzzlePiece rotatePiece(PuzzlePiece p, int angle) {
+		switch (angle) {
+			case 90:
+				return firstRotate(p);
+			case 180:
+				return secondRotate(p);
+			case 270:
+				return thirdRotate(p);
+			default:
+				return p;
+
+		}
+	}
+	public PuzzlePiece firstRotate(PuzzlePiece p) {
+		PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getBottomValue(), p.getLeftValue(), p.getTopValue(), p.getRightValue());
+		p1.setRotateEdge(90);
+		return p1;
+	}
+
+	public PuzzlePiece secondRotate(PuzzlePiece p) {
+		PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getRightValue(), p.getBottomValue(), p.getLeftValue(), p.getTopValue());
+		p1.setRotateEdge(180);
+		return p1;
+	}
+
+	public PuzzlePiece thirdRotate(PuzzlePiece p) {
+		PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getBottomValue(), p.getLeftValue(), p.getTopValue(), p.getRightValue());
+		p1.setRotateEdge(270);
+		return p1;
+	}
 
 	@Override
 	public String toString() {
