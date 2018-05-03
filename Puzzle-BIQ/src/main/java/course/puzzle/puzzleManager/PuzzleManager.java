@@ -89,7 +89,7 @@ public class PuzzleManager {
     public boolean validateSolutionViaOutputFile(String inputFile, String outputFile) throws Exception {
 
         List<PuzzlePiece> puzzlePieces = getPuzzlePiecesFromInputFile(inputFile);
-        Puzzle original = new Puzzle(puzzlePieces,false);
+        Puzzle original = new Puzzle(puzzlePieces,rotate);
 
 //        Verify that number of pieces in solved matrix is equal to number of pieces in the original puzzle
         List<String> output = FileReader.readFromFile(outputFile);

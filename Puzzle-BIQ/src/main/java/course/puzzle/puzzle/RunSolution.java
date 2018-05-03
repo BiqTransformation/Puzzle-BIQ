@@ -1,22 +1,22 @@
 package course.puzzle.puzzle;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.concurrent.Callable;
 
+/**
+ * @author Svetlana
+ * Class RunSolution execute recursion to solve the puzzle with specific number of rows and columnes
+ * The class is Callable to return the solved  puzzle board
+ */
 public class RunSolution implements Callable {
     private int rows;
     private int cols;
-    private List<Edge> toSearch = new ArrayList<>();
+    private int JOKER = Integer.MIN_VALUE;
+    private int[] toSearch = {JOKER, JOKER, JOKER, JOKER};
     private PuzzlePiece[][] solvedPuzzle = new PuzzlePiece[][]{};
     private Puzzle puzzle;
     private List<PuzzlePiece> puzzlePieces;
     private Stack<Integer> piecesUsed;
-    private static Edge leftStraight = new Edge("left", 0);
-    private static Edge topStraight = new Edge("top", 0);
-    private boolean isRotate = true;
-
 
     public RunSolution(Puzzle puzzle, int rows, int cols) {
         this.rows = rows;
@@ -30,8 +30,8 @@ public class RunSolution implements Callable {
 
         if (!puzzle.getSolved().get()) {
 
-            toSearch.set(0, leftStraight);
-            toSearch.set(1, topStraight);
+            toSearch[0] = 0;
+            toSearch[1] = 0;
             List<PuzzlePiece> listTL = getSpecificPieces();
             for (PuzzlePiece first : listTL) {
                 initPuzzle(rows, cols);
@@ -71,30 +71,30 @@ public class RunSolution implements Callable {
             if (col == cols - 1 && row <= rows - 2) {
                 col = 0;
                 current = solvedPuzzle[row][col];
-                toSearch.set(0, current.getBottom().getMatch());
-                toSearch.set(1, new Edge("left", 0));
+                toSearch[0] = 0;
+                toSearch[1] = current.getBottom().getMatch().getValue();
                 if (row == rows - 2) {
-                    toSearch.set(2, new Edge("bottom", 0));
+                    toSearch[3] = 0;
                 }
                 ++row;
                 changeDirection = true;
             } else if (row == 0) {
-                toSearch.set(0, current.getRight().getMatch());
-                toSearch.set(1, new Edge("top", 0));
+                toSearch[0] = current.getRight().getMatch().getValue();
+                toSearch[1] = 0;
                 if (col == cols - 2) {
-                    toSearch.set(2, new Edge("right", 0));
+                    toSearch[2] = 0;
                 }
             } else if (row > 0 && row < rows - 1) {
-                toSearch.set(0, current.getRight().getMatch());
-                toSearch.set(1, solvedPuzzle[row - 1][col + 1].getBottom().getMatch());
+                toSearch[0] = current.getRight().getMatch().getValue();
+                toSearch[1] = solvedPuzzle[row - 1][col + 1].getBottom().getMatch().getValue();
                 if (col == cols - 2) {
-                    toSearch.set(2, new Edge("right", 0));
+                    toSearch[2] = 0;
                 }
             } else if (row == rows - 1) {
-                toSearch.set(0, current.getRight().getMatch());
-                toSearch.set(1, new Edge("bottom", 0));
+                toSearch[0] = current.getRight().getMatch().getValue();
+                toSearch[3] = 0;
                 if (col == cols - 2) {
-                    toSearch.set(2, new Edge("right", 0));
+                    toSearch[2] = 0;
                 }
             }
 
@@ -141,24 +141,18 @@ public class RunSolution implements Callable {
             }
         }
 
-        if (isRotate) {
+        if (puzzle.getRotate()) {
             updatedList = rotateAll(updatedList);
         }
-
+        updatedList = getUniqueShapes(updatedList);
         List<PuzzlePiece> specificEdges = new ArrayList<>();
 
         for (PuzzlePiece p : updatedList) {
-
-            boolean addToList = true;
-            for (Edge e : toSearch) {
-                if (e != null && !p.listOfEdges.contains(e)) {
-                    addToList = false;
-                }
-            }
-            if (addToList) {
+            if (match(p)) {
                 specificEdges.add(p);
             }
         }
+
         return specificEdges;
     }
 
@@ -168,9 +162,61 @@ public class RunSolution implements Callable {
     }
 
 
-//    ========================================================================
+    //    ========================================================================
 //                         Private methods
 //    ========================================================================
+
+    public boolean match(PuzzlePiece p) {
+        boolean match =
+         edgeMatch(toSearch[0], p.getLeftValue()) && edgeMatch(toSearch[1], p.getTopValue()) && edgeMatch(toSearch[2], p.getRightValue()) && edgeMatch(toSearch[3], p.getBottomValue());
+        return match;
+    }
+
+    private boolean edgeMatch(int reqEdge, int shapeEdge) {
+        boolean equal = reqEdge == JOKER || reqEdge == shapeEdge;
+        return equal;
+    }
+
+
+    private List<PuzzlePiece> prepareListOfPieces() {
+        List<PuzzlePiece> list = new ArrayList<>();
+
+
+        return list;
+
+    }
+
+    public List<PuzzlePiece> getUniqueShapes(List<PuzzlePiece> inputList) {
+        List<PuzzlePiece> uniquePieces = new ArrayList<>(inputList);
+        List<PuzzlePiece> checkDup = new ArrayList<>();
+        for (PuzzlePiece p : uniquePieces) {
+            if (p.getRotateEdge() != 0) {
+                checkDup.add(p);
+            }
+        }
+
+
+        for (int i = 0; i < checkDup.size(); i++) {
+            PuzzlePiece p1 = checkDup.get(i);
+            checkDup.remove(p1);
+            if (checkDupPiece(p1, checkDup)) {
+                uniquePieces.remove(p1);
+                i--;
+            }
+        }
+
+        return uniquePieces;
+    }
+
+
+    private boolean checkDupPiece(PuzzlePiece p, List<PuzzlePiece> uniquePieces) {
+        for (PuzzlePiece piece : uniquePieces) {
+            if (p.listOfEdgesEquals(piece)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public List<PuzzlePiece> rotateAll(List<PuzzlePiece> list) {
         List<PuzzlePiece> allPieces = new ArrayList<>();
@@ -183,11 +229,11 @@ public class RunSolution implements Callable {
             PuzzlePiece p270 = p.thirdRotate(p);
             if (!p.isAllEdgesEquals()) {
                 if (!p.isOposEdgesEquals(p)) {
-                     allPieces.add(p90);
-                     allPieces.add(p180);
-                     allPieces.add(p270);
+                    allPieces.add(p90);
+                    allPieces.add(p180);
+                    allPieces.add(p270);
                 } else {
-                     allPieces.add(p90);
+                    allPieces.add(p90);
                 }
             }
 
@@ -203,13 +249,7 @@ public class RunSolution implements Callable {
     }
 
     private void initToSearch() {
-        toSearch.add(null);
-        toSearch.add(null);
-        toSearch.add(null);
-        toSearch.add(null);
-        for (int i = 0; i < toSearch.size(); i++) {
-            toSearch.set(i, null);
-        }
+        toSearch = new int[]{JOKER, JOKER, JOKER, JOKER};
     }
 
     private boolean verifyThatSolutionContainsAllPieces() {
@@ -234,7 +274,7 @@ public class RunSolution implements Callable {
 
     @Override
     public PuzzlePiece[][] call() throws Exception {
-        System.out.println("Thread " + Thread.currentThread().getId());
+        System.out.println("Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows);
         puzzleSolution();
         if (puzzle.getSolved().get()) {
             return getSolvedPuzzle();

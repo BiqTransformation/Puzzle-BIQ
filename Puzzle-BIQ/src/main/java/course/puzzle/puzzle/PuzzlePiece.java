@@ -69,20 +69,27 @@ public class PuzzlePiece {
 		return id;
 	}
 
+//	@Override
+//	public boolean equals(Object o) {
+//		if (this == o) return true;
+//		if (o == null || getClass() != o.getClass()) return false;
+//		PuzzlePiece other = (PuzzlePiece) o;
+//		return getLeftValue() == other.getLeftValue() && getTopValue() == other.getTopValue() && getRightValue() == other.getRightValue() && getBottomValue() == other.getBottomValue();
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		return getLeftValue() * 54 + getTopValue() * 21 + getRightValue() * 3 + getBottomValue();
+//	}
 
-	@Override
-	public int hashCode() {
-		return id;
+
+
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof PuzzlePiece)) return false;
+		PuzzlePiece PuzzlePiece = (PuzzlePiece) o;
+		return Objects.equals(getId(), PuzzlePiece.getId());
 	}
-
-
-    @Override
-	 public boolean equals(Object o) {
-	        if (this == o) return true;
-	        if (!(o instanceof PuzzlePiece)) return false;
-	        PuzzlePiece PuzzlePiece = (PuzzlePiece) o;
-	        return Objects.equals(getId(), PuzzlePiece.getId());
-	    }
     
     public boolean listOfEdgesEquals(PuzzlePiece p){
     	return p.listOfEdges.equals(listOfEdges);
@@ -122,7 +129,7 @@ public class PuzzlePiece {
 	}
 
 	public PuzzlePiece thirdRotate(PuzzlePiece p) {
-		PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getBottomValue(), p.getLeftValue(), p.getTopValue(), p.getRightValue());
+		PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getTopValue(),p.getRightValue() , p.getBottomValue(), p.getLeftValue());
 		p1.setRotateEdge(270);
 		return p1;
 	}

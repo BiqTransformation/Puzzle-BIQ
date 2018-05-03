@@ -58,7 +58,7 @@ public class PuzzleSolver {
 
 
     private void threadManager() {
-        ExecutorService executor = Executors.newFixedThreadPool(solutions.size());
+        ExecutorService executor = Executors.newFixedThreadPool(numOfThreads);
         CompletionService<PuzzlePiece[][]> service = new ExecutorCompletionService<>(executor);
 
         List<Callable<PuzzlePiece[][]>> callables = new ArrayList<>();
@@ -83,7 +83,12 @@ public class PuzzleSolver {
              System.out.println("*********************** Waiting to get result");
 
                  try {
-                     solvedPuzzle = service.take().get();
+                     try {
+                         solvedPuzzle = service.poll(60, TimeUnit.SECONDS).get();
+                     }catch (NullPointerException e){
+
+                     }
+
                      if(solvedPuzzle != null){
 
                          break;
