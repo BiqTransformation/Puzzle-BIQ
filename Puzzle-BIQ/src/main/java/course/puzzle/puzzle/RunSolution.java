@@ -166,6 +166,33 @@ public class RunSolution implements Callable {
 //                         Private methods
 //    ========================================================================
 
+    public List<PuzzlePiece> getUniqueShapes(List<PuzzlePiece> inputList) {
+        List<PuzzlePiece> uniquePieces = new ArrayList<>(inputList);
+        List<PuzzlePiece> checkDup = new ArrayList<>(inputList);
+
+
+            for (int i = 1; i < checkDup.size(); i++) {
+                PuzzlePiece p1 = checkDup.get(i);
+                checkDup.remove(p1);
+                if (checkDupPiece(p1, checkDup)) {
+                    uniquePieces.remove(p1);
+                    i--;
+                }
+            }
+
+        return uniquePieces;
+    }
+
+
+    private boolean checkDupPiece(PuzzlePiece p, List<PuzzlePiece> uniquePieces) {
+        for (PuzzlePiece piece : uniquePieces) {
+            if (p.listOfEdgesEquals(piece)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean match(PuzzlePiece p) {
         boolean match =
          edgeMatch(toSearch[0], p.getLeftValue()) && edgeMatch(toSearch[1], p.getTopValue()) && edgeMatch(toSearch[2], p.getRightValue()) && edgeMatch(toSearch[3], p.getBottomValue());

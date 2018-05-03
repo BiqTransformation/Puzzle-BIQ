@@ -69,7 +69,6 @@ public class PuzzleSolver {
             int cols = s.getValue();
             System.out.println(rows + "x" + cols);
 
-            System.out.println("*********************** Creating the thread");
             Callable<PuzzlePiece[][]> solution = new RunSolution(puzzleInstance, rows, cols);
             callables.add(solution);
         }
@@ -80,9 +79,7 @@ public class PuzzleSolver {
 
         for (int i = 1; i <= solutions.size(); i++) {
 
-             System.out.println("*********************** Waiting to get result");
-
-                 try {
+                  try {
                      try {
                          solvedPuzzle = service.poll(60, TimeUnit.SECONDS).get();
                      }catch (NullPointerException e){
@@ -90,19 +87,18 @@ public class PuzzleSolver {
                      }
 
                      if(solvedPuzzle != null){
-
-                         break;
+                         System.out.println("Solved! " + puzzleInstance.getSolved());
+                        break;
                      }
                  } catch (InterruptedException e) {
                      e.printStackTrace();
                  } catch (ExecutionException e) {
                      e.printStackTrace();
                  }
-             System.out.println("Solved " + puzzleInstance.getSolved());
+
          }
 
         executor.shutdownNow();
-
 
         System.out.println("Finished all threads");
     }
