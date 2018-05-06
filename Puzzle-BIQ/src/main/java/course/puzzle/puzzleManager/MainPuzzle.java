@@ -5,7 +5,9 @@ import java.util.List;
 
 import course.puzzle.file.FileOutput;
 import course.puzzle.puzzle.PuzzlePiece;
-
+/*
+ * @author Alex
+ */
 public class MainPuzzle {
 	private final static String INPUT = "-input";
 	private final static String OUTPUT = "-output";
@@ -16,9 +18,9 @@ public class MainPuzzle {
 		 String fromPath = getInputFile(args);
 		 String toPath = getOutputFile(args);
 		 boolean isRotate= isRotate(args);
-		 System.out.println(isRotate);
+		 //System.out.println(isRotate);
 		 int numOfThreads = getNumOfThreads(args);
-		 System.out.println(numOfThreads);
+		 //System.out.println(numOfThreads);
 		
 		
 		
@@ -26,7 +28,7 @@ public class MainPuzzle {
 		pm.handlePuzzle();
 		FileOutput fo = new FileOutput(toPath);
 		String message = fo.loadFromTextFile();	
-		//System.out.println(message);
+		System.out.println(message);
 		
 	
 
