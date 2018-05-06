@@ -1,7 +1,9 @@
 package course.puzzle.puzzle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Puzzle {
@@ -11,15 +13,22 @@ public class Puzzle {
     private List<String> errors = new ArrayList<>();
     private boolean isRotate;
     private AtomicBoolean solved = new AtomicBoolean();
+
+
+
+    Map<PuzzleShape,List<PuzzlePiece>> allPiecesMap = new HashMap<>();
     
     public Puzzle(List<PuzzlePiece> puzzle,boolean rotate) {
         this.isRotate=rotate;
     	this.puzzlePieces = puzzle;
         this.isRotate=isRotate;
         validatePuzzle();
+        indexer();
     }
-    
-    
+
+    public Map<PuzzleShape, List<PuzzlePiece>> getAllPiecesMap() {
+        return allPiecesMap;
+    }
     
     public boolean getRotate() {
 		return isRotate;
@@ -81,6 +90,48 @@ public class Puzzle {
    }
 
     }
-        
+    private void indexer(){
+        List<PuzzlePiece> allPieces = new ArrayList<>();
+        if(isRotate){
+            allPieces = rotateAll(puzzlePieces);
+        }
+        else{
+            allPieces = puzzlePieces;
+        }
 
+        for(PuzzlePiece p : allPieces){
+
+            List<PuzzlePiece> identicalPieces = allPiecesMap.get(p.getShape());
+            if(identicalPieces == null){
+                identicalPieces = new ArrayList<>();
+                allPiecesMap.put(p.getShape(),identicalPieces);
+            }
+
+            identicalPieces.add(p);
+        }
+
+    }
+    public List<PuzzlePiece> rotateAll(List<PuzzlePiece> list) {
+        List<PuzzlePiece> allPieces = new ArrayList<>();
+
+
+        for (PuzzlePiece p : list) {
+            allPieces.add(p);
+            PuzzlePiece p90 = p.firstRotate(p);
+            PuzzlePiece p180 = p.secondRotate(p);
+            PuzzlePiece p270 = p.thirdRotate(p);
+            if (!p.isAllEdgesEquals()) {
+                if (!p.isOposEdgesEquals(p)) {
+                    allPieces.add(p90);
+                    allPieces.add(p180);
+                    allPieces.add(p270);
+                } else {
+                    allPieces.add(p90);
+                }
+            }
+
+        }
+
+        return allPieces;
+    }
 }

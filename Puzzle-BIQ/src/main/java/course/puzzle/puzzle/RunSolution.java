@@ -17,12 +17,14 @@ public class RunSolution implements Callable {
     private Puzzle puzzle;
     private List<PuzzlePiece> puzzlePieces;
     private Stack<Integer> piecesUsed;
+    private Map<PuzzleShape,List<PuzzlePiece>> puzzleShapeListMap;
 
     public RunSolution(Puzzle puzzle, int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
         this.puzzle = puzzle;
         puzzlePieces = puzzle.getPuzzle();
+        puzzleShapeListMap = puzzle.getAllPiecesMap();
         initPuzzle(rows, cols);
     }
 
@@ -133,24 +135,22 @@ public class RunSolution implements Callable {
 
     public List<PuzzlePiece> getSpecificPieces() {
 
-        List<PuzzlePiece> updatedList = new ArrayList<>();
-        for (PuzzlePiece p : puzzlePieces) {
-
-            if (!piecesUsed.contains(p.getId())) {
-                updatedList.add(p);
-            }
-        }
-
-        if (puzzle.getRotate()) {
-            updatedList = rotateAll(updatedList);
-        }
-        updatedList = getUniqueShapes(updatedList);
         List<PuzzlePiece> specificEdges = new ArrayList<>();
 
-        for (PuzzlePiece p : updatedList) {
-            if (match(p)) {
-                specificEdges.add(p);
+        for (Map.Entry<PuzzleShape,List<PuzzlePiece>> entry : puzzleShapeListMap.entrySet()) {
+            List<PuzzlePiece> list = puzzleShapeListMap.get(entry.getKey());
+            for(PuzzlePiece p : list){
+
+                boolean isMatch = match(p);
+                if (isMatch) {
+                    if(!piecesUsed.contains(p.getId())){
+                        specificEdges.add(p);
+                        break;
+                    }
+
+                }
             }
+
         }
 
         return specificEdges;
@@ -166,32 +166,6 @@ public class RunSolution implements Callable {
 //                         Private methods
 //    ========================================================================
 
-    public List<PuzzlePiece> getUniqueShapes(List<PuzzlePiece> inputList) {
-        List<PuzzlePiece> uniquePieces = new ArrayList<>(inputList);
-        List<PuzzlePiece> checkDup = new ArrayList<>(inputList);
-
-
-            for (int i = 1; i < checkDup.size(); i++) {
-                PuzzlePiece p1 = checkDup.get(i);
-                checkDup.remove(p1);
-                if (checkDupPiece(p1, checkDup)) {
-                    uniquePieces.remove(p1);
-                    i--;
-                }
-            }
-
-        return uniquePieces;
-    }
-
-
-    private boolean checkDupPiece(PuzzlePiece p, List<PuzzlePiece> uniquePieces) {
-        for (PuzzlePiece piece : uniquePieces) {
-            if (p.listOfEdgesEquals(piece)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public boolean match(PuzzlePiece p) {
         boolean match =

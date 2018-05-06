@@ -24,7 +24,7 @@ public class FileReader {
 			try {
 				in = new BufferedReader(new InputStreamReader(new FileInputStream(fromPath),"UTF-8"));
 				 String currentLine ;
-					while((currentLine = in.readLine()) !=null) {
+					while((currentLine = in.readLine()) != null && !currentLine.equals("")) {
 						fromFile.add(currentLine);	
 					}
 			} catch (FileNotFoundException e) {

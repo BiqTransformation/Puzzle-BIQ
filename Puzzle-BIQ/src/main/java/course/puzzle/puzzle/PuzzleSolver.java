@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
+/**
+ * @author Lior (getPossibleSolutions) and Svetlana (findSolution)
+ * Get all possible options of puzzle matrix
+ * Try to solve each option with different thread
+ */
+
 public class PuzzleSolver {
 
     //members
@@ -29,12 +35,12 @@ public class PuzzleSolver {
         if (puzzleSize == 1) {
             solutions.put(1, 1);
         } else if (puzzleSize > 1) {
-            if (PuzzleValidation.isPossibleOneRow(puzzlePieces)) {
+//            if (PuzzleValidation.isPossibleOneRow(puzzlePieces)) {
                 solutions.put(1, puzzleSize);
-            }
-            if (PuzzleValidation.isPossibleOneColumn(puzzlePieces)) {
+//            }
+//            if (PuzzleValidation.isPossibleOneColumn(puzzlePieces)) {
                 solutions.put(puzzleSize, 1);
-            }
+//            }
             for (int i = 2; i < puzzleSize; i++) {
                 if (puzzleSize % i == 0) {
                     int num = puzzleSize / i;
