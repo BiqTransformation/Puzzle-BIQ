@@ -11,7 +11,16 @@ public class PuzzlePiece {
 	private Edge right;
 	private Edge bottom;
 	List<Edge> listOfEdges = new ArrayList<Edge>();
-	private int rotateEdge=0;	
+	private int rotateEdge=0;
+	private PuzzleShape shape;
+	private int rotate=0;
+	
+	public PuzzlePiece(int id,int roatateAngel , PuzzleShape shape){
+		this.id=id;
+		this.rotate=roatateAngel;
+		this.shape=shape;
+		
+	}
 
 	public PuzzlePiece(int id, int left, int top, int right, int bottom) {
 		this.id = id;
@@ -55,6 +64,22 @@ public class PuzzlePiece {
 
 	public Edge getRight() {
 		return right;
+	}
+
+	public PuzzleShape getShape() {
+		return shape;
+	}
+
+	public void setShape(PuzzleShape shape) {
+		this.shape = shape;
+	}
+
+	public int getRotate() {
+		return rotate;
+	}
+
+	public void setRotate(int rotate) {
+		this.rotate = rotate;
 	}
 
 	public int getBottomValue() {
@@ -136,7 +161,8 @@ public class PuzzlePiece {
 
 	@Override
 	public String toString() {
-		String toPrint = "\n" + id + " " + " [" + rotateEdge + "] " + getLeftValue() + " " + getTopValue() + " " + getRightValue() + " " + getBottomValue();
+		String toPrint = "\n" + id + " " + " [" + rotateEdge + "] " +  this.shape.getLeft() +" " + this.shape.getTop() +" " + this.shape.getRight() + " "
+				+ this.shape.getBottom();//getLeftValue() + " " + getTopValue() + " " + getRightValue() + " " + getBottomValue();
 		return toPrint;
 	}
 }

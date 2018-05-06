@@ -1,4 +1,9 @@
 package course.puzzle.puzzle;
+/*
+ * This class represent 1 edge of the puzzle piece 
+ * it has a name and a value
+ * author : Svetlana
+ */
 
 public class Edge {
     private String name;
