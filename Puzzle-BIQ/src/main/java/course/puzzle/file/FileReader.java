@@ -11,7 +11,11 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
+/*
+ * This class read the input file of the puzzle and after validate return a puzzle package or 
+ * print errors to output file
+ * @author Alex
+ */
 public class FileReader {
 	
 	public static List<String> fromFile;

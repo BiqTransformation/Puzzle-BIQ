@@ -7,7 +7,10 @@ import java.util.List;
 
 import course.puzzle.puzzle.PuzzleErrors;
 import course.puzzle.puzzle.PuzzlePiece;
-
+/*
+ * This class validate the input file of the puzzle 
+ * @author Alex
+ */
 public class PuzzleInPutDataValidation {
 
 	private Timestamp timestamp = new Timestamp(System.currentTimeMillis());

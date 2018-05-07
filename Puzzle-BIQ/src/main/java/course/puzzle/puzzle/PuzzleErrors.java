@@ -1,5 +1,8 @@
 package course.puzzle.puzzle;
-
+/*
+ * This class contains the puzzle error messages
+ * @author Lior 
+ */
 public class PuzzleErrors {
 	
     public static String CANNOT_SOLVE_PUZZLE = "Cannot solve puzzle:";

@@ -1,5 +1,8 @@
 package course.puzzle.puzzle;
-
+/*
+ * This class represents a puzzle shape 
+ * @author Svetlana and Lior
+ */
 public class PuzzleShape {
     private int edges[] = new int[4];
 

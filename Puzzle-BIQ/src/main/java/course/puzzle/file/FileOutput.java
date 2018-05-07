@@ -6,6 +6,10 @@ import course.puzzle.puzzle.PuzzlePiece;
 
 import java.io.*;
 
+/*
+ * This class print to output file the errors  or the solution
+ * @author Lior 
+ */
 public class FileOutput {
 	
     private  String path; 
@@ -55,7 +59,7 @@ public class FileOutput {
     }
 
     public  void printSolution(PuzzlePiece[][] solution) throws IOException {
-//TODO -add id with rotation -Alex
+
         PrintWriter print = null;
         try {
             FileWriter write = new FileWriter(path, append_to_file);
