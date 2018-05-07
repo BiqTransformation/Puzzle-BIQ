@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-public class PuzzleGenerator {
+/*
+ * This class build a puzzle input file randomly  by the size of the puzzle
+ * (rows*cols) 
+ * @author Svetlana
+ */
     private int rows;
     private int cols;
     private String dir;

@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Lior
+ * @author Lior and Alex
+ * this class is the manager of the puzzle 
+ * get the input from tha main and start the puzzle handling
+ * 
  */
 
 public class PuzzleManager {

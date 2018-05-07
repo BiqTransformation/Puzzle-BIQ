@@ -7,6 +7,10 @@ import course.puzzle.puzzle.PuzzlePiece;
 
 import java.io.*;
 
+/*
+ * This class print to output file the errors  or the solution
+ * @author Lior 
+ */
 public class FileOutput {
 	
     private  String path; 

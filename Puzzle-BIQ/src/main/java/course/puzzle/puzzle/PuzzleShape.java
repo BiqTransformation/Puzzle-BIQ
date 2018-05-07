@@ -1,7 +1,10 @@
 package course.puzzle.puzzle;
-
+/*
+ * This class represents a puzzle shape 
+ * @author Svetlana and Lior
 import static course.puzzle.puzzle.PuzzlePiece.JOKER;
 
+ */
 public class PuzzleShape {
     private int edges[];
 

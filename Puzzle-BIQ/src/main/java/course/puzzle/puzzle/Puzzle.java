@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-
+/*
+ * This class represents a puzzle package 
+ * @author Svetlana
+ */
 public class Puzzle {
 
 

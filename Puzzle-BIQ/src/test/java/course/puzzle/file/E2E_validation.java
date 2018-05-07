@@ -63,7 +63,7 @@ public class E2E_validation {
         boolean rotate = true;
 	    int numOfTreads = 2;
 		PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
-//		pm.handlePuzzle();
+		//pm.handlePuzzle();
 
 		assertFalse(pm.validateSolutionViaOutputFile(in,out));
 	}

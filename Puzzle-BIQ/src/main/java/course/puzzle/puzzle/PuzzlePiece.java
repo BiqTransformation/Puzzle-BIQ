@@ -1,7 +1,11 @@
 package course.puzzle.puzzle;
 
 import java.util.Objects;
-
+/*
+ * This class represents a puzzle piece
+ * it includes the puzzle shape inside
+ * @author Svetlana
+ */
 public class PuzzlePiece {
     public static int JOKER = Integer.MIN_VALUE;
     private int id;
