@@ -13,11 +13,13 @@ import java.util.stream.IntStream;
  * (rows*cols) 
  * @author Svetlana
  */
+public class PuzzleGenerator{
     private int rows;
     private int cols;
     private String dir;
     private PuzzlePiece[][] board;
     List<PuzzlePiece> list = new ArrayList<>();
+    public static String PUZZLE_NAME;
 
     public PuzzleGenerator(int rows, int cols, String dir) {
         this.rows = rows;
@@ -26,6 +28,7 @@ import java.util.stream.IntStream;
         this.board = new PuzzlePiece[rows][cols];
         prepareList();
         board = generatePuzzle();
+        PUZZLE_NAME = dir + "\\puzzle" + rows * cols + "Pieces.in";
         printToFile();
     }
 
@@ -88,7 +91,7 @@ import java.util.stream.IntStream;
         return board;
     }
     private void printToFile() {
-        FileOutput fo = new FileOutput(dir + "puzzle" + rows * cols + "Pieces.in");
+        FileOutput fo = new FileOutput(PUZZLE_NAME);
         fo.cleanOutputFile();
         fo.printToOutputFile(this.toString());
     }

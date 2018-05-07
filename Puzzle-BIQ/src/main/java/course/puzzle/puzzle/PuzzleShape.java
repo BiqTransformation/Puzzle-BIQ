@@ -1,4 +1,7 @@
 package course.puzzle.puzzle;
+
+import static course.puzzle.puzzle.PuzzlePiece.JOKER;
+
 /*
  * This class represents a puzzle shape 
  * @author Svetlana and Lior
