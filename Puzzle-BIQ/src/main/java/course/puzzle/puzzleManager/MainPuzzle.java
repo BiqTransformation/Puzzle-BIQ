@@ -7,6 +7,7 @@ import course.puzzle.file.FileOutput;
 import course.puzzle.puzzle.PuzzlePiece;
 /*
  * @author Alex
+ * The class that contains the main method 
  */
 public class MainPuzzle {
 	private final static String INPUT = "-input";

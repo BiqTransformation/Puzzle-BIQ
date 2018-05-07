@@ -3,7 +3,11 @@ package course.puzzle.puzzle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+/*
+ * This class represents a puzzle piece
+ * it includes the puzzle shape inside
+ * @author Svetlana
+ */
 public class PuzzlePiece {
     private int id;
     private Edge left;

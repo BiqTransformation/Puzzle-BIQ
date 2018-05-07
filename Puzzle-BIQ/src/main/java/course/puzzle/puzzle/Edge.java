@@ -1,8 +1,11 @@
 package course.puzzle.puzzle;
-
+/*
+ * This class represents a edge of puzzlePiece
+ * it might be not in use on the advanced puzzle solution
+ * @author Svetlana
+ */
 public class Edge {
     private String name;
-
     private Integer value;
 
     public Edge(String name, Integer value) {
