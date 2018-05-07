@@ -71,7 +71,10 @@ public class OutputFileTests {
         fo.printSolution(good);
         String str =  fo.loadFromTextFile();
         System.out.println(str);
-        assertTrue(str.contains("1 3 4 2"));
+        assertTrue(str.contains("1["));
+        assertTrue(str.contains("2["));
+        assertTrue(str.contains("3["));
+        assertTrue(str.contains("4["));
 	}
 	
 	
