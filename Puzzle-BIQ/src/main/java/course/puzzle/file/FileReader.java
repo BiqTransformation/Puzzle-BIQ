@@ -34,18 +34,5 @@ public class FileReader {
 			}
 		return fromFile;	
 	}
-	public List<PuzzlePiece> getPuzzlePiecesFromInputFile(String inputFile, String outputFile) throws Exception {
-		List<PuzzlePiece> puzzlePieces;
-		FileReader reader = new FileReader();
-		List<String> inputList;
-		inputList = reader.readFromFile(inputFile);
-		PuzzleInPutDataValidation fav = new PuzzleInPutDataValidation();
-		puzzlePieces = fav.fileDataValidator(inputList);
-		List<String> validatePuzzleInputFile = fav.getErrorList();
-		if(validatePuzzleInputFile.size() > 0){
-			new FileOutput(outputFile).printListToOutputFile(validatePuzzleInputFile);
-			return null;
-		}
-		return puzzlePieces;
-	}
+
 }

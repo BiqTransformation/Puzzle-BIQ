@@ -1,5 +1,6 @@
 package course.puzzle.file;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import course.puzzle.puzzle.PuzzlePiece;
@@ -30,6 +31,7 @@ public class FileOutput {
     public  void printToOutputFile(String message) {
         PrintWriter print = null;
         try {
+
             FileWriter write = new FileWriter(path, append_to_file);
             print = new PrintWriter(write);
             print.println(message);
@@ -55,7 +57,7 @@ public class FileOutput {
     }
 
     public  void printSolution(PuzzlePiece[][] solution) throws IOException {
-//TODO -add id with rotation -Alex
+
         PrintWriter print = null;
         try {
             FileWriter write = new FileWriter(path, append_to_file);

@@ -1,137 +1,54 @@
 package course.puzzle.puzzle;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import course.puzzle.file.FileOutput;
+import static course.puzzle.puzzle.PuzzlePiece.JOKER;
 
 /**
  * @author Svetlana
- * Verify that it is possible to solve puzzle in case of rotate is false
+ * Verify that puzzle is valid - has enough corners, straight edges, sum of edges = 0
  */
 public class PuzzleValidation {
-    private static Edge leftStraight = new Edge("left", 0);
-    private static Edge rightStraight = new Edge("right", 0);
-    private static Edge topStraight = new Edge("top", 0);
-    private static Edge bottomStraight = new Edge("bottom", 0);
-   //TODO - move rotate to this class
-    
-    
 
-    public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge) {
-        List<PuzzlePiece> specificEdges = new ArrayList<PuzzlePiece>();
-        for (PuzzlePiece p : puzzle) {
-            if (p.listOfEdges.contains(edge)) {
-                specificEdges.add(p);
-            }
-        }
+    private static PuzzleShape leftStraight = new PuzzleShape(new int[]{0,JOKER,JOKER,JOKER});
+    private static PuzzleShape rightStraight = new PuzzleShape(new int[]{JOKER,0,JOKER,JOKER});
+    private static PuzzleShape topStraight = new PuzzleShape(new int[]{JOKER,JOKER,0,JOKER});
+    private static PuzzleShape bottomStraight = new PuzzleShape(new int[]{JOKER,JOKER,JOKER,0});
+    private static PuzzleShape leftTopCorner = new PuzzleShape(new int[]{0,0,JOKER,JOKER});
+    private static PuzzleShape rightTopCorner = new PuzzleShape(new int[]{JOKER,0,0,JOKER});
+    private static PuzzleShape rightBottomCorner = new PuzzleShape(new int[]{JOKER,JOKER,0,0});
+    private static PuzzleShape leftBottomCorner = new PuzzleShape(new int[]{0,JOKER,JOKER,0});
+    private Puzzle puzzle;
 
-        return specificEdges;
-    }
-    
-    
-    public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge1, Edge edge2) {
-        List<PuzzlePiece> specificEdges = new ArrayList<>();
-        for (PuzzlePiece p : puzzle) {
-            if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2)) {
-                specificEdges.add(p);
-            }
-        }
-
-        return specificEdges;
+    public PuzzleValidation(Puzzle puzzle) {
+        this.puzzle = puzzle;
     }
 
-    public static List<PuzzlePiece> getSpecificPieces(List<PuzzlePiece> puzzle, Edge edge1, Edge edge2, Edge edge3) {
-        List<PuzzlePiece> specificEdges = new ArrayList<>();
-        for (PuzzlePiece p : puzzle) {
-            if (p.listOfEdges.contains(edge1) && p.listOfEdges.contains(edge2) && p.listOfEdges.contains(edge3)) {
-                specificEdges.add(p);
-            }
-        }
 
-        return specificEdges;
-    }
 
-    public static boolean validateNumberOfStraightEdges(List<PuzzlePiece> puzzle) {
 
-        if (getSpecificPieces(puzzle,leftStraight).size() != getSpecificPieces(puzzle,rightStraight).size()) {
-            return false;
-        }
-
-        if (getSpecificPieces(puzzle,topStraight).size() != getSpecificPieces(puzzle,bottomStraight).size()) {
-
-            return false;
-
-        }
-        return true;
-    }
     public static boolean validateNumberOfStraightEdges(List<PuzzlePiece> puzzle,int rows, int cols) {
 
-        if (getSpecificPieces(puzzle,leftStraight).size() < rows) {
+        if (getPiecesMatchToShape(puzzle,leftStraight).size() < rows) {
             return false;
         }
-        if (getSpecificPieces(puzzle,rightStraight).size() < rows) {
+        if (getPiecesMatchToShape(puzzle,rightStraight).size() < rows) {
             return false;
         }
-        if (getSpecificPieces(puzzle,topStraight).size() < cols) {
+        if (getPiecesMatchToShape(puzzle,topStraight).size() < cols) {
             return false;
         }
-        if (getSpecificPieces(puzzle,bottomStraight).size() < cols) {
-            return false;
-        }
-
-        return true;
-    }
-
-
-    public static boolean validateTopLeftCorner(List<PuzzlePiece> puzzle) {
-
-        if(getSpecificPieces(puzzle,leftStraight,topStraight).size() == 0){
-
+        if (getPiecesMatchToShape(puzzle,bottomStraight).size() < cols) {
             return false;
         }
 
         return true;
     }
 
-    public static boolean validateBottomLeftCorner(List<PuzzlePiece> puzzle) {
-
-        if(getSpecificPieces(puzzle,leftStraight,bottomStraight).size() == 0){
-
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean validateTopRightCorner(List<PuzzlePiece> puzzle)  {
-        if(getSpecificPieces(puzzle,rightStraight,topStraight).size() == 0){
-
-            return false;
-        }
-
-        return true;
-    }
-    public static boolean validateBottomRightCorner(List<PuzzlePiece> puzzle) {
-        if(getSpecificPieces(puzzle,rightStraight,bottomStraight).size() == 0){
-
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean validateSumOfEdges(List<PuzzlePiece> puzzle){
-        int sum = 0;
-        for(PuzzlePiece p : puzzle){
-            for(Edge e : p.listOfEdges){
-                sum += e.getValue();
-            }
-        }
-        return sum == 0;
-    }
     public static boolean isPossibleOneRow(List<PuzzlePiece> puzzle) {
-        if(getSpecificPieces(puzzle,leftStraight,topStraight,bottomStraight).size() != 0
-                && getSpecificPieces(puzzle,rightStraight,topStraight,bottomStraight).size() != 0
+        if(getPiecesMatchToShape(puzzle,new PuzzleShape(new int[]{0,0,JOKER,0})).size() != 0
+                && getPiecesMatchToShape(puzzle,new PuzzleShape(new int[]{JOKER,0,0,0})).size() != 0
                 && validateNumberOfStraightEdges(puzzle,1,puzzle.size())) {
 
             return true;
@@ -141,8 +58,8 @@ public class PuzzleValidation {
 
 
     public static boolean isPossibleOneColumn(List<PuzzlePiece> puzzle) {
-        if(getSpecificPieces(puzzle,leftStraight,topStraight,rightStraight).size() != 0
-                && getSpecificPieces(puzzle,leftStraight,bottomStraight,rightStraight).size() != 0
+        if(getPiecesMatchToShape(puzzle,new PuzzleShape(new int[]{0,0,0,JOKER})).size() != 0
+                && getPiecesMatchToShape(puzzle,new PuzzleShape(new int[]{0,JOKER,0,0})).size() != 0
                 && validateNumberOfStraightEdges(puzzle,puzzle.size(),1)) {
 
             return true;
@@ -168,6 +85,78 @@ public class PuzzleValidation {
 
     }
 
+    public static boolean validateNumberOfStraightEdges(List<PuzzlePiece> puzzle) {
+
+        if (getPiecesMatchToShape(puzzle,leftStraight).size() != getPiecesMatchToShape(puzzle,rightStraight).size()) {
+            return false;
+        }
+
+        if (getPiecesMatchToShape(puzzle,topStraight).size() != getPiecesMatchToShape(puzzle,bottomStraight).size()) {
+
+            return false;
+
+        }
+        return true;
+    }
+
+    public static boolean validateSumOfEdges(List<PuzzlePiece> puzzle){
+        int sum = 0;
+        for(PuzzlePiece p : puzzle){
+
+            sum += p.getLeftValue() + p.getRightValue()+ p.getTopValue() + p.getBottomValue();
+
+        }
+        return sum == 0;
+    }
+
+    public static boolean validateTopLeftCorner(List<PuzzlePiece> puzzle) {
+
+        if(getPiecesMatchToShape(puzzle,leftTopCorner).size() == 0){
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean validateBottomLeftCorner(List<PuzzlePiece> puzzle) {
+
+        if(getPiecesMatchToShape(puzzle,leftBottomCorner).size() == 0){
+
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateTopRightCorner(List<PuzzlePiece> puzzle)  {
+        if(getPiecesMatchToShape(puzzle,rightTopCorner).size() == 0){
+
+            return false;
+        }
+
+        return true;
+    }
+    public static boolean validateBottomRightCorner(List<PuzzlePiece> puzzle) {
+        if(getPiecesMatchToShape(puzzle,rightBottomCorner).size() == 0){
+
+            return false;
+        }
+        return true;
+    }
+    //==================================================================================
+//                    Private methods
+//    ================================================================================
+
+    private static List<PuzzlePiece> getPiecesMatchToShape(List<PuzzlePiece> puzzle, PuzzleShape shape) {
+        List<PuzzlePiece> specificEdges = new ArrayList<PuzzlePiece>();
+        for (PuzzlePiece p : puzzle) {
+            if (shape.isMatch(p)) {
+                specificEdges.add(p);
+            }
+        }
+
+        return specificEdges;
+    }
     private static int getRowSum(PuzzlePiece[][] solvedPuzzle, int row) {
         int sum = solvedPuzzle[row][0].getLeftValue();
 

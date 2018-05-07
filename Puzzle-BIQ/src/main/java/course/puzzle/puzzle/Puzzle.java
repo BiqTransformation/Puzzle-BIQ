@@ -18,10 +18,11 @@ public class Puzzle {
 
     Map<PuzzleShape,List<PuzzlePiece>> allPiecesMap = new HashMap<>();
     
-    public Puzzle(List<PuzzlePiece> puzzle,boolean rotate) {
-        this.isRotate=rotate;
-    	this.puzzlePieces = puzzle;
-        this.isRotate=isRotate;
+    public Puzzle(List<PuzzlePiece> puzzlePieceList,boolean rotate) {
+        this.isRotate = rotate;
+
+        puzzlePieces = puzzlePieceList;
+
         validatePuzzle();
         indexer();
     }
@@ -47,7 +48,7 @@ public class Puzzle {
     }
 
 	public List<PuzzlePiece> getPuzzle() {
-        return puzzlePieces;
+               return puzzlePieces;
     }
 
     public List<String> getErrors() {
@@ -65,33 +66,41 @@ public class Puzzle {
         return null;
     }
 
-    public void validatePuzzle() {
-   if(!isRotate){
-       if (!PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces)) {
-           errors.add(PuzzleErrors.WRONG_NUMBER_OF_STRAIGHT_EDGES);
-       }
-       if (!PuzzleValidation.validateTopLeftCorner(puzzlePieces)) {
-           errors.add(PuzzleErrors.MISSING_CORNER_TL);
-       }
-       if (!PuzzleValidation.validateTopRightCorner(puzzlePieces)) {
-           errors.add(PuzzleErrors.MISSING_CORNER_TR);
+    public void addError(String error){
+        errors.add(error);
+    }
 
-       }
-       if (!PuzzleValidation.validateBottomRightCorner(puzzlePieces)) {
-           errors.add(PuzzleErrors.MISSING_CORNER_BR);
-
-       }
-       if (!PuzzleValidation.validateBottomLeftCorner(puzzlePieces)) {
-           errors.add(PuzzleErrors.MISSING_CORNER_BL);
-       }
-       if (!PuzzleValidation.validateSumOfEdges(puzzlePieces)) {
-           errors.add(PuzzleErrors.SUM_OF_EDGES_IS_NOT_ZERO);
-       }
-   }
+    public void validatePuzzle(){
+        boolean isValid = true;
+        if(!PuzzleValidation.validateTopLeftCorner(puzzlePieces)){
+            addError(PuzzleErrors.MISSING_CORNER_TL);
+            isValid = false;
+        }
+        if(!PuzzleValidation.validateTopRightCorner(puzzlePieces)){
+            addError(PuzzleErrors.MISSING_CORNER_TR);
+            isValid = false;
+        }
+        if(!PuzzleValidation.validateBottomLeftCorner(puzzlePieces)){
+            addError(PuzzleErrors.MISSING_CORNER_BL);
+            isValid = false;
+        }
+        if(!PuzzleValidation.validateBottomRightCorner(puzzlePieces)){
+            addError(PuzzleErrors.MISSING_CORNER_BR);
+            isValid = false;
+        }
+//        if(!PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces)){
+//            addError(PuzzleErrors.WRONG_NUMBER_OF_STRAIGHT_EDGES);
+//
+//        }
+//        if (!PuzzleValidation.validateSumOfEdges(puzzlePieces)) {
+//            addError(PuzzleErrors.SUM_OF_EDGES_IS_NOT_ZERO);
+//            isValid = false;
+//        }
 
     }
+
     private void indexer(){
-        List<PuzzlePiece> allPieces = new ArrayList<>();
+        List<PuzzlePiece> allPieces;
         if(isRotate){
             allPieces = rotateAll(puzzlePieces);
         }

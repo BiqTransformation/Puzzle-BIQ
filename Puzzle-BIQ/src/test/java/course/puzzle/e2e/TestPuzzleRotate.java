@@ -26,7 +26,7 @@ public class TestPuzzleRotate {
 		puzzleTest.add(p4);
 		Puzzle puzzle = new Puzzle(puzzleTest,true);
 		puzzle.setRotate(true);
-		List<PuzzlePiece> retValue=new RunSolution(puzzle,0,0).rotateAll(puzzle.getPuzzle());
+		List<PuzzlePiece> retValue = puzzle.getPuzzle();
 		assertEquals(retValue,puzzleTest);		
 		}
 	
@@ -41,10 +41,10 @@ public class TestPuzzleRotate {
 		puzzleTest.add(p2);
 		puzzleTest.add(p3);	
 		Puzzle puzzle = new Puzzle(puzzleTest,true);
-		puzzle.setRotate(true);
-		List<PuzzlePiece> retValue=new RunSolution(puzzle,0,0).rotateAll(puzzle.getPuzzle());
+
+		List<PuzzlePiece> retValue= puzzle.getPuzzle();;
 		for(PuzzlePiece p : retValue){
-			System.out.println(p.getId() + " " + p.getRotateEdge());
+			System.out.println(p);
 		}
 		assertEquals(retValue.size(),7);
 		

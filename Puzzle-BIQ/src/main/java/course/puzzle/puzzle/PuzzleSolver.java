@@ -14,9 +14,8 @@ import java.util.concurrent.*;
 
 public class PuzzleSolver {
 
-    //members
+  private static final int THREAD_TIMEOUT = 60;
     private List<PuzzlePiece> puzzlePieces;
-
     private PuzzlePiece[][] solvedPuzzle;
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
     private Puzzle puzzleInstance;
@@ -32,21 +31,24 @@ public class PuzzleSolver {
     public Map<Integer, Integer> getPossibleSolutions() {
 
         int puzzleSize = puzzlePieces.size();
+        if(puzzleInstance.getRotate()){
+            puzzlePieces = puzzleInstance.rotateAll(puzzlePieces);
+        }
         if (puzzleSize == 1) {
             solutions.put(1, 1);
         } else if (puzzleSize > 1) {
-//            if (PuzzleValidation.isPossibleOneRow(puzzlePieces)) {
+            if (PuzzleValidation.isPossibleOneRow(puzzlePieces)) {
                 solutions.put(1, puzzleSize);
-//            }
-//            if (PuzzleValidation.isPossibleOneColumn(puzzlePieces)) {
+            }
+            if (PuzzleValidation.isPossibleOneColumn(puzzlePieces)) {
                 solutions.put(puzzleSize, 1);
-//            }
+            }
             for (int i = 2; i < puzzleSize; i++) {
                 if (puzzleSize % i == 0) {
                     int num = puzzleSize / i;
-//                    if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num)) {
+                    if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num)) {
                     solutions.put(i, num);
-//                  }
+                  }
 
                 }
             }
@@ -87,7 +89,8 @@ public class PuzzleSolver {
 
                   try {
                      try {
-                         solvedPuzzle = service.poll(60, TimeUnit.SECONDS).get();
+//                         solvedPuzzle = service.poll(THREAD_TIMEOUT, TimeUnit.SECONDS).get();
+                         solvedPuzzle = service.take().get();
                      }catch (NullPointerException e){
 
                      }

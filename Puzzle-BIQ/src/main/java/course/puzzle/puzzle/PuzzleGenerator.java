@@ -9,14 +9,14 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Generator {
+public class PuzzleGenerator {
     private int rows;
     private int cols;
     private String dir;
     private PuzzlePiece[][] board;
     List<PuzzlePiece> list = new ArrayList<>();
 
-    public Generator(int rows, int cols, String dir) {
+    public PuzzleGenerator(int rows, int cols, String dir) {
         this.rows = rows;
         this.cols = cols;
         this.dir = dir;
@@ -92,14 +92,14 @@ public class Generator {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("NumElements = " + rows*cols + "\n");
+        List<String> toPrint = new ArrayList<>();
+        toPrint.add("NumElements = " + rows*cols);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 PuzzlePiece p = board[i][j];
-                sb.append(p.getId() + " " + p.getShape() +"\n");
+                toPrint.add(p.getId() + " " + p.getShape());
             }
         }
-        return sb.toString();
+        return toPrint.stream().collect(Collectors.joining("\n"));
     }
 }
