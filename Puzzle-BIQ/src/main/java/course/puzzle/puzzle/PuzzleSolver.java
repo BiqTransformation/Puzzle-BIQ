@@ -20,12 +20,18 @@ public class PuzzleSolver {
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
     private Puzzle puzzleInstance;
     private int numOfThreads;
+    private long timeout;
 
     public PuzzleSolver(Puzzle puzzleInstance, int numOfThreads) {
         this.numOfThreads = numOfThreads;
         this.puzzleInstance = puzzleInstance;
         puzzlePieces = puzzleInstance.getPuzzle();
-
+    }
+    public PuzzleSolver(Puzzle puzzleInstance, int numOfThreads, long timeoutMilliseconds) {
+        this.numOfThreads = numOfThreads;
+        this.puzzleInstance = puzzleInstance;
+        puzzlePieces = puzzleInstance.getPuzzle();
+        timeout = timeoutMilliseconds;
     }
 
     public Map<Integer, Integer> getPossibleSolutions() {
@@ -77,7 +83,7 @@ public class PuzzleSolver {
             int cols = s.getValue();
             System.out.println(rows + "x" + cols);
 
-            Callable<PuzzlePiece[][]> solution = new RunSolution(puzzleInstance, rows, cols);
+            Callable<PuzzlePiece[][]> solution = new RunSolution(puzzleInstance, rows, cols, timeout);
             callables.add(solution);
         }
 
@@ -89,7 +95,6 @@ public class PuzzleSolver {
 
                   try {
                      try {
-//                         solvedPuzzle = service.poll(THREAD_TIMEOUT, TimeUnit.SECONDS).get();
                          solvedPuzzle = service.take().get();
                      }catch (NullPointerException e){
 
@@ -108,7 +113,6 @@ public class PuzzleSolver {
          }
 
         executor.shutdownNow();
-
         System.out.println("Finished all threads");
     }
 

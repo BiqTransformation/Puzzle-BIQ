@@ -18,7 +18,7 @@ public class RunSolution implements Callable {
 
     private int rows;
     private int cols;
-    private static long TIMEOUT_MILLISECONDS = 120000;
+    private long TIMEOUT_MILLISECONDS;
     private ThreadLocal<Long> start = ThreadLocal.withInitial(() -> System.nanoTime());
     private ThreadLocal<Boolean> isTimeout = ThreadLocal.withInitial(() -> false);
     private PuzzleShape toSearch = new PuzzleShape(new int[]{JOKER, JOKER, JOKER, JOKER});
@@ -36,17 +36,26 @@ public class RunSolution implements Callable {
         puzzleShapeListMap = puzzle.getAllPiecesMap();
         initPuzzle(rows, cols);
     }
+    public RunSolution(Puzzle puzzle, int rows, int cols, long timeout) {
+        this.rows = rows;
+        this.cols = cols;
+        this.puzzle = puzzle;
+        TIMEOUT_MILLISECONDS = timeout;
+        puzzlePieces = puzzle.getPuzzle();
+        puzzleShapeListMap = puzzle.getAllPiecesMap();
+        initPuzzle(rows, cols);
+    }
 
     @Override
     public PuzzlePiece[][] call() throws Exception {
-        System.out.println("Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " started at " + new Timestamp(System.currentTimeMillis()));
+        System.out.println(new Timestamp(System.currentTimeMillis()) + " :Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " started");
         puzzleSolution();
         if (isTimeout.get()) {
-            System.out.println("Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " exceed timeout " + new Timestamp(System.currentTimeMillis()));
+            System.out.println(new Timestamp(System.currentTimeMillis()) + ":Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " exceed timeout");
             return null;
         }
         if (puzzle.getSolved().get()) {
-            System.out.println("Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " found solution at " + new Timestamp(System.currentTimeMillis()));
+            System.out.println(new Timestamp(System.currentTimeMillis()) + ":Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " : puzzle is solved");
             return getSolvedPuzzle();
         } else {
             return null;

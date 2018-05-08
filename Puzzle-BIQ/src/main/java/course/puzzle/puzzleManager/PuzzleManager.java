@@ -28,6 +28,7 @@ public class PuzzleManager {
     FileOutput fo;
     private boolean rotate;
     private int numOfThreads;
+    private static long TIMEOUT_MILLISECONDS = 120000;
 
     public PuzzleManager(String fromPath, String toPath,boolean rotate,int numOfThreads) {
         this.rotate=rotate;
@@ -66,7 +67,7 @@ public class PuzzleManager {
             return;
         }
         else{
-            solvePuzzle = new PuzzleSolver(newPuzzle,numOfThreads);
+            solvePuzzle = new PuzzleSolver(newPuzzle,numOfThreads,TIMEOUT_MILLISECONDS);
             PuzzlePiece[][] puz = solvePuzzle.findSolution();
             if (puz != null) {
                 fo.printSolution(puz);
