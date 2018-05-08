@@ -48,14 +48,14 @@ public class RunSolution implements Callable {
 
     @Override
     public PuzzlePiece[][] call() throws Exception {
-        System.out.println(new Timestamp(System.currentTimeMillis()) + " :Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " started");
+        System.out.println(printToLog("started"));
         puzzleSolution();
         if (isTimeout.get()) {
-            System.out.println(new Timestamp(System.currentTimeMillis()) + ":Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " exceed timeout");
+            System.out.println(printToLog("exceed timeout"));
             return null;
         }
         if (puzzle.getSolved().get()) {
-            System.out.println(new Timestamp(System.currentTimeMillis()) + ":Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " : puzzle is solved");
+            System.out.println(printToLog(" : puzzle is solved"));
             return getSolvedPuzzle();
         } else {
             return null;
@@ -66,7 +66,8 @@ public class RunSolution implements Callable {
     public void puzzleSolution() {
 
         if(puzzle.getSolved().get()){
-            System.out.println("Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " - puzzle is already solved! " + new Timestamp(System.currentTimeMillis()));
+            System.out.println(printToLog("puzzle is already solved!"));
+            Thread.currentThread().interrupt();
        }
         else {
             toSearch.setLeft(0);
@@ -221,6 +222,9 @@ public class RunSolution implements Callable {
         toSearch = new PuzzleShape(new int[]{JOKER, JOKER, JOKER, JOKER});
     }
 
+    private String printToLog(String message){
+        return new Timestamp(System.currentTimeMillis()) + ": Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " " + message;
+    }
     private boolean verifyThatSolutionContainsAllPieces() {
         if (!(solvedPuzzle.length * solvedPuzzle[0].length == puzzlePieces.size())) {
             return false;

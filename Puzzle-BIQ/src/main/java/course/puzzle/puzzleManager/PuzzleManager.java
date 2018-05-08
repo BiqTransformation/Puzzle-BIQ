@@ -102,6 +102,9 @@ public class PuzzleManager {
 //        Verify that number of pieces in solved matrix is equal to number of pieces in the original puzzle
         List<String> output = FileReader.readFromFile(outputFile);
 
+        if(output.contains("Cannot solve puzzle")){
+            return false;
+        }
         int rows = output.size();
         int cols = output.get(0).split("\\s+").length;
         if (rows * cols != puzzlePieces.size()) {
