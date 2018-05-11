@@ -52,7 +52,7 @@ public class RunSolution implements Callable {
             System.out.println(printToLog(" : started"));
             puzzleSolution();
             if (solvedPuzzle != null) {
-                System.out.println(printToLog(" : found solution"));
+                System.out.println(printToLog(" : puzzle is solved"));
                 return solvedPuzzle;
             } else {
                 System.out.println(printToLog(" : puzzle is solved, I am exit"));
