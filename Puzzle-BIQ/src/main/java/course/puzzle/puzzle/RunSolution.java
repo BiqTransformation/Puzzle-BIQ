@@ -23,23 +23,22 @@ public class RunSolution implements Callable {
     private ThreadLocal<Boolean> isTimeout = ThreadLocal.withInitial(() -> false);
     private PuzzleShape toSearch = new PuzzleShape(new int[]{JOKER, JOKER, JOKER, JOKER});
     private PuzzlePiece[][] solvedPuzzle = new PuzzlePiece[][]{};
-    private Puzzle puzzle;
     private List<PuzzlePiece> puzzlePieces;
     private Stack<Integer> piecesUsed;
     private Map<PuzzleShape, List<PuzzlePiece>> puzzleShapeListMap;
 
+
     public RunSolution(Puzzle puzzle, int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        this.puzzle = puzzle;
         puzzlePieces = puzzle.getPuzzle();
         puzzleShapeListMap = puzzle.getAllPiecesMap();
         initPuzzle(rows, cols);
     }
+
     public RunSolution(Puzzle puzzle, int rows, int cols, long timeout) {
         this.rows = rows;
         this.cols = cols;
-        this.puzzle = puzzle;
         TIMEOUT_MILLISECONDS = timeout;
         puzzlePieces = puzzle.getPuzzle();
         puzzleShapeListMap = puzzle.getAllPiecesMap();
@@ -47,63 +46,49 @@ public class RunSolution implements Callable {
     }
 
     @Override
-    public PuzzlePiece[][] call() throws Exception {
-        System.out.println(printToLog("started"));
-        puzzleSolution();
-        if (isTimeout.get()) {
-            System.out.println(printToLog("exceed timeout"));
-            return null;
-        }
-        if (puzzle.getSolved().get()) {
-            System.out.println(printToLog(" : puzzle is solved"));
-            return getSolvedPuzzle();
-        } else {
-            return null;
-        }
+    public PuzzlePiece[][] call() {
+        solvedPuzzle = null;
+
+            System.out.println(printToLog(" : started"));
+            puzzleSolution();
+            if (solvedPuzzle != null) {
+                System.out.println(printToLog(" : found solution"));
+                return solvedPuzzle;
+            } else {
+                System.out.println(printToLog(" : puzzle is solved, I am exit"));
+                return null;
+            }
 
     }
+
 
     public void puzzleSolution() {
 
-        if(puzzle.getSolved().get()){
-            System.out.println(printToLog("puzzle is already solved!"));
-            Thread.currentThread().interrupt();
-       }
-        else {
-            toSearch.setLeft(0);
-            toSearch.setTop(0);
-            List<PuzzlePiece> listTL = getSpecificPieces();
-            for (PuzzlePiece first : listTL) {
+        toSearch.setLeft(0);
+        toSearch.setTop(0);
+        List<PuzzlePiece> listTL = getSpecificPieces();
+        for (PuzzlePiece first : listTL) {
+            initPuzzle(rows, cols);
+            solvedPuzzle[0][0] = first;
+            piecesUsed.push(first.getId());
+
+            boolean res = solvePuzzleRecursion(first, 0, 0, rows, cols);
+            if (isTimeout.get()) {
+                break;
+            }
+            if (res) {
+                return;
+            } else {
+                piecesUsed.pop();
                 initPuzzle(rows, cols);
-                solvedPuzzle[0][0] = first;
-                piecesUsed.push(first.getId());
-
-                boolean res = solvePuzzleRecursion(first, 0, 0, rows, cols);
-                if (isTimeout.get()) {
-                    break;
-                }
-                puzzle.getSolved().set(res);
-                if (puzzle.getSolved().get()) {
-
-                    return;
-                } else {
-                    piecesUsed.pop();
-                    initPuzzle(rows, cols);
-                }
             }
         }
-
-
     }
 
-
-    public PuzzlePiece[][] getSolvedPuzzle() {
-        return solvedPuzzle;
-    }
 
     private boolean solvePuzzleRecursion(PuzzlePiece current, int row, int col, int rows, int cols) {
         boolean changeDirection = false;
-        if ((System.nanoTime() - start.get()) / 1000000 > TIMEOUT_MILLISECONDS) {
+        if (Thread.interrupted() || (System.nanoTime() - start.get()) / 1000 / 1000 > TIMEOUT_MILLISECONDS) {
             isTimeout.set(true);
             return isTimeout.get();
         }
@@ -116,36 +101,10 @@ public class RunSolution implements Callable {
             }
 
         } else {
-            initToSearch();
-            if (col == cols - 1 && row <= rows - 2) {
-                col = 0;
-                current = solvedPuzzle[row][col];
-                toSearch.setLeft(0);
-                toSearch.setTop(0 - current.getBottomValue());
-                if (row == rows - 2) {
-                    toSearch.setBottom(0);
-                }
-                ++row;
-                changeDirection = true;
-            } else if (row == 0) {
-                toSearch.setLeft(0 - current.getRightValue());
-                toSearch.setTop(0);
-                if (col == cols - 2) {
-                    toSearch.setRight(0);
-                }
-            } else if (row > 0 && row < rows - 1) {
-                toSearch.setLeft(0 - current.getRightValue());
-                toSearch.setTop(0 - solvedPuzzle[row - 1][col + 1].getBottomValue());
-                if (col == cols - 2) {
-                    toSearch.setRight(0);
-                }
-            } else if (row == rows - 1) {
-                toSearch.setLeft(0 - current.getRightValue());
-                toSearch.setBottom(0);
-                if (col == cols - 2) {
-                    toSearch.setRight(0);
-                }
-            }
+            PrepareSearchRequirement prepareSearchRequirement = new PrepareSearchRequirement(current, row, col, rows, cols, changeDirection).invoke();
+            row = prepareSearchRequirement.getRow();
+            col = prepareSearchRequirement.getCol();
+            changeDirection = prepareSearchRequirement.isChangeDirection();
 
             List<PuzzlePiece> list = getSpecificPieces();
 
@@ -222,9 +181,10 @@ public class RunSolution implements Callable {
         toSearch = new PuzzleShape(new int[]{JOKER, JOKER, JOKER, JOKER});
     }
 
-    private String printToLog(String message){
-        return new Timestamp(System.currentTimeMillis()) + ": Thread " + Thread.currentThread().getId() + " " + cols + "x" + rows + " " + message;
+    private String printToLog(String message) {
+        return new Timestamp(System.currentTimeMillis()) + ": Thread " + Thread.currentThread().getId() + " " + rows + "x" + cols + " " + message;
     }
+
     private boolean verifyThatSolutionContainsAllPieces() {
         if (!(solvedPuzzle.length * solvedPuzzle[0].length == puzzlePieces.size())) {
             return false;
@@ -246,4 +206,67 @@ public class RunSolution implements Callable {
     }
 
 
+    private class PrepareSearchRequirement {
+        private PuzzlePiece current;
+        private int row;
+        private int col;
+        private int rows;
+        private int cols;
+        private boolean changeDirection;
+
+        public PrepareSearchRequirement(PuzzlePiece current, int row, int col, int rows, int cols, boolean changeDirection) {
+            this.current = current;
+            this.row = row;
+            this.col = col;
+            this.rows = rows;
+            this.cols = cols;
+            this.changeDirection = changeDirection;
+        }
+
+        public int getRow() {
+            return row;
+        }
+
+        public int getCol() {
+            return col;
+        }
+
+        public boolean isChangeDirection() {
+            return changeDirection;
+        }
+
+        public PrepareSearchRequirement invoke() {
+            initToSearch();
+            if (col == cols - 1 && row <= rows - 2) {
+                col = 0;
+                current = solvedPuzzle[row][col];
+                toSearch.setLeft(0);
+                toSearch.setTop(0 - current.getBottomValue());
+                if (row == rows - 2) {
+                    toSearch.setBottom(0);
+                }
+                ++row;
+                changeDirection = true;
+            } else if (row == 0) {
+                toSearch.setLeft(0 - current.getRightValue());
+                toSearch.setTop(0);
+                if (col == cols - 2) {
+                    toSearch.setRight(0);
+                }
+            } else if (row > 0 && row < rows - 1) {
+                toSearch.setLeft(0 - current.getRightValue());
+                toSearch.setTop(0 - solvedPuzzle[row - 1][col + 1].getBottomValue());
+                if (col == cols - 2) {
+                    toSearch.setRight(0);
+                }
+            } else if (row == rows - 1) {
+                toSearch.setLeft(0 - current.getRightValue());
+                toSearch.setBottom(0);
+                if (col == cols - 2) {
+                    toSearch.setRight(0);
+                }
+            }
+            return this;
+        }
+    }
 }

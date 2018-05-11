@@ -90,11 +90,17 @@ public class PuzzlePiece {
         return id;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PuzzlePiece)) return false;
         PuzzlePiece PuzzlePiece = (PuzzlePiece) o;
         return Objects.equals(getId(), PuzzlePiece.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 
     public boolean isAllEdgesEquals() {

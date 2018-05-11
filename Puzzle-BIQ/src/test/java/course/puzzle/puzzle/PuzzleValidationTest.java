@@ -71,12 +71,28 @@ public class PuzzleValidationTest {
         puzzleList.add(p3);
         puzzleList.add(p4);
 
-        assertTrue(PuzzleValidation.validateTopLeftCorner(puzzleList));
-        assertTrue(PuzzleValidation.validateTopRightCorner(puzzleList));
-        assertTrue(PuzzleValidation.validateBottomLeftCorner(puzzleList));
-        assertTrue(PuzzleValidation.validateBottomRightCorner(puzzleList));
+        assertTrue(PuzzleValidation.validateTopLeftCorner(puzzleList,false));
+        assertTrue(PuzzleValidation.validateTopRightCorner(puzzleList,false));
+        assertTrue(PuzzleValidation.validateBottomLeftCorner(puzzleList,false));
+        assertTrue(PuzzleValidation.validateBottomRightCorner(puzzleList,false));
     }
+    @Test
+    public void goodTestCornersWithRotation() {
+        List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
+        PuzzlePiece p1 = new PuzzlePiece(1, 1, 0, 0, 1);
+        PuzzlePiece p2 = new PuzzlePiece(2, 1, 0, 0, -1);
+        PuzzlePiece p3 = new PuzzlePiece(3, 1, 0, 0, 1);
+        PuzzlePiece p4 = new PuzzlePiece(4, 0, 1, 1, 0);
+        puzzleList.add(p1);
+        puzzleList.add(p2);
+        puzzleList.add(p3);
+        puzzleList.add(p4);
 
+        assertTrue(PuzzleValidation.validateTopLeftCorner(puzzleList,true));
+        assertTrue(PuzzleValidation.validateTopRightCorner(puzzleList,true));
+        assertTrue(PuzzleValidation.validateBottomLeftCorner(puzzleList,true));
+        assertTrue(PuzzleValidation.validateBottomRightCorner(puzzleList,true));
+    }
     @Test
     public void badTestCorners() {
         List<PuzzlePiece> puzzleList = new ArrayList<PuzzlePiece>();
@@ -89,10 +105,10 @@ public class PuzzleValidationTest {
         puzzleList.add(p3);
         puzzleList.add(p4);
 
-        assertFalse(PuzzleValidation.validateTopLeftCorner(puzzleList));
-        assertFalse(PuzzleValidation.validateTopRightCorner(puzzleList));
-        assertFalse(PuzzleValidation.validateTopLeftCorner(puzzleList));
-        assertFalse(PuzzleValidation.validateBottomRightCorner(puzzleList));
+        assertFalse(PuzzleValidation.validateTopLeftCorner(puzzleList,false));
+        assertFalse(PuzzleValidation.validateTopRightCorner(puzzleList,false));
+        assertFalse(PuzzleValidation.validateTopLeftCorner(puzzleList,false));
+        assertFalse(PuzzleValidation.validateBottomRightCorner(puzzleList,false));
 
     }
 

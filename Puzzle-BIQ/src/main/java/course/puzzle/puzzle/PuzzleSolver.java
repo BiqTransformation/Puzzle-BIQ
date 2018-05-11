@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Lior (getPossibleSolutions) and Svetlana (findSolution)
@@ -21,6 +22,8 @@ public class PuzzleSolver {
     private Puzzle puzzleInstance;
     private int numOfThreads;
     private long timeout;
+    private AtomicBoolean solved = new AtomicBoolean(false);
+
 
     public PuzzleSolver(Puzzle puzzleInstance, int numOfThreads) {
         this.numOfThreads = numOfThreads;
@@ -37,24 +40,25 @@ public class PuzzleSolver {
     public Map<Integer, Integer> getPossibleSolutions() {
 
         int puzzleSize = puzzlePieces.size();
-        if(puzzleInstance.getRotate()){
-            puzzlePieces = puzzleInstance.rotateAll(puzzlePieces);
-        }
+
         if (puzzleSize == 1) {
             solutions.put(1, 1);
         } else if (puzzleSize > 1) {
-            if (PuzzleValidation.isPossibleOneRow(puzzlePieces)) {
+            if (PuzzleValidation.isPossibleOneRow(puzzlePieces, puzzleInstance.getRotate())) {
                 solutions.put(1, puzzleSize);
             }
-            if (PuzzleValidation.isPossibleOneColumn(puzzlePieces)) {
+            if (PuzzleValidation.isPossibleOneColumn(puzzlePieces, puzzleInstance.getRotate())) {
                 solutions.put(puzzleSize, 1);
             }
             for (int i = 2; i < puzzleSize; i++) {
                 if (puzzleSize % i == 0) {
                     int num = puzzleSize / i;
-                    if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num)) {
-                    solutions.put(i, num);
-                  }
+                   if(num <= i){
+                        if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
+                         solutions.put(i, num);
+                        }
+                    }
+
 
                 }
             }
@@ -72,6 +76,7 @@ public class PuzzleSolver {
 
 
     private void threadManager() {
+        solvedPuzzle = null;
         ExecutorService executor = Executors.newFixedThreadPool(numOfThreads);
         CompletionService<PuzzlePiece[][]> service = new ExecutorCompletionService<>(executor);
 
@@ -88,31 +93,37 @@ public class PuzzleSolver {
         }
 
         for (Callable<PuzzlePiece[][]> solution : callables) {
-            service.submit(solution);
+            if(!solved.get()){
+                service.submit(solution);
+            }
+
        }
 
-        for (int i = 1; i <= solutions.size(); i++) {
+        try {
+            solvedPuzzle = service.take().get();
 
-                  try {
-                     try {
-                         solvedPuzzle = service.take().get();
-                     }catch (NullPointerException e){
-
-                     }
-
-                     if(solvedPuzzle != null){
-                         System.out.println("Solved! " + puzzleInstance.getSolved());
-                        break;
-                     }
-                 } catch (InterruptedException e) {
-                     e.printStackTrace();
-                 } catch (ExecutionException e) {
-                     e.printStackTrace();
-                 }
-
-         }
+            if(solvedPuzzle != null){
+                solved.set(true);
+                System.out.println("Solved!");
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         executor.shutdownNow();
+        try {
+            if (executor.awaitTermination(10, TimeUnit.SECONDS)) {
+                System.out.println("task completed");
+            } else {
+                System.out.println("Forcing shutdown...");
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("Finished all threads");
     }
 
