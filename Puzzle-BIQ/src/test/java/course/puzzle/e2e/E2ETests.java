@@ -36,7 +36,7 @@ public class E2ETests {
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"7x6"}, {"5x8"}, {"7x7"}, {"6x9"}, {"8x7"}, {"8x8"}, {"9x9"}, {"10x10"}, {"11x11"}, {"14x10"}, {"10x15"}
+                {"7x6"},{"2x20"}, {"5x8"}, {"7x7"}, {"6x9"}, {"8x7"}, {"8x8"}, {"9x9"}, {"10x10"}, {"11x11"}, {"14x10"}, {"10x15"}
         });
     }
 

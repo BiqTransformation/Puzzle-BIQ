@@ -28,7 +28,7 @@ public class PuzzleManager {
     FileOutput fo;
     private boolean rotate;
     private int numOfThreads;
-    private static long TIMEOUT_MILLISECONDS = 130000;
+    private static long TIMEOUT_MILLISECONDS = 180000;
 
     public PuzzleManager(String fromPath, String toPath,boolean rotate,int numOfThreads) {
         this.rotate=rotate;

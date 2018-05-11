@@ -74,6 +74,12 @@ public class RunSolution implements Callable {
 
             boolean res = solvePuzzleRecursion(first, 0, 0, rows, cols);
             if (isTimeout.get()) {
+                solvedPuzzle = null;
+
+                break;
+            }
+            if (Thread.interrupted()) {
+                solvedPuzzle = null;
                 break;
             }
             if (res) {
@@ -88,13 +94,17 @@ public class RunSolution implements Callable {
 
     private boolean solvePuzzleRecursion(PuzzlePiece current, int row, int col, int rows, int cols) {
         boolean changeDirection = false;
-        if (Thread.interrupted() || (System.nanoTime() - start.get()) / 1000 / 1000 > TIMEOUT_MILLISECONDS) {
+        if ((System.nanoTime() - start.get()) / 1000 / 1000 > TIMEOUT_MILLISECONDS) {
+            System.out.println(printToLog(" : could not solve puzzle, timeout exceed"));
             isTimeout.set(true);
             return isTimeout.get();
         }
-
+        if (Thread.interrupted()) {
+            System.out.println(printToLog(" : I am exit"));
+            return true;
+        }
         if (col == cols - 1 && row == rows - 1) {
-            if (validateSolution() || isTimeout.get()) {
+            if (validateSolution()) {
                 return true;
             } else {
                 return false;
