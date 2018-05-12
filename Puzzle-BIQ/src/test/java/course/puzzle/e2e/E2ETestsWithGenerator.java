@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
  */
 
 @RunWith(Parameterized.class)
-public class E2ETests {
+public class E2ETestsWithGenerator {
     private static String tempDir;
 
     @BeforeClass
