@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PuzzleSolver {
 
-  private static final int THREAD_TIMEOUT = 60;
+    private static final int THREAD_TIMEOUT = 60;
     private List<PuzzlePiece> puzzlePieces;
     private PuzzlePiece[][] solvedPuzzle;
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();
@@ -30,6 +30,7 @@ public class PuzzleSolver {
         this.puzzleInstance = puzzleInstance;
         puzzlePieces = puzzleInstance.getPuzzle();
     }
+
     public PuzzleSolver(Puzzle puzzleInstance, int numOfThreads, long timeoutMilliseconds) {
         this.numOfThreads = numOfThreads;
         this.puzzleInstance = puzzleInstance;
@@ -37,7 +38,7 @@ public class PuzzleSolver {
         timeout = timeoutMilliseconds;
     }
 
-    public Map<Integer,Integer> getPossibleSolutions() {
+    public Map<Integer, Integer> getPossibleSolutions() {
 
         int puzzleSize = puzzlePieces.size();
 
@@ -54,21 +55,20 @@ public class PuzzleSolver {
                 if (puzzleSize % i == 0) {
                     int num = puzzleSize / i;
 
-                        if (num <= i) {
-                            if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
-                                solutions.put(i, num);
-                            }
+                    if (num <= i) {
+                        if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
+                            solutions.put(i, num);
                         }
-                        else if(!puzzleInstance.getRotate()){
-                            if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
-                                solutions.put(i, num);
-                            }
+                    } else if (!puzzleInstance.getRotate()) {
+                        if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
+                            solutions.put(i, num);
                         }
                     }
                 }
+            }
 
-             }
-             return solutions;
+        }
+        return solutions;
     }
 
     public PuzzlePiece[][] findSolution() {
@@ -98,25 +98,33 @@ public class PuzzleSolver {
         }
 
         for (Callable<PuzzlePiece[][]> solution : callables) {
-            if(!solved.get()){
+            if (!solved.get()) {
                 service.submit(solution);
             }
-
-       }
-
-        try {
-            solvedPuzzle = service.take().get();
-
-            if(solvedPuzzle != null){
-                solved.set(true);
-                System.out.println("Solved!");
-                executor.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
         }
+
+        for (int i = 1; i <= solutions.size(); i++) {
+
+                  try {
+                     try {
+                         solvedPuzzle = service.take().get();
+                     }catch (NullPointerException e){
+
+                     }
+
+                     if(solvedPuzzle != null){
+                         System.out.println("Solved! ");
+                        break;
+                     }
+                 } catch (InterruptedException e) {
+                     e.printStackTrace();
+                 } catch (ExecutionException e) {
+                     e.printStackTrace();
+                 }
+
+
+        }
+
 
         executor.shutdownNow();
         try {

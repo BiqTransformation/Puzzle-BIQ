@@ -21,6 +21,7 @@ public class RunSolution implements Callable {
     private long TIMEOUT_MILLISECONDS;
     private ThreadLocal<Long> start = ThreadLocal.withInitial(() -> System.nanoTime());
     private ThreadLocal<Boolean> isTimeout = ThreadLocal.withInitial(() -> false);
+
     private PuzzleShape toSearch = new PuzzleShape(new int[]{JOKER, JOKER, JOKER, JOKER});
     private PuzzlePiece[][] solvedPuzzle = new PuzzlePiece[][]{};
     private List<PuzzlePiece> puzzlePieces;
@@ -52,8 +53,8 @@ public class RunSolution implements Callable {
         solvedPuzzle = null;
 
         System.out.println(logMessage(" : started"));
-        boolean solved = puzzleSolution();
-        if (solved) {
+        puzzleSolution();
+        if (solvedPuzzle != null) {
             System.out.println(logMessage(" : puzzle is solved"));
            return solvedPuzzle;
         } else {
@@ -64,7 +65,7 @@ public class RunSolution implements Callable {
     }
 
 
-    public boolean puzzleSolution() {
+    public void puzzleSolution() {
 
         toSearch.setLeft(0);
         toSearch.setTop(0);
@@ -74,23 +75,17 @@ public class RunSolution implements Callable {
             solvedPuzzle[0][0] = first;
             piecesUsed.push(first.getId());
 
-            boolean solved = solvePuzzleRecursion(first, 0, 0, rows, cols);
-            if (isTimeout.get()) {
-                solvedPuzzle = null;
-                 return false;
-            }
-            if (Thread.interrupted()) {
-                solvedPuzzle = null;
-                  return false;
-            }
-            if (solved) {
-                return solved;
+            boolean result = solvePuzzleRecursion(first, 0, 0, rows, cols);
+
+            if (result) {
+                
+                return;
             } else {
                 piecesUsed.pop();
                 initPuzzle(rows, cols);
             }
         }
-        return true;
+
     }
 
 
@@ -98,11 +93,13 @@ public class RunSolution implements Callable {
         boolean changeDirection = false;
         if ((System.nanoTime() - start.get()) / 1000 / 1000 > TIMEOUT_MILLISECONDS) {
             System.out.println(logMessage(" : did not find solution during " + TIMEOUT_MILLISECONDS + " millisecond"));
+            solvedPuzzle = null;
             isTimeout.set(true);
             return isTimeout.get();
         }
         if (Thread.interrupted()) {
             System.out.println(logMessage(" : puzzle is already solved, exit"));
+            solvedPuzzle = null;
             return true;
         }
         if (col == cols - 1 && row == rows - 1) {
