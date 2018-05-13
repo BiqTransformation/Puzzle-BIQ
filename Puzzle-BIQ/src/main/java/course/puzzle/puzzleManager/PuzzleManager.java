@@ -28,7 +28,7 @@ public class PuzzleManager {
     FileOutput fo;
     private boolean rotate;
     private int numOfThreads;
-    private static long TIMEOUT_MILLISECONDS = 180000;
+    private static long TIMEOUT_MILLISECONDS = 60000;
 
     public PuzzleManager(String fromPath, String toPath,boolean rotate,int numOfThreads) {
         this.rotate=rotate;
@@ -105,42 +105,44 @@ public class PuzzleManager {
         if(output.contains("Cannot solve puzzle")){
             return false;
         }
-        int rows = output.size();
-        int cols = output.get(0).split("\\s+").length;
-        if (rows * cols != puzzlePieces.size()) {
-            new FileOutput(outputFile).printToOutputFile("Actual solution size does not equal to original puzzle");
-            return false;
-        }
-
-        List<PuzzlePiece> actual = new ArrayList<>();
-        PuzzlePiece[][] actualSolution = new PuzzlePiece[rows][cols];
-        int i = 0;
-        for (String line : output) {
-            String[] row = line.split("\\s+");
-            for (int j = 0; j < row.length; j++) {
-                PuzzlePiece current = getPuzzlePiece(original,row[j]);
-
-                if(!actual.contains(current)){
-                    actual.add(current);
-                }
-
-                if (current != null) {
-                    actualSolution[i][j] = current;
-                } else {
-                    new FileOutput(outputFile).printToOutputFile("Piece with id " + current.getId() + " does not exist in the puzzle!");
-                    return false;
-                }
+        else {
+            int rows = output.size();
+            int cols = output.get(0).split("\\s+").length;
+            if (rows * cols != puzzlePieces.size()) {
+                new FileOutput(outputFile).printToOutputFile("Actual solution size does not equal to original puzzle");
+                return false;
             }
-            i++;
-        }
 
-        if(!(actual.size() == puzzlePieces.size())){
-            new FileOutput(outputFile).printToOutputFile("Actual solution does not contains all pieces of original puzzle");
-            return false;
-        }
-        if(!PuzzleValidation.checkSum(actualSolution)){
-            new FileOutput(outputFile).printToOutputFile("Actual solution is not valid solution");
-            return false;
+            List<PuzzlePiece> actual = new ArrayList<>();
+            PuzzlePiece[][] actualSolution = new PuzzlePiece[rows][cols];
+            int i = 0;
+            for (String line : output) {
+                String[] row = line.split("\\s+");
+                for (int j = 0; j < row.length; j++) {
+                    PuzzlePiece current = getPuzzlePiece(original, row[j]);
+
+                    if (!actual.contains(current)) {
+                        actual.add(current);
+                    }
+
+                    if (current != null) {
+                        actualSolution[i][j] = current;
+                    } else {
+                        new FileOutput(outputFile).printToOutputFile("Piece with id " + current.getId() + " does not exist in the puzzle!");
+                        return false;
+                    }
+                }
+                i++;
+            }
+
+            if (!(actual.size() == puzzlePieces.size())) {
+                new FileOutput(outputFile).printToOutputFile("Actual solution does not contains all pieces of original puzzle");
+                return false;
+            }
+            if (!PuzzleValidation.checkSum(actualSolution)) {
+                new FileOutput(outputFile).printToOutputFile("Actual solution is not valid solution");
+                return false;
+            }
         }
         return true;
     }

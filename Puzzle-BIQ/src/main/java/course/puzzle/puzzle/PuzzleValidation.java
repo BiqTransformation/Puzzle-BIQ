@@ -14,8 +14,8 @@ import static course.puzzle.puzzle.PuzzlePiece.JOKER;
 public class PuzzleValidation {
 
     private static PuzzleShape leftStraight = new PuzzleShape(new int[]{0,JOKER,JOKER,JOKER});
-    private static PuzzleShape rightStraight = new PuzzleShape(new int[]{JOKER,0,JOKER,JOKER});
-    private static PuzzleShape topStraight = new PuzzleShape(new int[]{JOKER,JOKER,0,JOKER});
+    private static PuzzleShape topStraight = new PuzzleShape(new int[]{JOKER,0,JOKER,JOKER});
+    private static PuzzleShape rightStraight = new PuzzleShape(new int[]{JOKER,JOKER,0,JOKER});
     private static PuzzleShape bottomStraight = new PuzzleShape(new int[]{JOKER,JOKER,JOKER,0});
     private static PuzzleShape leftTopCorner = new PuzzleShape(new int[]{0,0,JOKER,JOKER});
     private static PuzzleShape rightTopCorner = new PuzzleShape(new int[]{JOKER,0,0,JOKER});

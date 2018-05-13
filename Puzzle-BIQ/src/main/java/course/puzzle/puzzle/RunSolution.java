@@ -26,11 +26,13 @@ public class RunSolution implements Callable {
     private List<PuzzlePiece> puzzlePieces;
     private Stack<Integer> piecesUsed;
     private Map<PuzzleShape, List<PuzzlePiece>> puzzleShapeListMap;
+    private Puzzle puzzle;
 
 
     public RunSolution(Puzzle puzzle, int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
+        this.puzzle = puzzle;
         puzzlePieces = puzzle.getPuzzle();
         puzzleShapeListMap = puzzle.getAllPiecesMap();
         initPuzzle(rows, cols);
@@ -49,20 +51,20 @@ public class RunSolution implements Callable {
     public PuzzlePiece[][] call() {
         solvedPuzzle = null;
 
-            System.out.println(printToLog(" : started"));
-            puzzleSolution();
-            if (solvedPuzzle != null) {
-                System.out.println(printToLog(" : puzzle is solved"));
-                return solvedPuzzle;
-            } else {
-                System.out.println(printToLog(" : puzzle is solved, I am exit"));
-                return null;
-            }
+        System.out.println(logMessage(" : started"));
+        boolean solved = puzzleSolution();
+        if (solved) {
+            System.out.println(logMessage(" : puzzle is solved"));
+           return solvedPuzzle;
+        } else {
+
+            return null;
+        }
 
     }
 
 
-    public void puzzleSolution() {
+    public boolean puzzleSolution() {
 
         toSearch.setLeft(0);
         toSearch.setTop(0);
@@ -72,39 +74,39 @@ public class RunSolution implements Callable {
             solvedPuzzle[0][0] = first;
             piecesUsed.push(first.getId());
 
-            boolean res = solvePuzzleRecursion(first, 0, 0, rows, cols);
+            boolean solved = solvePuzzleRecursion(first, 0, 0, rows, cols);
             if (isTimeout.get()) {
                 solvedPuzzle = null;
-
-                break;
+                 return false;
             }
             if (Thread.interrupted()) {
                 solvedPuzzle = null;
-                break;
+                  return false;
             }
-            if (res) {
-                return;
+            if (solved) {
+                return solved;
             } else {
                 piecesUsed.pop();
                 initPuzzle(rows, cols);
             }
         }
+        return true;
     }
 
 
     private boolean solvePuzzleRecursion(PuzzlePiece current, int row, int col, int rows, int cols) {
         boolean changeDirection = false;
         if ((System.nanoTime() - start.get()) / 1000 / 1000 > TIMEOUT_MILLISECONDS) {
-            System.out.println(printToLog(" : could not solve puzzle, timeout exceed"));
+            System.out.println(logMessage(" : did not find solution during " + TIMEOUT_MILLISECONDS + " millisecond"));
             isTimeout.set(true);
             return isTimeout.get();
         }
         if (Thread.interrupted()) {
-            System.out.println(printToLog(" : I am exit"));
+            System.out.println(logMessage(" : puzzle is already solved, exit"));
             return true;
         }
         if (col == cols - 1 && row == rows - 1) {
-            if (validateSolution()) {
+            if (validateSolution() || isTimeout.get()) {
                 return true;
             } else {
                 return false;
@@ -191,8 +193,10 @@ public class RunSolution implements Callable {
         toSearch = new PuzzleShape(new int[]{JOKER, JOKER, JOKER, JOKER});
     }
 
-    private String printToLog(String message) {
-        return new Timestamp(System.currentTimeMillis()) + ": Thread " + Thread.currentThread().getId() + " " + rows + "x" + cols + " " + message;
+    private String logMessage(String message) {
+        String log = new Timestamp(System.currentTimeMillis()) + ": Thread " + Thread.currentThread().getId() + " " + rows + "x" + cols + " " + message;
+//        puzzle.addError(log);
+        return log;
     }
 
     private boolean verifyThatSolutionContainsAllPieces() {
