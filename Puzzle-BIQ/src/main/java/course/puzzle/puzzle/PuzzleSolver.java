@@ -37,7 +37,7 @@ public class PuzzleSolver {
         timeout = timeoutMilliseconds;
     }
 
-    public Map<Integer, Integer> getPossibleSolutions() {
+    public Map<Integer,Integer> getPossibleSolutions() {
 
         int puzzleSize = puzzlePieces.size();
 
@@ -53,17 +53,22 @@ public class PuzzleSolver {
             for (int i = 2; i < puzzleSize; i++) {
                 if (puzzleSize % i == 0) {
                     int num = puzzleSize / i;
-                   if(num <= i){
-                        if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
-                         solutions.put(i, num);
+
+                        if (num <= i) {
+                            if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
+                                solutions.put(i, num);
+                            }
+                        }
+                        else if(!puzzleInstance.getRotate()){
+                            if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
+                                solutions.put(i, num);
+                            }
                         }
                     }
-
-
                 }
-            }
-        }
-        return solutions;
+
+             }
+             return solutions;
     }
 
     public PuzzlePiece[][] findSolution() {

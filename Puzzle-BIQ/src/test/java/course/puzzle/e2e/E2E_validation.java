@@ -1,4 +1,4 @@
-package course.puzzle.file;
+package course.puzzle.e2e;
 
 import static org.junit.Assert.*;
 
@@ -145,10 +145,9 @@ public class E2E_validation {
 	public void badValidateSolutionViaOutputFile() throws Exception {
 		String in = "src//test//resources//files//good12Pieces.in";
 		String out = "src//test//resources//files//bad12Pieces.out";
-        boolean rotate = true;
-	    int numOfTreads = 2;
+        boolean rotate = false;
+	    int numOfTreads = 1;
 		PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
-		//pm.handlePuzzle();
 
 		assertFalse(pm.validateSolutionViaOutputFile(in,out));
 	}
