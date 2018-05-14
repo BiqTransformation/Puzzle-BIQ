@@ -48,7 +48,7 @@ public class PuzzleSolver {
             if (PuzzleValidation.isPossibleOneRow(puzzlePieces, puzzleInstance.getRotate())) {
                 solutions.put(1, puzzleSize);
             }
-            if (PuzzleValidation.isPossibleOneColumn(puzzlePieces, puzzleInstance.getRotate())) {
+            if (PuzzleValidation.isPossibleOneColumn(puzzlePieces, puzzleInstance.getRotate()) && !puzzleInstance.getRotate()) {
                 solutions.put(puzzleSize, 1);
             }
             for (int i = 2; i < puzzleSize; i++) {

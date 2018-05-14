@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PossibleSolutionsTest {
-    public boolean rotate= true;
+    public boolean rotate= false;
     public int numOfThreads=2;
 	List<PuzzlePiece> puzzle = new ArrayList<>();
 

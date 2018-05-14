@@ -40,8 +40,13 @@ public class PuzzleValidation {
             if ( lefts < rows || rights < rows || tops < cols || bottoms < cols) {
                 return false;
             }
-       
-     
+//       }
+//        else{
+//            if ( lefts < (rows + cols)*2) {
+//                return false;
+//            }
+//
+//        }
         return true;
     }
 
