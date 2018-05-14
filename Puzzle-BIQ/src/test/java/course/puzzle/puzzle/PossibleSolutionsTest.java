@@ -31,12 +31,7 @@ public class PossibleSolutionsTest {
 		puzzle.add(piece6);
 		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
-		Map<Integer, Integer> testMap = new HashMap<>();
-		testMap.put(1, 6);
-		testMap.put(6, 1);
-		testMap.put(2, 3);
-		testMap.put(3, 2);
-		assertEquals(mapUnderTest, testMap);
+		assertTrue(mapUnderTest.size()==0);
 	}
 
 
@@ -61,12 +56,8 @@ public class PossibleSolutionsTest {
 		puzzle.add(piece8);
 		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
-		Map<Integer, Integer> testMap = new HashMap<>();
-		testMap.put(1, 8);
-		testMap.put(8, 1);
-		testMap.put(2, 4);
-		testMap.put(4, 2);
-		assertEquals(mapUnderTest, testMap);
+		assertTrue(mapUnderTest.size()==0);
+		
 	}
 
 	@Test
@@ -80,10 +71,8 @@ public class PossibleSolutionsTest {
 		puzzle.add(piece3);
 		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
-		Map<Integer, Integer> testMap = new HashMap<>();
-		testMap.put(1, 3);
-		testMap.put(3, 1);
-		assertEquals(mapUnderTest, testMap);
+		System.out.println(mapUnderTest);	
+		assertTrue(mapUnderTest.size()==0);
 	}
 
 	@Test
@@ -107,10 +96,8 @@ public class PossibleSolutionsTest {
 		puzzle.add(piece2);
 		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
-		Map<Integer, Integer> testMap = new HashMap<>();
-		testMap.put(1, 2);
-		testMap.put(2, 1);
-		assertEquals(mapUnderTest, testMap);
+		System.out.println(mapUnderTest);
+		assertTrue(mapUnderTest.size()==0);
 	}
 
 
