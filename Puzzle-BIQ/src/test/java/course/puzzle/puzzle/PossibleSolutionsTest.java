@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PossibleSolutionsTest {
-    public boolean rotate= true;
+    public boolean rotate= false;
     public int numOfThreads=2;
 	List<PuzzlePiece> puzzle = new ArrayList<>();
 
@@ -29,14 +29,14 @@ public class PossibleSolutionsTest {
 		puzzle.add(piece4);
 		puzzle.add(piece5);
 		puzzle.add(piece6);
-		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,rotate),numOfThreads);
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,false),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer, Integer> testMap = new HashMap<>();
 		testMap.put(1, 6);
 		testMap.put(6, 1);
 		testMap.put(2, 3);
 		testMap.put(3, 2);
-		assertEquals(mapUnderTest, testMap);
+		assertEquals(testMap,mapUnderTest );
 	}
 
 

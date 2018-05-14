@@ -36,17 +36,17 @@ public class PuzzleValidation {
         int rights = getPiecesMatchToShape(puzzle,rightStraight,rotate).size();
         int tops = getPiecesMatchToShape(puzzle,topStraight,rotate).size();
         int bottoms = getPiecesMatchToShape(puzzle,bottomStraight,rotate).size();
-        if(!rotate){
+//        if(!rotate){
             if ( lefts < rows || rights < rows || tops < cols || bottoms < cols) {
                 return false;
             }
-       }
-        else{
-            if ( lefts < (rows + cols)*2) {
-                return false;
-            }
-
-        }
+//       }
+//        else{
+//            if ( lefts < (rows + cols)*2) {
+//                return false;
+//            }
+//
+//        }
         return true;
     }
 

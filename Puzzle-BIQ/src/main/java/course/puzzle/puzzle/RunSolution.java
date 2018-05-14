@@ -78,7 +78,7 @@ public class RunSolution implements Callable {
             boolean result = solvePuzzleRecursion(first, 0, 0, rows, cols);
 
             if (result) {
-                
+
                 return;
             } else {
                 piecesUsed.pop();
