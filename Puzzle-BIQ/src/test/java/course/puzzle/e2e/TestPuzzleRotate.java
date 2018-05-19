@@ -24,7 +24,7 @@ public class TestPuzzleRotate {
 		puzzleTest.add(p2);
 		puzzleTest.add(p3);
 		puzzleTest.add(p4);
-		Puzzle puzzle = new Puzzle(puzzleTest,true);
+		Puzzle puzzle = new Puzzle(true,puzzleTest);
 		puzzle.setRotate(true);
 		List<PuzzlePiece> retValue = puzzle.getPuzzle();
 		assertEquals(retValue,puzzleTest);		

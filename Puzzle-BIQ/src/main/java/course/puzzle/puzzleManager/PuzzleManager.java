@@ -60,7 +60,7 @@ public class PuzzleManager {
     }
 
     private void solvePuzzle() throws IOException {
-        newPuzzle = new Puzzle(puzzleList,rotate);
+        newPuzzle = new Puzzle(rotate,puzzleList);
         validatePuzzleBeforeSolution = newPuzzle.getErrors();
         if (validatePuzzleBeforeSolution.size() > 0) {
             fo.printListToOutputFile(validatePuzzleBeforeSolution);
@@ -97,7 +97,7 @@ public class PuzzleManager {
     public boolean validateSolutionViaOutputFile(String inputFile, String outputFile) throws Exception {
 
         List<PuzzlePiece> puzzlePieces = getPuzzlePiecesFromInputFile(inputFile);
-        Puzzle original = new Puzzle(puzzlePieces,rotate);
+        Puzzle original = new Puzzle(rotate, puzzlePieces);
 
 //        Verify that number of pieces in solved matrix is equal to number of pieces in the original puzzle
         List<String> output = FileReader.readFromFile(outputFile);

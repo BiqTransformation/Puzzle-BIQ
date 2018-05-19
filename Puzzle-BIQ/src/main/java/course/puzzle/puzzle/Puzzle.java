@@ -17,9 +17,8 @@ public class Puzzle {
     private boolean isRotate;
     private Map<PuzzleShape, List<PuzzlePiece>> allPiecesMap = new HashMap<>();
 
-    public Puzzle(List<PuzzlePiece> puzzlePieceList, boolean rotate) {
+    public Puzzle(boolean rotate , List<PuzzlePiece> puzzlePieceList ) {
         this.isRotate = rotate;
-
         puzzlePieces = puzzlePieceList;
 
         validatePuzzle();

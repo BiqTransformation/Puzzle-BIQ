@@ -11,6 +11,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
+import course.puzzle.puzzle.Puzzle;
 import course.puzzle.puzzle.PuzzlePiece;
 
 /*
@@ -39,45 +42,32 @@ public class Server {
 
 
 	
-	public void startServer() throws IOException{
-		System.out.println("Server started");
-		boolean run=true;
-		try{
-			while(run){
-				socket = serverSocket.accept();
-				readJson(socket);
-			}
-		}
-		catch(Exception e){
-			System.out.println(e.getMessage());
-			}
-		finally{
-				socket.close();
-			}		
+//	public void startServer() throws IOException{
+//		System.out.println("Server started");
+//		boolean run=true;
+//		try{
+//			while(run){
+//				socket = serverSocket.accept();
+//				readJson(socket);
+//			}
+//		}
+//		catch(Exception e){
+//			System.out.println(e.getMessage());
+//			}
+//		finally{
+//				socket.close();
+//			}		
+//	}
+	
+	public Puzzle readJson(String jsonFromClient){
+
+		Gson gson = new Gson();
+		Puzzle puzzleFromJson = gson.fromJson(jsonFromClient, Puzzle.class);
+		System.out.println(puzzleFromJson);		
+		return puzzleFromJson;
+		
 	}
 	
-	public List<PuzzlePiece> readJson(Socket socket){
-		List<PuzzlePiece> puzzelFromClient = new ArrayList<>();
-		
-		try {
-			
-			BufferedReader reader;
-			PrintStream outputStream;
-			String line = "";
-			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));			
-			outputStream = new PrintStream(socket.getOutputStream());
-			while (!line.equals("!")) {
-				line = reader.readLine();
-				outputStream.println(line);
-				System.out.println(line);
-			}
-		} catch (IOException e) {
-		}
-		
-		
-		
-		return puzzelFromClient;
-		
-	}
+	
 
 }

@@ -7,6 +7,11 @@ import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
+
 /**
  * @author Lior (getPossibleSolutions) and Svetlana (findSolution)
  * Get all possible options of puzzle matrix
@@ -14,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 
 public class PuzzleSolver {
-
+	private static Logger logger = LogManager.getLogger(PuzzleSolver.class);
     private static final int THREAD_TIMEOUT = 60;
     private List<PuzzlePiece> puzzlePieces;
     private PuzzlePiece[][] solvedPuzzle;
@@ -83,7 +88,9 @@ public class PuzzleSolver {
     private void threadManager() {
         solvedPuzzle = null;
         ExecutorService executor = Executors.newFixedThreadPool(numOfThreads);
+        logger.debug("the executer is " + executor.toString());
         CompletionService<PuzzlePiece[][]> service = new ExecutorCompletionService<>(executor);
+        logger.debug("the service is " + service );
 
         List<Callable<PuzzlePiece[][]>> callables = new ArrayList<>();
 
@@ -92,8 +99,9 @@ public class PuzzleSolver {
             int rows = s.getKey();
             int cols = s.getValue();
             System.out.println(rows + "x" + cols);
-
+            logger.debug(rows + "x" + cols);
             Callable<PuzzlePiece[][]> solution = new RunSolution(puzzleInstance, rows, cols, timeout);
+            logger.debug("the solution is " +solution);
             callables.add(solution);
         }
 
@@ -114,6 +122,7 @@ public class PuzzleSolver {
 
                      if(solvedPuzzle != null){
                          System.out.println("Solved! ");
+                         logger.debug("the puzzle is solved " +solvedPuzzle);
                         break;
                      }
                  } catch (InterruptedException e) {

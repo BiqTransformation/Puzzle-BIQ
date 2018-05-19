@@ -5,39 +5,48 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONValue;
 import org.junit.Test;
+
+import com.google.gson.Gson;
+
+import course.puzzle.puzzle.Puzzle;
+import course.puzzle.puzzle.PuzzlePiece;
 public class Server_Tests {
 	
 	@Test
-	public void serverSendJson() throws IOException{
-		Server server = new Server();
-		server.startServer();
-		PrintStream outputStream;
-		Socket socket = null;
-		 Map obj=new HashMap();    
-		  obj.put("name","sonoo");    
-		  obj.put("age",new Integer(27));    
-		  obj.put("salary",new Double(600000));   
-		  String jsonText = JSONValue.toJSONString(obj);  
-		  System.out.print(jsonText);
-			try {
-				socket = new Socket("localhost", 7095);
-				outputStream = new PrintStream(socket.getOutputStream());
-				outputStream.println(jsonText);
-			}
-			catch (IOException e) {
-			System.err.println(e.getMessage());
-			} finally {
-			try {
-			socket.close();
-			} catch (IOException e) {
-				// log and ignore
-			}
-		}
-	}
+	public void serverGetJsonAndBuildPuzzle() throws IOException{
+		String puzzleTest = "{\"puzzlePieces\":[{\"id\":1,\"leftValue\":1,\"topValue\":0,\"rightValue\":0,\"bottomValue\":0,\"shape\":{\"edges\":[1,0,0,0]}},{\"id\":2,\"leftValue\":0,\"topValue\":0,\"rightValue\":0,\"bottomValue\":-1,\"shape\":{\"edges\":[0,0,0,-1]}}],\"isRotate\":false}";
 
+		Server server = new Server();
+		Puzzle puzzle = server.readJson(puzzleTest);
+		assertFalse(puzzle.getRotate());
+		List<PuzzlePiece> sut =puzzle.getPuzzle();		
+		assertTrue(sut.size()==2);	
+
+}
+	
+	
+	@Test
+	public void serverSetJson() throws IOException{
+		PuzzlePiece pp1 = new PuzzlePiece(1,1,0,0,0);
+		PuzzlePiece pp2 = new PuzzlePiece(2,0,0,0,-1);
+		List<PuzzlePiece> puzzlePack = new ArrayList<>();
+		puzzlePack.add(pp1);
+		puzzlePack.add(pp2);
+		Puzzle puzzle = new Puzzle(false,puzzlePack);
+		Gson gson = new Gson();
+		String json = gson.toJson(puzzle);
+		System.out.println(json);
+		assertTrue(json.contains("\"id\":1"));
+		assertTrue(json.contains("\"edges\":[1,0,0,0]"));
+		
+
+}
+	
 }

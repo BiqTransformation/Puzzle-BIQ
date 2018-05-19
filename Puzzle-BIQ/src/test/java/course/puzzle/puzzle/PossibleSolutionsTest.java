@@ -29,7 +29,7 @@ public class PossibleSolutionsTest {
 		puzzle.add(piece4);
 		puzzle.add(piece5);
 		puzzle.add(piece6);
-		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,false),numOfThreads);
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(false,puzzle),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer,Integer> expected = new HashMap<>();
 		expected.put(1,6);
@@ -54,7 +54,7 @@ public class PossibleSolutionsTest {
 		puzzle.add(piece4);
 		puzzle.add(piece5);
 		puzzle.add(piece6);
-		PuzzleSolver solve = new PuzzleSolver(new Puzzle(puzzle,true),numOfThreads);
+		PuzzleSolver solve = new PuzzleSolver(new Puzzle(true,puzzle),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer,Integer> expected = new HashMap<>();
 		expected.put(1,6);
