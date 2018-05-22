@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /*
  * This class represents a puzzle package
@@ -64,23 +63,23 @@ public class Puzzle {
     public void validatePuzzle() {
 
         if (!PuzzleValidation.validateTopLeftCorner(puzzlePieces, isRotate)) {
-            addError(PuzzleErrors.MISSING_CORNER_TL);
+            addError(LogMessages.MISSING_CORNER_TL);
 
         }
         if (!PuzzleValidation.validateTopRightCorner(puzzlePieces, isRotate)) {
-            addError(PuzzleErrors.MISSING_CORNER_TR);
+            addError(LogMessages.MISSING_CORNER_TR);
 
         }
         if (!PuzzleValidation.validateBottomLeftCorner(puzzlePieces, isRotate)) {
-            addError(PuzzleErrors.MISSING_CORNER_BL);
+            addError(LogMessages.MISSING_CORNER_BL);
 
         }
         if (!PuzzleValidation.validateBottomRightCorner(puzzlePieces, isRotate)) {
-            addError(PuzzleErrors.MISSING_CORNER_BR);
+            addError(LogMessages.MISSING_CORNER_BR);
 
         }
         if (!PuzzleValidation.validateSumOfEdges(puzzlePieces)) {
-            addError(PuzzleErrors.SUM_OF_EDGES_IS_NOT_ZERO);
+            addError(LogMessages.SUM_OF_EDGES_IS_NOT_ZERO);
 
         }
        }

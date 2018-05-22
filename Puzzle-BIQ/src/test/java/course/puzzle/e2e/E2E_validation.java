@@ -9,8 +9,22 @@ import org.junit.Test;
 import course.puzzle.file.FileOutput;
 import course.puzzle.puzzleManager.PuzzleManager;
 public class E2E_validation {
-	
-	
+
+
+	@Test
+	public void test() throws Exception{
+		String in = "C:\\Puzzle-BIQ\\test5_R_t3.in";
+		String out = "C:\\Puzzle-BIQ\\test1_R_t1.out";
+		//clean output
+		boolean rotate = true;
+		int numOfTreads = 2;
+		PuzzleManager pm = new PuzzleManager(in ,out,rotate,numOfTreads);
+		pm.handlePuzzle();
+		FileOutput fo = new FileOutput(out);
+		String message = fo.loadFromTextFile();
+		System.out.println(message);
+		assertTrue(pm.validateSolutionViaOutputFile(in,out));
+	}
 	
 	
 	@Test
@@ -47,17 +61,17 @@ public class E2E_validation {
 	     assertTrue(message.contains("Id number not valid should be more then 0 and less then NumElements"));
 	}
 	
-//	@Test
-//	public void goodValidateSolutionViaOutputFile() throws Exception {
-//		String in = "src//test//resources//files//good12Pieces.in";
-//		String out = "src//test//resources//files//good12Pieces.out";
-//		boolean rotate = true;
-//	    int numOfTreads = 2;
-//	    System.out.println("Puzzle from file: " + in+ "; rotate: " + rotate + "; number of threads: " + numOfTreads);
-//		PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
-//		pm.handlePuzzle();
-//		assertTrue(pm.validateSolutionViaOutputFile(in,out));
-//	}
+	@Test
+	public void goodValidateSolutionViaOutputFile() throws Exception {
+		String in = "src//test//resources//files//good12Pieces.in";
+		String out = "src//test//resources//files//good12Pieces.out";
+		boolean rotate = true;
+	    int numOfTreads = 2;
+	    System.out.println("Puzzle from file: " + in+ "; rotate: " + rotate + "; number of threads: " + numOfTreads);
+		PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
+		pm.handlePuzzle();
+		assertTrue(pm.validateSolutionViaOutputFile(in,out));
+	}
 	
 	@Test
 	public void goodValidateSolutionViaOutputFile40piecesWithoutRotate() throws Exception {
