@@ -13,15 +13,17 @@ public class MainPuzzle {
 	private final static String INPUT = "-input";
 	private final static String OUTPUT = "-output";
 	private final static String ROTATE = "-rotate";
-	private final static String THREADS = "-threads";
+	private final static String NUMOFTHREADS = "-threads";
+	private final static int DEFAULTNUMOFTHREADS = 4;
 
 	public static void main(String[] args) throws Exception {
 		 String fromPath = getInputFile(args);
 		 String toPath = getOutputFile(args);
-		 boolean isRotate= isRotate(args);
-		 //System.out.println(isRotate);
+		 boolean isRotate= isRotate(args);	
+		 System.out.println(isRotate);
 		 int numOfThreads = getNumOfThreads(args);
-		 //System.out.println(numOfThreads);
+		 System.out.println(numOfThreads);
+		
 		
 		
 		
@@ -37,16 +39,16 @@ public class MainPuzzle {
 
 	private static int getNumOfThreads(String[] args) {
 		int numOfThreads = 0;
-		for(String str :args){
-			if(str.startsWith(THREADS)){
+		for(int i = 0 ; i<args.length;i++){
+			if(args[i].equals(NUMOFTHREADS)){
 				try{
-					 numOfThreads = Integer.parseInt(str.substring(9));
+					 numOfThreads = Integer.parseInt(args[i+1]);
 					}
 				catch(NumberFormatException e){}
 				return numOfThreads;
 			}
 		}
-		return 4;
+		return DEFAULTNUMOFTHREADS;
 	}
 
 	private static boolean isRotate(String[] args) {
@@ -61,10 +63,10 @@ public class MainPuzzle {
 
 	private static String getOutputFile(String[] args) {
 		String toPath = "";
-		for(String str : args){
-			if(str.startsWith(OUTPUT)){
-				toPath =str.substring(8,str.length());
-				//System.out.println(toPath);
+		for(int i =0 ;i<args.length;i++){
+			if(args[i].equals(OUTPUT)){
+				toPath =args[i+1];
+				System.out.println(toPath);
 			}
 		}
 		return toPath;
@@ -74,10 +76,10 @@ public class MainPuzzle {
 
 	private static String getInputFile(String[] args) {	
 		String fromPath = "";
-		for(String str : args){
-			if(str.startsWith(INPUT)){
-				fromPath =str.substring(7,str.length());
-				//System.out.println(fromPath);
+		for(int i =0 ;i<args.length;i++){
+			if(args[i].equals(INPUT)){
+				fromPath =args[i+1];
+				System.out.println(fromPath);
 			}
 		}
 		return fromPath;
