@@ -13,10 +13,10 @@ public class E2E_validation {
 
 	@Test
 	public void test() throws Exception{
-		String in = "C:\\Puzzle-BIQ\\test5_R_t3.in";
-		String out = "C:\\Puzzle-BIQ\\test1_R_t1.out";
-		//clean output
-		boolean rotate = true;
+		String in = "C:\\Puzzle-BIQ\\test4_nR_t3.in";
+		String out = "C:\\Puzzle-BIQ\\test.out";
+
+		boolean rotate = false;
 		int numOfTreads = 2;
 		PuzzleManager pm = new PuzzleManager(in ,out,rotate,numOfTreads);
 		pm.handlePuzzle();
@@ -31,7 +31,7 @@ public class E2E_validation {
 	public void testSimpleNegativeE2EWithLessIDsThenNumElements() throws Exception{
 		String fromPath = "src//test//resources//files//test3.in";
 		String toPath = "src//test//resources//files//test3.out";
-		//clean output
+
 		boolean rotate = true;
 	    int numOfTreads = 2; 
 		PuzzleManager pm = new PuzzleManager(fromPath ,toPath,rotate,numOfTreads);
@@ -41,10 +41,7 @@ public class E2E_validation {
 		 System.out.println(message);
 	     assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
 	}
-	
 
-	
-	
 	
 	@Test
 	public void testSimpleNegativeE2EWithLessIDsNotInSequance() throws Exception{

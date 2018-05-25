@@ -45,28 +45,36 @@ public class PuzzleSolver {
         if (puzzleSize == 1) {
             solutions.put(1, 1);
         } else if (puzzleSize > 1) {
+
+            int middle = (int) Math.sqrt(puzzleSize);
+            int index;
+            for (int i = 0; i <= middle; i++) {
+                index = middle + i;
+                if (puzzleSize % index == 0) {
+                    int num = puzzleSize / index;
+
+                        if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
+                            solutions.put(index, num);
+                  }
+                }
+                if(!puzzleInstance.getRotate()){
+                    index = middle - i + 1;
+                    if (puzzleSize % index == 0) {
+                        int num = puzzleSize / index;
+
+                        if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
+                            solutions.put(index, num);
+
+                        }
+                    }
+                }
+             }
             if (PuzzleValidation.isPossibleOneRow(puzzlePieces, puzzleInstance.getRotate())) {
                 solutions.put(1, puzzleSize);
             }
             if (PuzzleValidation.isPossibleOneColumn(puzzlePieces, puzzleInstance.getRotate()) && !puzzleInstance.getRotate()) {
                 solutions.put(puzzleSize, 1);
             }
-            for (int i = 2; i < puzzleSize; i++) {
-                if (puzzleSize % i == 0) {
-                    int num = puzzleSize / i;
-
-                    if (num <= i) {
-                        if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
-                            solutions.put(i, num);
-                        }
-                    } else if (!puzzleInstance.getRotate()) {
-                        if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
-                            solutions.put(i, num);
-                        }
-                    }
-                }
-            }
-
         }
         return solutions;
     }
