@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import course.puzzle.file.FileOutput;
-import course.puzzle.puzzle.PuzzlePiece;
+
+
 /*
  * @author Alex
  * The class that contains the main method 
@@ -15,7 +16,7 @@ public class MainPuzzle {
 	private final static String ROTATE = "-rotate";
 	private final static String NUMOFTHREADS = "-threads";
 	private final static int DEFAULTNUMOFTHREADS = 4;
-
+   //TODO - add validations if the from and to are empty/null 
 	public static void main(String[] args) throws Exception {
 		 String fromPath = getInputFile(args);
 		 String toPath = getOutputFile(args);
@@ -25,13 +26,17 @@ public class MainPuzzle {
 		 System.out.println(numOfThreads);
 		
 		
-		
-		
-		PuzzleManager pm = new PuzzleManager(fromPath,toPath,isRotate,numOfThreads);
-		pm.handlePuzzle();
-		FileOutput fo = new FileOutput(toPath);
-		String message = fo.loadFromTextFile();	
-		System.out.println(message);
+		 
+		if(!fromPath.isEmpty() || !toPath.isEmpty()){
+			PuzzleManager pm = new PuzzleManager(fromPath,toPath,isRotate,numOfThreads);
+			pm.handlePuzzle();
+			FileOutput fo = new FileOutput(toPath);
+			String message = fo.loadFromTextFile();	
+			System.out.println(message);			
+		}
+		else{
+			System.out.println("the file input paramter or the file output parameter is empty.exit");
+		}
 		
 	
 
