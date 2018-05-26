@@ -34,6 +34,7 @@ public class PossibleSolutionsTest {
 		Map<Integer,Integer> expected = new HashMap<>();
 		expected.put(1,6);
 		expected.put(2,3);
+		expected.put(3,2);
 		System.out.println(mapUnderTest);
 		assertEquals(expected,mapUnderTest);
 	}
@@ -59,6 +60,7 @@ public class PossibleSolutionsTest {
 		Map<Integer,Integer> expected = new HashMap<>();
 		expected.put(1,6);
 		expected.put(3,2);
+		expected.put(2,3);
 		System.out.println(mapUnderTest);
 		assertEquals(expected,mapUnderTest);
 	}

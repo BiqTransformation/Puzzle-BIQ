@@ -12,9 +12,9 @@ public class E2E_validation {
 
 
 	@Test
-	public void test() throws Exception{
-		String in = "C:\\Puzzle-BIQ\\test4_nR_t3.in";
-		String out = "C:\\Puzzle-BIQ\\test.out";
+	public void test4_nR_t3() throws Exception{
+		String in = "src//test//resources//files//test4_nR_t3.in";
+		String out = "src//test//resources//files//test4_nR_t3.out";
 
 		boolean rotate = false;
 		int numOfTreads = 2;
@@ -27,36 +27,36 @@ public class E2E_validation {
 	}
 	
 	
-	@Test
-	public void testSimpleNegativeE2EWithLessIDsThenNumElements() throws Exception{
-		String fromPath = "src//test//resources//files//test3.in";
-		String toPath = "src//test//resources//files//test3.out";
-
-		boolean rotate = true;
-	    int numOfTreads = 2; 
-		PuzzleManager pm = new PuzzleManager(fromPath ,toPath,rotate,numOfTreads);
-		 pm.handlePuzzle();
-		 FileOutput fo = new FileOutput(toPath);
-		 String message = fo.loadFromTextFile();
-		 System.out.println(message);
-	     assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
-	}
+//	@Test
+//	public void testSimpleNegativeE2EWithLessIDsThenNumElements() throws Exception{
+//		String fromPath = "src//test//resources//files//test3.in";
+//		String toPath = "src//test//resources//files//test3.out";
+//
+//		boolean rotate = true;
+//	    int numOfTreads = 2; 
+//		PuzzleManager pm = new PuzzleManager(fromPath ,toPath,rotate,numOfTreads);
+//		 pm.handlePuzzle();
+//		 FileOutput fo = new FileOutput(toPath);
+//		 String message = fo.loadFromTextFile();
+//		 System.out.println(message);
+//	     assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
+//	}
 
 	
-	@Test
-	public void testSimpleNegativeE2EWithLessIDsNotInSequance() throws Exception{
-		String fromPath = "src//test//resources//files//test4.in";
-		String toPath = "src//test//resources//files//test4.out";
-		//clean output
-		boolean rotate = true;
-	    int numOfTreads = 2;
-		 PuzzleManager pm = new PuzzleManager(fromPath ,toPath,rotate,numOfTreads);
-		 pm.handlePuzzle();
-		 FileOutput fo = new FileOutput(toPath);
-		 String message = fo.loadFromTextFile();
-		 //System.out.println(message);
-	     assertTrue(message.contains("Id number not valid should be more then 0 and less then NumElements"));
-	}
+//	@Test
+//	public void testSimpleNegativeE2EWithLessIDsNotInSequance() throws Exception{
+//		String fromPath = "src//test//resources//files//test4.in";
+//		String toPath = "src//test//resources//files//test4.out";
+//		//clean output
+//		boolean rotate = true;
+//	    int numOfTreads = 2;
+//		 PuzzleManager pm = new PuzzleManager(fromPath ,toPath,rotate,numOfTreads);
+//		 pm.handlePuzzle();
+//		 FileOutput fo = new FileOutput(toPath);
+//		 String message = fo.loadFromTextFile();
+//		 //System.out.println(message);
+//	     assertTrue(message.contains("Id number not valid should be more then 0 and less then NumElements"));
+//	}
 	
 	@Test
 	public void goodValidateSolutionViaOutputFile() throws Exception {
