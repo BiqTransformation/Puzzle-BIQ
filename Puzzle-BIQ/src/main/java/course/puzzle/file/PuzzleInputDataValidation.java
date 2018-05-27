@@ -76,11 +76,7 @@ public class PuzzleInputDataValidation {
 		return listOfPuzzlePiecesAfterAllValidation;
 	}
 
-	/*
-	 * public void startPuzzle() throws Exception{ PuzzleSolver solvePuzzle = new
-	 * PuzzleSolver(listOfPuzzlePiecesAfterAllValidation); PuzzlePiece[][] puz
-	 * =solvePuzzle.findSolution(); FileOutput.printSolution(puz); }
-	 */
+	
 
 	/**
 	 * firstLineValidator designed to verify the format of first line only !!! .
@@ -128,7 +124,7 @@ public class PuzzleInputDataValidation {
 	 */
 
 	protected ArrayList<Integer> integersListValidation(String str) throws IOException  {
-		// int currNum = 0;
+		
 		ArrayList<Integer> listOfIntegers = new ArrayList<>();
 		String[] afterSplit = str.trim().split(" ");
 		try {

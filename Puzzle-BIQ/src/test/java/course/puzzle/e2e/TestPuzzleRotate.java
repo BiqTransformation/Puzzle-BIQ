@@ -30,26 +30,8 @@ public class TestPuzzleRotate {
 		assertEquals(retValue,puzzleTest);		
 		}
 	
-//	
-//	@Test
-//	public void testOpositeEqualsShape(){
-//		PuzzlePiece p1 = new PuzzlePiece(1,-1,0,-1,0);		
-//		PuzzlePiece p2 = new PuzzlePiece(2,0,0,1,-1);
-//		PuzzlePiece p3 = new PuzzlePiece(3,0,0,0,0);	
-//		List<PuzzlePiece> puzzleTest = new ArrayList<>();
-//		puzzleTest.add(p1);
-//		puzzleTest.add(p2);
-//		puzzleTest.add(p3);	
-//		Puzzle puzzle = new Puzzle(puzzleTest,true);
-//
-//		List<PuzzlePiece> retValue= puzzle.getPuzzle();;
-//		for(PuzzlePiece p : retValue){
-//			System.out.println(p);
-//		}
-//		assertEquals(retValue.size(),7);
-//		
-//		
-//		}
+	
+
 	
 
 }

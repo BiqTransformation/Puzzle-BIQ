@@ -78,8 +78,8 @@ public class MainPuzzle {
         if (!Arrays.asList(args).contains(OUTPUT)) {
             return false;
         } else {
-            int indexOfInputParam = Arrays.asList(args).indexOf(OUTPUT);
-            if (args[indexOfInputParam + 1].equalsIgnoreCase(INPUT) || args[indexOfInputParam + 1].equalsIgnoreCase(ROTATE) || args[indexOfInputParam + 1].equalsIgnoreCase(NUMOFTHREADS)) {
+            int indexOfOutputParam = Arrays.asList(args).indexOf(OUTPUT);
+            if (args[indexOfOutputParam + 1].equalsIgnoreCase(INPUT) || args[indexOfOutputParam + 1].equalsIgnoreCase(ROTATE) || args[indexOfOutputParam + 1].equalsIgnoreCase(NUMOFTHREADS)) {
                 return false;
             }
         }
