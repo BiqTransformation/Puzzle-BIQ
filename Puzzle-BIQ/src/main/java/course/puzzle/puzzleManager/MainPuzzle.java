@@ -1,6 +1,7 @@
 package course.puzzle.puzzleManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import course.puzzle.file.FileOutput;
@@ -8,158 +9,130 @@ import course.puzzle.file.FileOutput;
 
 /*
  * @author Alex
- * The class that contains the main method 
+ * The class that contains the main method
  */
 public class MainPuzzle {
-	private final static String INPUT = "-input";
-	private final static String OUTPUT = "-output";
-	private final static String ROTATE = "-rotate";
-	private final static String NUMOFTHREADS = "-threads";
-	private final static int DEFAULTNUMOFTHREADS = 4;
-	
-   
-	public static void main(String[] args) throws Exception {
-		if(args.length == 0){
-			printUsage();
-		}
-		else{
-			String fromPath="",toPath="";
-			boolean inputFile = validateInputFile(args);
-			boolean outputFile = validateOutputFile(args);
-			if(!inputFile){
-				System.out.println("Mandatory input file parameter is missing");
-				printUsage();
-			}
-			else{
-				fromPath = getInputFile(args);
-			}
-			if(!outputFile){
-				System.out.println("Mandatory output file parameter is missing");
-				printUsage();
-			}
-			else{
-				toPath = getOutputFile(args);
-			}
-			boolean isRotate= isRotate(args);
-			int numOfThreads = getNumOfThreads(args);
-
-			if(inputFile && outputFile ){
-				PuzzleManager pm = new PuzzleManager(fromPath,toPath,isRotate,numOfThreads);
-				pm.handlePuzzle();
-				FileOutput fo = new FileOutput(toPath);
-				String message = fo.loadFromTextFile();
-				System.out.println(message);
-			}
-		}
-
-		 
-		
-
-	}
-	private static void printUsage(){
-
-			System.out.println("Usage:  -input <input file> -output <output file> -rotate -threads <num of threads>" );
-		}
-	
-//	private static boolean validateThreads(String[] args) {
-//		for (int i = 0; i < args.length; i++) {
-//			if (args[i].equals(NUMOFTHREADS)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+    private final static String INPUT = "-input";
+    private final static String OUTPUT = "-output";
+    private final static String ROTATE = "-rotate";
+    private final static String NUMOFTHREADS = "-threads";
+    private final static int DEFAULTNUMOFTHREADS = 4;
+    private static int numOfThreads = 0;
+    private static String inputFile;
+    private static String outputFile;
 
 
-//	private static boolean validateRotate(String[] args) {
-//		for(int i = 0 ;i <args.length;i++){
-//			if(args[i].equals(ROTATE)){
-//				return true;
-//			}		
-//		}
-//		return false;
-//	}
+    public static void main(String[] args) throws Exception {
+        if (args.length == 0) {
+            printUsage();
+            return;
+        } else if (!validateInputFile(args)) {
+            System.out.println("Mandatory input file parameter is missing");
+            printUsage();
+        } else if (!validateOutputFile(args)) {
+            System.out.println("Mandatory output file parameter is missing");
+            printUsage();
+        } else {
+            inputFile = getInputFile(args);
+            outputFile = getOutputFile(args);
+
+        boolean isRotate = isRotate(args);
+        if (!isRotate) {
+            System.out.println("Rotate parameter is not defined, the default value will be used: " + false);
+        }
+        if (!isThreadParam(args)) {
+            System.out.println("Number of threads is not defined, the default value will be used: " + DEFAULTNUMOFTHREADS);
+            numOfThreads = DEFAULTNUMOFTHREADS;
+        } else {
+            getNumOfThreads(args);
+        }
+
+            PuzzleManager pm = new PuzzleManager(inputFile, outputFile, isRotate, numOfThreads);
+            pm.handlePuzzle();
+            FileOutput fo = new FileOutput(outputFile);
+            String message = fo.loadFromTextFile();
+            System.out.println(message);
+        }
+
+}
+
+    private static void printUsage() {
+
+        System.out.println("Usage:  -input <input file> -output <output file> -rotate -threads <num of threads>");
+    }
+
+    private static boolean validateInputFile(String[] args) {
+
+        if (!Arrays.asList(args).contains(INPUT)) {
+            return false;
+        } else {
+            int indexOfInputParam = Arrays.asList(args).indexOf(INPUT);
+            if (args[indexOfInputParam + 1].equalsIgnoreCase(OUTPUT) || args[indexOfInputParam + 1].equalsIgnoreCase(ROTATE) || args[indexOfInputParam + 1].equalsIgnoreCase(NUMOFTHREADS)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean validateOutputFile(String[] args) {
+        if (!Arrays.asList(args).contains(OUTPUT)) {
+            return false;
+        } else {
+            int indexOfInputParam = Arrays.asList(args).indexOf(OUTPUT);
+            if (args[indexOfInputParam + 1].equalsIgnoreCase(INPUT) || args[indexOfInputParam + 1].equalsIgnoreCase(ROTATE) || args[indexOfInputParam + 1].equalsIgnoreCase(NUMOFTHREADS)) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    private static boolean isThreadParam(String[] args) {
+        if (!Arrays.asList(args).contains(NUMOFTHREADS)) {
+            return false;
+        }
+        return true;
+    }
+
+    private static void getNumOfThreads(String[] args) {
+
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals(NUMOFTHREADS)) {
+                try {
+                    numOfThreads = Integer.parseInt(args[i + 1]);
+                } catch (NumberFormatException e) {
+                }
+            }
+        }
+    }
+
+    private static boolean isRotate(String[] args) {
+        for (String str : args) {
+            if (str.equals(ROTATE)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String getOutputFile(String[] args) {
+        String toPath = "";
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals(OUTPUT)) {
+                toPath = args[i + 1];
+            }
+        }
+        return toPath;
+    }
 
 
-	private static boolean validateInputFile(String [] args) {
-		for(int i =0; i < args.length;i++){
-			if(args[i].equals(INPUT)){
-				if(i+1 < args.length-1){
-					if(args[i+1].equals(OUTPUT)){
-						return false;
-					}
-				}
-			}		
-		}
-			return true;
-	}
-	
-	private static boolean validateOutputFile(String[] args) {
-		for (int i = 0; i < args.length; i++) {
-			if (args[i].equals(OUTPUT)) {
-				if (i < args.length - 1) {
-					if (args[i + 1].equals(ROTATE) || args[i + 1].equals(NUMOFTHREADS)) {
-						return false;
-					}
-				}
-			}
-		}
-		return true;
-
-	}
-
-			
-
-		
-		
-			
-						
-	
-
-	private static int getNumOfThreads(String[] args) {
-		int numOfThreads = 0;
-		for(int i = 0 ; i<args.length;i++){
-			if(args[i].equals(NUMOFTHREADS)){
-				try{
-					 numOfThreads = Integer.parseInt(args[i+1]);
-					}
-				catch(NumberFormatException e){}
-				return numOfThreads;
-			}
-		}
-		return DEFAULTNUMOFTHREADS;
-	}
-
-	private static boolean isRotate(String[] args) {
-		for(String str : args){
-			if(str.equals(ROTATE)){
-				return true;
-			}
-			
-		}
-		return false;
-	}
-
-	private static String getOutputFile(String[] args) {
-		String toPath="";
-		for (int i = 0; i < args.length; i++) {
-			if (args[i].equals(OUTPUT)){					
-				toPath = args[i + 1];			
-				}
-		}
-		return toPath;
-	}	
-	
-
-
-
-	private static String getInputFile(String[] args) {	
-		String fromPath = "";
-		for(int i =0 ;i<args.length;i++){
-			if(args[i].equals(INPUT)){				
-				fromPath =args[i+1];					
-				}				
-			}		
-		return fromPath;
-	}
+    private static String getInputFile(String[] args) {
+        String fromPath = "";
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals(INPUT)) {
+                fromPath = args[i + 1];
+            }
+        }
+        return fromPath;
+    }
 }
