@@ -19,43 +19,47 @@ public class MainPuzzle {
 	
    
 	public static void main(String[] args) throws Exception {
-		String fromPath="",toPath="";
-		boolean inputFile = validateInputFile(args);
-		boolean outputFile = validateOutputFile(args);
-		//boolean rotate = validateRotate(args);
-		//boolean threads = validateThreads(args);
-		if(!inputFile){
-			System.out.println("mandatory input file parameter is missing");
+		if(args.length == 0){
+			printUsage();
 		}
 		else{
-			fromPath = getInputFile(args);			
+			String fromPath="",toPath="";
+			boolean inputFile = validateInputFile(args);
+			boolean outputFile = validateOutputFile(args);
+			if(!inputFile){
+				System.out.println("Mandatory input file parameter is missing");
+				printUsage();
+			}
+			else{
+				fromPath = getInputFile(args);
+			}
+			if(!outputFile){
+				System.out.println("Mandatory output file parameter is missing");
+				printUsage();
+			}
+			else{
+				toPath = getOutputFile(args);
+			}
+			boolean isRotate= isRotate(args);
+			int numOfThreads = getNumOfThreads(args);
+
+			if(inputFile && outputFile ){
+				PuzzleManager pm = new PuzzleManager(fromPath,toPath,isRotate,numOfThreads);
+				pm.handlePuzzle();
+				FileOutput fo = new FileOutput(toPath);
+				String message = fo.loadFromTextFile();
+				System.out.println(message);
+			}
 		}
-		if(!outputFile){
-			System.out.println("mandatory output file parameter is missing");
-		}
-		else{
-			 toPath = getOutputFile(args);
-		}
-		
-		
-		 		 
-		 boolean isRotate= isRotate(args);	
-		 System.out.println("rotate= " + isRotate);
-		 int numOfThreads = getNumOfThreads(args);
-		 System.out.println("numOfThreads = " + numOfThreads);
-		 
-		 if(inputFile && outputFile ){			 
-		 PuzzleManager pm = new PuzzleManager(fromPath,toPath,isRotate,numOfThreads);
-			pm.handlePuzzle();
-			FileOutput fo = new FileOutput(toPath);
-			String message = fo.loadFromTextFile();	
-			System.out.println(message);
-		 }
+
 		 
 		
 
 	}
-	
+	private static void printUsage(){
+
+			System.out.println("Usage:  -input <input file> -output <output file> -rotate -threads <num of threads>" );
+		}
 	
 //	private static boolean validateThreads(String[] args) {
 //		for (int i = 0; i < args.length; i++) {

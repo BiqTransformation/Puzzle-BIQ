@@ -42,7 +42,7 @@ public class PuzzleValidation {
             }
 
         else{
-            if ( (lefts + tops)*2 < (rows + cols)*2) {
+            if ( (lefts + tops + rights + bottoms) < (rows + cols)*2) {
                 return false;
             }
 

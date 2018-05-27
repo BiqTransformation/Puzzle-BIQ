@@ -50,24 +50,19 @@ public class PuzzleSolver {
             int index;
             for (int i = 0; i <= middle; i++) {
                 index = middle + i;
-                if (puzzleSize % index == 0) {
-                    int num = puzzleSize / index;
-
-                        if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
-                            solutions.put(index, num);
-                  }
-                }
-                if(!puzzleInstance.getRotate()){
-                    index = middle - i + 1;
-                    if (puzzleSize % index == 0) {
+                     if (puzzleSize % index == 0) {
                         int num = puzzleSize / index;
-
-                        if (PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, i, num, puzzleInstance.getRotate())) {
+                        if (validatePossibleSolution(index,num,puzzleInstance.getRotate())) {
                             solutions.put(index, num);
-
                         }
                     }
-                }
+                     index = middle - i + 1;
+                    if (puzzleSize % index == 0) {
+                        int num = puzzleSize / index;
+                        if (validatePossibleSolution(index,num,puzzleInstance.getRotate())) {
+                            solutions.put(index, num);
+                        }
+                    }
              }
             if (PuzzleValidation.isPossibleOneRow(puzzlePieces, puzzleInstance.getRotate())) {
                 solutions.put(1, puzzleSize);
@@ -129,11 +124,7 @@ public class PuzzleSolver {
                  } catch (ExecutionException e) {
                      e.printStackTrace();
                  }
-
-
         }
-
-
         executor.shutdownNow();
         try {
             if (executor.awaitTermination(10, TimeUnit.SECONDS)) {
@@ -146,6 +137,16 @@ public class PuzzleSolver {
             e.printStackTrace();
         }
         System.out.println("Finished all threads");
+    }
+
+    private boolean validatePossibleSolution(int rows, int cols, boolean isRotate){
+       boolean isValid = PuzzleValidation.validateNumberOfStraightEdges(puzzlePieces, rows, cols, isRotate);
+
+       if(isRotate && solutions.containsValue(rows)){
+           isValid = false;
+       }
+
+       return isValid;
     }
 
 }
