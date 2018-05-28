@@ -3,7 +3,7 @@ package course.puzzle.puzzle;
  * This class contains the puzzle error messages
  * @author Lior 
  */
-public class PuzzleErrors {
+public class LogMessages {
 	
     public static String CANNOT_SOLVE_PUZZLE = "Cannot solve puzzle:";
     public static String WRONG_NUMBER_OF_STRAIGHT_EDGES = "Wrong number of straight edges";

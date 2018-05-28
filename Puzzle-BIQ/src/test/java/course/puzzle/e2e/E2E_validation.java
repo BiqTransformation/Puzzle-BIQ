@@ -9,17 +9,31 @@ import org.junit.Test;
 import course.puzzle.file.FileOutput;
 import course.puzzle.puzzleManager.PuzzleManager;
 public class E2E_validation {
-	
-	
+
+
+	@Test
+	public void test4_nR_t3() throws Exception{
+		String in = "src//test//resources//files//test4_nR_t3.in";
+		String out = "src//test//resources//files//test4_nR_t3.out";
+
+		boolean rotate = false;
+		int numOfTreads = 2;
+		PuzzleManager pm = new PuzzleManager(in ,out,rotate,numOfTreads);
+		pm.handlePuzzle();
+		FileOutput fo = new FileOutput(out);
+		String message = fo.loadFromTextFile();
+		System.out.println(message);
+		assertTrue(pm.validateSolutionViaOutputFile(in,out));
+	}
 	
 	
 	@Test
 	public void testSimpleNegativeE2EWithLessIDsThenNumElements() throws Exception{
 		String fromPath = "src//test//resources//files//test3.in";
 		String toPath = "src//test//resources//files//test3.out";
-		//clean output
+
 		boolean rotate = true;
-	    int numOfTreads = 2; 
+	    int numOfTreads = 2;
 		PuzzleManager pm = new PuzzleManager(fromPath ,toPath,rotate,numOfTreads);
 		 pm.handlePuzzle();
 		 FileOutput fo = new FileOutput(toPath);
@@ -27,10 +41,7 @@ public class E2E_validation {
 		 System.out.println(message);
 	     assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
 	}
-	
 
-	
-	
 	
 	@Test
 	public void testSimpleNegativeE2EWithLessIDsNotInSequance() throws Exception{
@@ -47,17 +58,17 @@ public class E2E_validation {
 	     assertTrue(message.contains("Id number not valid should be more then 0 and less then NumElements"));
 	}
 	
-//	@Test
-//	public void goodValidateSolutionViaOutputFile() throws Exception {
-//		String in = "src//test//resources//files//good12Pieces.in";
-//		String out = "src//test//resources//files//good12Pieces.out";
-//		boolean rotate = true;
-//	    int numOfTreads = 2;
-//	    System.out.println("Puzzle from file: " + in+ "; rotate: " + rotate + "; number of threads: " + numOfTreads);
-//		PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
-//		pm.handlePuzzle();
-//		assertTrue(pm.validateSolutionViaOutputFile(in,out));
-//	}
+	@Test
+	public void goodValidateSolutionViaOutputFile() throws Exception {
+		String in = "src//test//resources//files//good12Pieces.in";
+		String out = "src//test//resources//files//good12Pieces.out";
+		boolean rotate = true;
+	    int numOfTreads = 2;
+	    System.out.println("Puzzle from file: " + in+ "; rotate: " + rotate + "; number of threads: " + numOfTreads);
+		PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
+		pm.handlePuzzle();
+		assertTrue(pm.validateSolutionViaOutputFile(in,out));
+	}
 	
 	@Test
 	public void goodValidateSolutionViaOutputFile40piecesWithoutRotate() throws Exception {

@@ -5,13 +5,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import course.puzzle.puzzle.PuzzleErrors;
+import course.puzzle.puzzle.LogMessages;
 import course.puzzle.puzzle.PuzzlePiece;
 /*
  * This class validate the input file of the puzzle 
  * @author Alex
  */
-public class PuzzleInPutDataValidation {
+public class PuzzleInputDataValidation {
 
 	private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	private int numOfPieces;
@@ -58,14 +58,14 @@ public class PuzzleInPutDataValidation {
 				}
 
 			} else {
-				String message = PuzzleErrors.PUZZLE_SIZE + listOfPuzzlePiecesAfterAllValidation.size();
-				message += PuzzleErrors.MISSING_PUZZLE_ELEMENTS + num;
+				String message = LogMessages.PUZZLE_SIZE + listOfPuzzlePiecesAfterAllValidation.size();
+				message += LogMessages.MISSING_PUZZLE_ELEMENTS + num;
 				errorList.add(message);
 			}
 
 		} else if (listOfPuzzlePiecesAfterAllValidation.size() < numOfPieces) {
 			int diff = numOfPieces - listOfPuzzlePiecesAfterAllValidation.size();
-			String message = PuzzleErrors.MISSING_PUZZLE_ELEMENTS;
+			String message = LogMessages.MISSING_PUZZLE_ELEMENTS;
 			for (int i = diff + 1; i <= numOfPieces; i++) {
 				message += i + ",";
 				
@@ -200,7 +200,7 @@ public class PuzzleInPutDataValidation {
 	}
 
 	/**
-	 * @param list
+	 * @param
 	 * @return true/false
 	 * @throws IOException
 	 */

@@ -40,13 +40,13 @@ public class PuzzleValidation {
             if ( lefts < rows || rights < rows || tops < cols || bottoms < cols) {
                 return false;
             }
-//       }
-//        else{
-//            if ( lefts < (rows + cols)*2) {
-//                return false;
-//            }
-//
-//        }
+
+        else{
+            if ( (lefts + tops + rights + bottoms) < (rows + cols)*2) {
+                return false;
+            }
+
+        }
         return true;
     }
 
@@ -151,8 +151,8 @@ public class PuzzleValidation {
 //                    Private methods
 //    ================================================================================
 
-    private static Set<PuzzlePiece> getPiecesMatchToShape(List<PuzzlePiece> puzzle, PuzzleShape shape, boolean rotate) {
-        Set<PuzzlePiece> specificEdges = new HashSet<>();
+    private static ArrayList<PuzzlePiece> getPiecesMatchToShape(List<PuzzlePiece> puzzle, PuzzleShape shape, boolean rotate) {
+        ArrayList<PuzzlePiece> specificEdges = new ArrayList<>();
         for (PuzzlePiece p : puzzle) {
 
             if (shape.isMatch(p)) {
