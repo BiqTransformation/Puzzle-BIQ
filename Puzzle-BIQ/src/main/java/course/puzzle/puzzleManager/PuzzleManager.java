@@ -1,6 +1,6 @@
 package course.puzzle.puzzleManager;
 
-import course.puzzle.file.PuzzleInPutDataValidation;
+import course.puzzle.file.PuzzleInputDataValidation;
 import course.puzzle.file.FileOutput;
 import course.puzzle.file.FileReader;
 import course.puzzle.puzzle.*;
@@ -73,7 +73,7 @@ public class PuzzleManager {
                 fo.printSolution(puz);
 
             } else {
-                fo.printToOutputFile(PuzzleErrors.CANNOT_SOLVE_PUZZLE);
+                fo.printToOutputFile(LogMessages.CANNOT_SOLVE_PUZZLE);
 
             }
         }
@@ -84,7 +84,7 @@ public class PuzzleManager {
         FileReader reader = new FileReader();
         List<String> inputList;
         inputList = reader.readFromFile(inputFile);
-        PuzzleInPutDataValidation fav = new PuzzleInPutDataValidation();
+        PuzzleInputDataValidation fav = new PuzzleInputDataValidation();
         puzzlePieces = fav.fileDataValidator(inputList);
         validatePuzzleInputFile = fav.getErrorList();
         if(validatePuzzleInputFile.size() > 0){

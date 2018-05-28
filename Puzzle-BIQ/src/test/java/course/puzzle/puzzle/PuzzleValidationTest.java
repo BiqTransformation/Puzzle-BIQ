@@ -142,21 +142,5 @@ public class PuzzleValidationTest {
 
         assertFalse(PuzzleValidation.validateSumOfEdges(puzzle));
     }
-    @Test
-    public void testSimpleNegativeE2EWithLessIDsThenNumElements() throws Exception{
-        String in = "src//test//resources//files//test3.in";
-        String out = "src//test//resources//files//test3.out";
-        //clean output
-        FileOutput fo = new FileOutput(out);
-        boolean rotate = true;
-	    int numOfTreads = 2;
-        PuzzleManager pm = new PuzzleManager(in, out,rotate,numOfTreads);
-        pm.handlePuzzle();
-        String message = fo.loadFromTextFile();
-        System.out.println(message);
-        assertTrue(message.contains("missing puzzle elements with the following IDs:3,4"));
-    }
-    
-    
 
 }

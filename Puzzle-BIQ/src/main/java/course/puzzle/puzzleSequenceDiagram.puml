@@ -1,0 +1,24 @@
+@startuml
+Client -> Client: validate input file
+Client -> DataModel: prepare json
+Client -> Server: connect
+Server -> Client: accept connection
+Server -> Server: open thread for this client
+Server -> Client: set client id
+Client -> Server: get id
+
+Client -> Server: send json to Server
+Server -> DataModel: convert json to Puzzle
+Server -> PuzzleManager: send Puzzle
+PuzzleManager -> PuzzleSolver: send Puzzle
+PuzzleSolver -> PuzzleSolver: open thread pool
+PuzzleSolver -> RunSolution: start Puzzle solution
+RunSolution -> PuzzleSolver: return solution PuzzlePieces[][]
+PuzzleSolver -> PuzzleManager: send solution PuzzlePieces[][]
+PuzzleManager -> Server: send solution PuzzlePieces[][]
+Server -> DataModel: convert PuzzlePieces[][] to json
+Server -> Client: send solution as json
+Client -> Client: validate and print solution
+
+
+@enduml

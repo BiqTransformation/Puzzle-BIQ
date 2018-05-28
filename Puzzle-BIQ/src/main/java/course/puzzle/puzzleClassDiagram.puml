@@ -1,0 +1,106 @@
+@startuml
+
+client.MainClient --> client.Client
+client.Client <-- file.PuzzleInputDataValidation
+client.Client <-- file.FileReader
+client.Client <-- file.FileOutput
+client.Client <--> model.Model
+puzzleManager.Server "1" *-- "many" client.Client : contains
+puzzleManager.Server "1" *-- "many" puzzleManager.PuzzleManager : contains
+puzzleManager.Server <--> model.Model
+puzzleManager.PuzzleManager "1" *-- "many" puzzle.PuzzleSolver
+puzzle.PuzzleSolver "1" *-- "many" puzzle.RunSolution
+
+class client.MainClient {
+String ip
+int port
+String inputFilePath
+String outputFilePath
+boolean rotate
+
+MainClient: createNewClient(ip, port, inputFilePath, outputFilePath,rotate)
+MainClient: startClient()
+MainClient: stopClient()
+}
+class client.Client {
+String ip
+int port
+String inputFilePath
+String outputFilePath
+boolean rotate
+String inputJson
+
+Client: Client(ip,port,inputFilePath,outputFilePath,rotate)
+Client: startClient()
+Client: validateInputFile()
+Client: openSocketChannel()
+Client: sendJsonToServer()
+Client: getOutputFromServer()
+Client: printOutput()
+Client: validateSolution()
+Client: disconnect()
+}
+
+class puzzleManager.Server{
+int port
+int threads
+
+Server: main()
+Server: registerClient()
+Server: start()
+Server: currentClientInput readInputJsonFromCurrentClient()
+Server: openThreadPool()
+Server: currentClientOutput runNewPuzzleManager(currentClientInput)
+
+}
+
+class model.Model{
+String inputFileTxt
+String inputFileJson
+String outputFileTxt
+String ourputFileJson
+Puzzle puzzle
+PuzzlePiece[][] solution
+
+Model: String convertInputFileToJson(Puzzle)
+Model: Puzzle convertJsonToPuzzle(String)
+Model: String getSolutionAsJson(PuzzlePieces[][])
+Model: String getSolutionAsTxt(PuzzlePieces[][])
+
+}
+
+class puzzleManager.PuzzleManager{
+String inputJson
+String outputJson
+Puzzle puzzle
+
+PuzzleManager: puzzle convertInputJsonToPuzzle()
+PuzzleManager: PuzzlePieces[][] runNewPuzzleSolver(puzzle)
+}
+
+class puzzle.PuzzleSolver{
+
+String outputJson
+Puzzle puzzle
+Map<Integer,Integer> possibleSolutions
+
+PuzzleSolver: PuzzleSolver(puzzle,outputJson)
+PuzzleSolver: openThreadPool()
+PuzzleSolver: PuzzlePieces[][] runNewSolution(puzzle,nt rows, int cols)
+}
+
+class puzzle.RunSolution{
+int rows
+int cols
+String outputJson
+Puzzle puzzle
+PuzzlePieces[][] solvedPuzzle
+
+RunSolution: RunSolution(puzzle,rows,cols)
+RunSolution: puzzleSolution()
+RunSolution: PuzzlePieces[][] convertToJson()
+}
+
+
+
+@enduml

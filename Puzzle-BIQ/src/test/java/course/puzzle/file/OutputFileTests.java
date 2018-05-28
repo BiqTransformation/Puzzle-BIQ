@@ -6,12 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import course.puzzle.puzzle.Puzzle;
-import course.puzzle.puzzle.PuzzleSolver;
+import course.puzzle.puzzle.LogMessages;
 import org.junit.Test;
 
-import course.puzzle.puzzle.PuzzleErrors;
-import course.puzzle.puzzle.PuzzlePiece;
 
 
 public class OutputFileTests {
@@ -24,10 +21,10 @@ public class OutputFileTests {
 		//clean file				
 		fo.cleanOutputFile();		
 		//save
-		String message = PuzzleErrors.CANNOT_SOLVE_PUZZLE;
+		String message = LogMessages.CANNOT_SOLVE_PUZZLE;
 		fo.printToOutputFile(message);
 		//save again
-		String message2 = PuzzleErrors.MISSING_CORNER_BL;
+		String message2 = LogMessages.MISSING_CORNER_BL;
 		fo.printToOutputFile(message2);
 		//load		
 		String message3 =  fo.loadFromTextFile();

@@ -17,10 +17,10 @@ public class PossibleSolutionsTest {
 	@Test
 	public void testgetPossiblesolutionWith6PuzzlePiecesNoRotate() throws Exception {
 		PuzzlePiece piece1 = new PuzzlePiece(1, 0, 0, 1, 0);
-		PuzzlePiece piece2 = new PuzzlePiece(2, -1, 0, -1, 0);
+		PuzzlePiece piece2 = new PuzzlePiece(2, -1, 0, 0, 0);
 		PuzzlePiece piece3 = new PuzzlePiece(3, 1, 0, 0, 0);
 		PuzzlePiece piece4 = new PuzzlePiece(4, 0, 0, -1, 0);
-		PuzzlePiece piece5 = new PuzzlePiece(5, 1, 0, 1, 0);
+		PuzzlePiece piece5 = new PuzzlePiece(5, 0, 0, 1, 0);
 		PuzzlePiece piece6 = new PuzzlePiece(6, -1, 0, 0, 0);
 		puzzle.clear();
 		puzzle.add(piece1);
@@ -32,8 +32,10 @@ public class PossibleSolutionsTest {
 		PuzzleSolver solve = new PuzzleSolver(new Puzzle(false,puzzle),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer,Integer> expected = new HashMap<>();
-		expected.put(1,6);
+
 		expected.put(2,3);
+		expected.put(3,2);
+		expected.put(1,6);
 		System.out.println(mapUnderTest);
 		assertEquals(expected,mapUnderTest);
 	}
@@ -42,10 +44,10 @@ public class PossibleSolutionsTest {
 	@Test
 	public void testgetPossiblesolutionWith6PuzzlePiecesRotate() throws Exception {
 		PuzzlePiece piece1 = new PuzzlePiece(1, 0, 0, 1, 0);
-		PuzzlePiece piece2 = new PuzzlePiece(2, -1, 0, -1, 0);
+		PuzzlePiece piece2 = new PuzzlePiece(2, -1, 0, 0, 0);
 		PuzzlePiece piece3 = new PuzzlePiece(3, 1, 0, 0, 0);
 		PuzzlePiece piece4 = new PuzzlePiece(4, 0, 0, -1, 0);
-		PuzzlePiece piece5 = new PuzzlePiece(5, 1, 0, 1, 0);
+		PuzzlePiece piece5 = new PuzzlePiece(5, 0, 0, 1, 0);
 		PuzzlePiece piece6 = new PuzzlePiece(6, -1, 0, 0, 0);
 		puzzle.clear();
 		puzzle.add(piece1);
@@ -57,8 +59,8 @@ public class PossibleSolutionsTest {
 		PuzzleSolver solve = new PuzzleSolver(new Puzzle(true,puzzle),numOfThreads);
 		Map<Integer, Integer> mapUnderTest = solve.getPossibleSolutions();
 		Map<Integer,Integer> expected = new HashMap<>();
+		expected.put(2,3);
 		expected.put(1,6);
-		expected.put(3,2);
 		System.out.println(mapUnderTest);
 		assertEquals(expected,mapUnderTest);
 	}

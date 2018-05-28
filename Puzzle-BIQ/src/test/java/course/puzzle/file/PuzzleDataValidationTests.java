@@ -6,12 +6,10 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import course.puzzle.puzzle.PuzzlePiece;
@@ -24,7 +22,7 @@ public class PuzzleDataValidationTests {
 	public void goodValidatorIntegrationFlow() throws Exception  {
 		FileReader reader = new FileReader();
 		List<String> rawData = reader.readFromFile(InputFileNamePath);		
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		List<PuzzlePiece> actualPiecesList = validator.fileDataValidator(rawData);
 		ArrayList<PuzzlePiece> expectedPiecesList = new ArrayList<>();
 		expectedPiecesList.add(new PuzzlePiece(1, -1, 0, 0, 0));
@@ -37,7 +35,7 @@ public class PuzzleDataValidationTests {
 	public void goodValidatorIntegrationFlow1() throws Exception  {
 		FileReader reader = new FileReader();
 		List<String> rawData = reader.readFromFile(InputFileNamePath);		
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		List<PuzzlePiece> actualPiecesList = validator.fileDataValidator(rawData);
 		ArrayList<PuzzlePiece> expectedPiecesList = new ArrayList<>();
 		expectedPiecesList.add(new PuzzlePiece(1, -1, 0, 0, 0));
@@ -66,7 +64,7 @@ public class PuzzleDataValidationTests {
 		expected.add(piece1);
 		expected.add(piece2);
 		
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		List<PuzzlePiece> actual = validator.fileDataValidator(input);
 		assertEquals(expected.get(0).getId(), actual.get(0).getId());
 		
@@ -81,7 +79,7 @@ public class PuzzleDataValidationTests {
 		expected.add(piece1);
 		expected.add(piece2);
 		expected.add(piece3);
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		boolean actual = validator.checkIdUniqueness(expected);
 		assertTrue(actual);
 		
@@ -97,7 +95,7 @@ public class PuzzleDataValidationTests {
 		expected.add(piece1);
 		expected.add(piece2);
 		expected.add(piece3);
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		boolean actual = validator.checkIdUniqueness(expected);
 		assertFalse(actual);
 		
@@ -111,7 +109,7 @@ public class PuzzleDataValidationTests {
 		// the id more then total elements.
 		input.add("3 0 0 0 0");
 		ArrayList<PuzzlePiece> expected = new ArrayList<>();	
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		List<PuzzlePiece> actual = validator.fileDataValidator(input);
 		// Empty list was received .
 		assertEquals(expected, actual);
@@ -126,7 +124,7 @@ public class PuzzleDataValidationTests {
 		input.add("1 -1 0 0 0");
 		input.add("2 0 0 0 0");
 		ArrayList<PuzzlePiece> expected = new ArrayList<>();
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		List<PuzzlePiece> actual = validator.fileDataValidator(input);
 		// Empty list was received .
 		assertEquals(expected, actual);
@@ -135,7 +133,7 @@ public class PuzzleDataValidationTests {
 	@Test
 	public void goodTestOFfirstLineValidator() throws IOException {
 		int expected = 2;
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		String str = "NumElements=2";
 		int actual = validator.getNumberOfElements(str);
 		assertEquals(expected, actual);
@@ -144,7 +142,7 @@ public class PuzzleDataValidationTests {
 	@Test
 	public void badTestOFfirstLineValidatorIncludedSpaces() throws IOException {
 		int expected = 2;
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		String str = "NumElem ents=    2";
 		int actual = validator.getNumberOfElements(str);
 		assertEquals(expected, actual);
@@ -153,7 +151,7 @@ public class PuzzleDataValidationTests {
 	@Test
 	public void badTestOFgetNumberOfElementsInvalidChar_$() throws IOException {
 		int expected = -1;
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		String str = "NumElements=$";
 		int actual = validator.getNumberOfElements(str);
 		assertEquals(expected, actual);
@@ -163,7 +161,7 @@ public class PuzzleDataValidationTests {
 	@Test
 	public void bad_NumElementsIlligal_0() throws IOException {
 		int expected = -1;
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		String str = "NumElements=0";
 		int actual = validator.getNumberOfElements(str);
 		assertEquals(expected, actual);
@@ -173,7 +171,7 @@ public class PuzzleDataValidationTests {
 	@Test
 	public void bad_NumElementsIlligal_1() throws IOException {
 		int expected = 1;
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		String str = "NumElements=1";
 		int actual = validator.getNumberOfElements(str);
 		assertEquals(expected, actual);
@@ -183,7 +181,7 @@ public class PuzzleDataValidationTests {
 	@Test
 	public void bad_TestOFgetNumberOfElementsWrongStringFormat() throws IOException {
 		int expected = -1;
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		String str = "Num$$Elements=0";
 		int actual = validator.getNumberOfElements(str);
 		assertEquals(expected, actual);
@@ -197,7 +195,7 @@ public class PuzzleDataValidationTests {
 		expectedList.add(0);
 		expectedList.add(0);
 		expectedList.add(0);
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		String secondLine = "1 -1 0 0 0";
 		validator.setNumOfPieces(2);
 		ArrayList<Integer> actualList = validator.integersListValidation(secondLine);
@@ -210,7 +208,7 @@ public class PuzzleDataValidationTests {
 	public void badTestIntegersListValidation() throws IOException {
 		ArrayList<Integer> expectedList = new ArrayList<>();
 		expectedList.clear();
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		validator.setNumOfPieces(1);
 		String str = "1 -1 3 0 0";
 		ArrayList<Integer> actualList = validator.integersListValidation(str);
@@ -223,7 +221,7 @@ public class PuzzleDataValidationTests {
 		ArrayList<Integer> expectedList = new ArrayList<>();
 		expectedList.clear();
 		
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		validator.setNumOfPieces(2);
 		String str = "1 -1 0 0 0 0";
 		ArrayList<Integer> actualList = validator.integersListValidation(str);
@@ -234,7 +232,7 @@ public class PuzzleDataValidationTests {
 	public void badTestIntegersListValidationInvaldChar() throws IOException {
 		ArrayList<Integer> expectedList = new ArrayList<>();
 		expectedList.clear();
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		validator.setNumOfPieces(2);
 		String str = "1 -1 1 0 b ";
 		ArrayList<Integer> actualList = validator.integersListValidation(str);
@@ -246,7 +244,7 @@ public class PuzzleDataValidationTests {
 		ArrayList<Integer> expectedList = new ArrayList<>();
 		expectedList.clear();
 		
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		String str = "b -1 3 0 0 ";
 		ArrayList<Integer> actualList = validator.integersListValidation(str);
 		assertEquals(expectedList, actualList);
@@ -254,7 +252,7 @@ public class PuzzleDataValidationTests {
 	
 	@Test
 	public void goodPuzzlePieceBuilder() {
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		ArrayList<PuzzlePiece> expected = new ArrayList<>();
 		expected.add(new PuzzlePiece(1, -1, 0, 0, 0));
 		ArrayList<Integer> listOfIntegers = new ArrayList<>();
@@ -269,7 +267,7 @@ public class PuzzleDataValidationTests {
 	
 	@Test
 	public void goodBasicFileValidator() throws IOException {
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 		ArrayList<String> inputList = new ArrayList<>();
 		inputList.add("1");
 		inputList.add("2");
