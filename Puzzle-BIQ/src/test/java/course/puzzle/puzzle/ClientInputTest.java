@@ -36,4 +36,27 @@ public class ClientInputTest {
         assertEquals(expected, json);
     }
 
+    @Test
+    public void testClientInputJsonToPuzzle() {
+
+        List<PuzzlePiece> pieces = new ArrayList<>();
+
+        pieces.add(new PuzzlePiece(1, 0, 0, 1, 0));
+        pieces.add(new PuzzlePiece(2, -1, 0, 0, 0));
+        pieces.add(new PuzzlePiece(3, -1, 0, 1, 0));
+        pieces.add(new PuzzlePiece(4, -1, 0, 1, 0));
+
+        Puzzle before = new Puzzle(true,pieces);
+
+        ClientInput input = new ClientInput(before);
+        String json = gson.toJson(input);
+        System.out.println(json);
+        ClientInput fromJson = gson.fromJson(json,ClientInput.class);
+        Puzzle after = fromJson.getPuzzle();
+        System.out.println(fromJson.getPuzzle().getPuzzlePieces());
+        System.out.println(fromJson.getPuzzle().getRotate());
+       assertEquals(before.getPuzzlePieces(), after.getPuzzlePieces());
+        assertEquals(before.getRotate(), after.getRotate());
+    }
+
     }

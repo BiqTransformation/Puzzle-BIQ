@@ -6,7 +6,8 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 import course.puzzle.file.FileReader;
-import course.puzzle.file.PuzzleInPutDataValidation;
+
+import course.puzzle.file.PuzzleInputDataValidation;
 
 public class Client {
 
@@ -17,7 +18,7 @@ public class Client {
 		DataInputStream userInput;
 		PrintStream outputStream;
 		FileReader reader = new FileReader();
-		PuzzleInPutDataValidation validator = new PuzzleInPutDataValidation();
+		PuzzleInputDataValidation validator = new PuzzleInputDataValidation();
 
 		String line = "";
 		try {
@@ -26,10 +27,10 @@ public class Client {
 			outputStream = new PrintStream(socket.getOutputStream());
 			
 			while (!line.equals("!")) {
-				reader.readFromFile(fromPath)
-				line = userInput.readLine();
-				outputStream.println(line);
-				System.out.println(inputStream.readLine());
+//				reader.readFromFile("");
+//				line = userInput.readLine();
+//				outputStream.println(line);
+//				System.out.println(inputStream.readLine());
 			}
 		} catch (Exception e) {
 			System.err.println(e);

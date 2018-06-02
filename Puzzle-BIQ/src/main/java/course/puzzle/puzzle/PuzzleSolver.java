@@ -33,13 +33,13 @@ public class PuzzleSolver {
     public PuzzleSolver(Puzzle puzzleInstance, int numOfThreads) {
         this.numOfThreads = numOfThreads;
         this.puzzleInstance = puzzleInstance;
-        puzzlePieces = puzzleInstance.getPuzzle();
+        puzzlePieces = puzzleInstance.getPuzzlePieces();
     }
 
     public PuzzleSolver(Puzzle puzzleInstance, int numOfThreads, long timeoutMilliseconds) {
         this.numOfThreads = numOfThreads;
         this.puzzleInstance = puzzleInstance;
-        puzzlePieces = puzzleInstance.getPuzzle();
+        puzzlePieces = puzzleInstance.getPuzzlePieces();
         timeout = timeoutMilliseconds;
     }
 

@@ -8,4 +8,8 @@ public class ClientInput {
     public ClientInput(Puzzle puzzle) {
         this.puzzle = puzzle;
     }
+
+    public Puzzle getPuzzle() {
+        return puzzle;
+    }
 }

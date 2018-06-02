@@ -32,7 +32,7 @@ public class Puzzle {
         this.rotate = isRotate;
     }
 
-    public List<PuzzlePiece> getPuzzle() {
+    public List<PuzzlePiece> getPuzzlePieces() {
         return puzzlePieces;
     }
 
