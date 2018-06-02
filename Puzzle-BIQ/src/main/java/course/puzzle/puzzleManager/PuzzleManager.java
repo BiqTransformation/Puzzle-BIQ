@@ -29,6 +29,7 @@ public class PuzzleManager {
     private boolean rotate;
     private int numOfThreads;
     private static long TIMEOUT_MILLISECONDS = 60000;
+    private Object puzzleSolution;
 
     public PuzzleManager(String fromPath, String toPath,boolean rotate,int numOfThreads) {
         this.rotate=rotate;
@@ -61,8 +62,9 @@ public class PuzzleManager {
 
     private void solvePuzzle() throws IOException {
         newPuzzle = new Puzzle(rotate,puzzleList);
-        validatePuzzleBeforeSolution = newPuzzle.getErrors();
+        validatePuzzleBeforeSolution = newPuzzle.validatePuzzle();
         if (validatePuzzleBeforeSolution.size() > 0) {
+            puzzleSolution = validatePuzzleBeforeSolution;
             fo.printListToOutputFile(validatePuzzleBeforeSolution);
             return;
         }
@@ -70,9 +72,11 @@ public class PuzzleManager {
             solvePuzzle = new PuzzleSolver(newPuzzle,numOfThreads,TIMEOUT_MILLISECONDS);
             PuzzlePiece[][] puz = solvePuzzle.findSolution();
             if (puz != null) {
+                puzzleSolution = puz;
                 fo.printSolution(puz);
 
             } else {
+                puzzleSolution = false;
                 fo.printToOutputFile(LogMessages.CANNOT_SOLVE_PUZZLE);
 
             }

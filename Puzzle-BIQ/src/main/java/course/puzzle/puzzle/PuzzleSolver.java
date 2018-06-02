@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 public class PuzzleSolver {
 	private static Logger logger = LogManager.getLogger(PuzzleSolver.class);
-    private static final int THREAD_TIMEOUT = 60;
+
     private List<PuzzlePiece> puzzlePieces;
     private PuzzlePiece[][] solvedPuzzle;
     private Map<Integer, Integer> solutions = new LinkedHashMap<>();

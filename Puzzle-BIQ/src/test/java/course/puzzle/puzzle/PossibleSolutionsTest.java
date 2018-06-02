@@ -1,6 +1,9 @@
 package course.puzzle.puzzle;
 
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -64,8 +67,6 @@ public class PossibleSolutionsTest {
 		System.out.println(mapUnderTest);
 		assertEquals(expected,mapUnderTest);
 	}
-
-
 
 
 

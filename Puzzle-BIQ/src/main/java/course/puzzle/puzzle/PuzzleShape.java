@@ -48,6 +48,11 @@ public class PuzzleShape {
     public void setBottom(int bottom) {
         this.edges[3] = bottom;
     }
+
+    public int[] getEdges() {
+        return edges;
+    }
+
     public boolean isMatch(PuzzlePiece p) {
         boolean match =
                 edgeMatch(getLeft(), p.getLeftValue()) &&

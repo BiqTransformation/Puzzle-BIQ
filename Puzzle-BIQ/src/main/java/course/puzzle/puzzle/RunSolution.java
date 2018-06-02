@@ -35,7 +35,7 @@ public class RunSolution implements Callable {
         this.cols = cols;
         this.puzzle = puzzle;
         puzzlePieces = puzzle.getPuzzle();
-        puzzleShapeListMap = puzzle.getAllPiecesMap();
+        puzzleShapeListMap = puzzle.indexer();
         initPuzzle(rows, cols);
     }
 
@@ -44,7 +44,7 @@ public class RunSolution implements Callable {
         this.cols = cols;
         TIMEOUT_MILLISECONDS = timeout;
         puzzlePieces = puzzle.getPuzzle();
-        puzzleShapeListMap = puzzle.getAllPiecesMap();
+        puzzleShapeListMap = puzzle.indexer();
         initPuzzle(rows, cols);
     }
 
