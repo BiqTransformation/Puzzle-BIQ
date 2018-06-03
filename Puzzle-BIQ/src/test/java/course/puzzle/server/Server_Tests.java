@@ -23,7 +23,7 @@ public class Server_Tests {
 	public void serverGetJsonAndBuildPuzzle() throws IOException{
 		String puzzleTest = "{\"puzzlePieces\":[{\"id\":1,\"leftValue\":1,\"topValue\":0,\"rightValue\":0,\"bottomValue\":0,\"shape\":{\"edges\":[1,0,0,0]}},{\"id\":2,\"leftValue\":0,\"topValue\":0,\"rightValue\":0,\"bottomValue\":-1,\"shape\":{\"edges\":[0,0,0,-1]}}],\"isRotate\":false}";
 
-		Server server = new Server();
+		Server server = new Server(3,7000);
 		Puzzle puzzle = server.readJson(puzzleTest);
 		assertFalse(puzzle.getRotate());
 		List<PuzzlePiece> sut =puzzle.getPuzzle();		
