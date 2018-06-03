@@ -1,6 +1,5 @@
 package course.puzzle.file;
 
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import course.puzzle.puzzle.PuzzlePiece;
@@ -69,7 +68,7 @@ public class FileOutput {
             for (int i = 0; i < solution.length; i++) {
                 for (int j = 0; j < solution[i].length; j++) {
                     int id = solution[i][j].getId();
-                    int deg = solution[i][j].getRotateEdge();
+                    int deg = solution[i][j].getRotateAngle();
                     if (deg>0) {
                     	print.print(id + "[" + deg + "]"  + " ");
                     }

@@ -3,14 +3,9 @@ package course.puzzle.server;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.json.simple.JSONValue;
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -26,7 +21,7 @@ public class Server_Tests {
 		Server server = new Server(3,7000);
 		Puzzle puzzle = server.readJson(puzzleTest);
 		assertFalse(puzzle.getRotate());
-		List<PuzzlePiece> sut =puzzle.getPuzzle();		
+		List<PuzzlePiece> sut =puzzle.getPuzzlePieces();
 		assertTrue(sut.size()==2);	
 
 }

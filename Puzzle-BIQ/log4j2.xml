@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" monitorInterval="5">
+
+    <!--<Appenders>-->
+
+
+        <!--<File name="creatorAppender" fileName="logs/creator.log" append="false">-->
+            <!--<PatternLayout>-->
+                <!--<Pattern>%d{HH:mm:ss.SSS} [%t] %-5p %logger - %msg%n</Pattern>-->
+            <!--</PatternLayout>-->
+        <!--</File>-->
+
+        <!--<File name="sorterAppender" fileName="logs/sorter.log" append="false">-->
+            <!--<PatternLayout>-->
+                <!--<Pattern>%d{HH:mm:ss.SSS} [%t] %-5p %logger - %msg%n</Pattern>-->
+            <!--</PatternLayout>-->
+        <!--</File>-->
+
+        <!--<File name="allLogsFile" fileName="logs/all.log" append="false">-->
+            <!--<PatternLayout>-->
+                <!--<Pattern>%d{HH:mm:ss.SSS} [%t] %-5p %logger - %msg%n</Pattern>-->
+            <!--</PatternLayout>-->
+        <!--</File>-->
+
+        <!--<Console name="Console" target="SYSTEM_OUT">-->
+            <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5p #%x(%X{UNIQUE-IDENTIFIER}) %logger - %msg%n"/>-->
+        <!--</Console>-->
+        <!---->
+        <!--<Async name="Async">-->
+            <!--<AppenderRef ref="Console"/>-->
+        <!--</Async>-->
+    <!--</Appenders>-->
+
+    <!--<Loggers>-->
+
+        <!--<logger name="test" level="TRACE" additivity="false">-->
+            <!--<AppenderRef ref="Console"/>-->
+            <!--&lt;!&ndash;<AppenderRef ref="Async"/>&ndash;&gt;-->
+        <!--</logger>-->
+
+        <!--<logger name="pukteam.course.logging.examples.advance.MainSorter" level="INFO" additivity="false">-->
+            <!--<AppenderRef ref="Console"/>-->
+        <!--</logger>-->
+
+        <!--<Root level="INFO">-->
+            <!--<AppenderRef ref="Console"/>-->
+        <!--</Root>-->
+
+    <!--</Loggers>-->
+    
+</Configuration>

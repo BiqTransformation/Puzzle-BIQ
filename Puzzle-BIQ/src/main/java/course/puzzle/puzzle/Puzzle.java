@@ -10,39 +10,32 @@ import java.util.Map;
  * @author Svetlana
  */
 public class Puzzle {
-
+    private boolean rotate;
     private List<PuzzlePiece> puzzlePieces;
-    private List<String> errors = new ArrayList<>();
-    private boolean isRotate;
-    private Map<PuzzleShape, List<PuzzlePiece>> allPiecesMap = new HashMap<>();
 
-    public Puzzle(boolean rotate , List<PuzzlePiece> puzzlePieceList ) {
-        this.isRotate = rotate;
+    public Puzzle(boolean rotate, List<PuzzlePiece> puzzlePieceList) {
+        this.rotate = rotate;
         puzzlePieces = puzzlePieceList;
 
-        validatePuzzle();
-        indexer();
     }
 
-    public Map<PuzzleShape, List<PuzzlePiece>> getAllPiecesMap() {
-        return allPiecesMap;
+    public Puzzle(List<PuzzlePiece> puzzlePieces, boolean isRotate) {
+        this.puzzlePieces = puzzlePieces;
+        this.rotate = isRotate;
     }
 
     public boolean getRotate() {
-        return isRotate;
+        return rotate;
     }
 
     public void setRotate(boolean isRotate) {
-        this.isRotate = isRotate;
+        this.rotate = isRotate;
     }
 
-    public List<PuzzlePiece> getPuzzle() {
+    public List<PuzzlePiece> getPuzzlePieces() {
         return puzzlePieces;
     }
 
-    public List<String> getErrors() {
-        return errors;
-    }
 
     public PuzzlePiece getPieceById(int id) {
 
@@ -55,37 +48,36 @@ public class Puzzle {
         return null;
     }
 
-    public void addError(String error) {
-        errors.add(error);
-    }
 
-    public void validatePuzzle() {
-
-        if (!PuzzleValidation.validateTopLeftCorner(puzzlePieces, isRotate)) {
-            addError(LogMessages.MISSING_CORNER_TL);
+    public List<String> validatePuzzle() {
+        List<String> errors = new ArrayList<>();
+        if (!PuzzleValidation.validateTopLeftCorner(puzzlePieces, rotate)) {
+            errors.add(LogMessages.MISSING_CORNER_TL);
 
         }
-        if (!PuzzleValidation.validateTopRightCorner(puzzlePieces, isRotate)) {
-            addError(LogMessages.MISSING_CORNER_TR);
+        if (!PuzzleValidation.validateTopRightCorner(puzzlePieces, rotate)) {
+            errors.add(LogMessages.MISSING_CORNER_TR);
 
         }
-        if (!PuzzleValidation.validateBottomLeftCorner(puzzlePieces, isRotate)) {
-            addError(LogMessages.MISSING_CORNER_BL);
+        if (!PuzzleValidation.validateBottomLeftCorner(puzzlePieces, rotate)) {
+            errors.add(LogMessages.MISSING_CORNER_BL);
 
         }
-        if (!PuzzleValidation.validateBottomRightCorner(puzzlePieces, isRotate)) {
-            addError(LogMessages.MISSING_CORNER_BR);
+        if (!PuzzleValidation.validateBottomRightCorner(puzzlePieces, rotate)) {
+            errors.add(LogMessages.MISSING_CORNER_BR);
 
         }
         if (!PuzzleValidation.validateSumOfEdges(puzzlePieces)) {
-            addError(LogMessages.SUM_OF_EDGES_IS_NOT_ZERO);
+            errors.add(LogMessages.SUM_OF_EDGES_IS_NOT_ZERO);
 
         }
-       }
+        return errors;
+    }
 
-    private void indexer() {
+    public Map<PuzzleShape, List<PuzzlePiece>> indexer() {
+        Map<PuzzleShape, List<PuzzlePiece>> allPiecesMap = new HashMap<>();
         List<PuzzlePiece> allPieces;
-        if (isRotate) {
+        if (rotate) {
             allPieces = rotateAll(puzzlePieces);
         } else {
             allPieces = puzzlePieces;
@@ -101,7 +93,7 @@ public class Puzzle {
 
             identicalPieces.add(p);
         }
-
+        return allPiecesMap;
     }
 
     public List<PuzzlePiece> rotateAll(List<PuzzlePiece> list) {

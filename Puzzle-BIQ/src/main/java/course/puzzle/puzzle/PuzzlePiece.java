@@ -9,36 +9,29 @@ import java.util.Objects;
 public class PuzzlePiece {
     public static int JOKER = Integer.MIN_VALUE;
     private int id;
-    private int leftValue;
-    private int topValue;
-    private int rightValue;
-    private int bottomValue;
+//    private int[] shape.getEdges();
 
     private PuzzleShape shape;
-    private int rotateEdge = 0;
+    private int rotateAngle = 0;
 
     public PuzzlePiece(int id, int left, int top, int right, int bottom) {
         this.id = id;
+                this.shape = new PuzzleShape(new int[]{left, top, right, bottom});
 
-        this.shape = new PuzzleShape(new int[]{left, top, right, bottom});
-        this.leftValue = left;
-        this.topValue = top;
-        this.rightValue = right;
-        this.bottomValue = bottom;
     }
 
     public PuzzlePiece(int id, int[] edges) {
         this.id = id;
+        
         this.shape = new PuzzleShape(edges);
-        this.leftValue = edges[0];
-        this.topValue = edges[1];
-        this.rightValue = edges[2];
-        this.bottomValue = edges[3];
 
     }
-
-    public int getRotateEdge() {
-        return rotateEdge;
+public int[] getEdges(){
+        return shape.getEdges();
+}
+   
+    public int getRotateAngle() {
+        return rotateAngle;
     }
 
     public PuzzleShape getShape() {
@@ -46,43 +39,43 @@ public class PuzzlePiece {
     }
 
     public void setShape() {
-        this.shape = new PuzzleShape(new int[]{leftValue,topValue,rightValue,bottomValue});
+        this.shape = new PuzzleShape(shape.getEdges());
     }
 
-    public void setRotateEdge(int rotateEdge) {
-        this.rotateEdge = rotateEdge;
+    public void setRotateAngle(int rotateAngle) {
+        this.rotateAngle = rotateAngle;
     }
 
     public int getLeftValue() {
-        return leftValue;
+        return shape.getEdges()[0];
     }
 
     public int getTopValue() {
-        return topValue;
+        return shape.getEdges()[1];
     }
 
     public int getRightValue() {
-        return rightValue;
+        return shape.getEdges()[2];
     }
 
     public int getBottomValue() {
-        return bottomValue;
+        return shape.getEdges()[3];
     }
 
     public void setLeftValue(int leftValue) {
-        this.leftValue = leftValue;
+        this.shape.getEdges()[0] = leftValue;
     }
 
     public void setTopValue(int topValue) {
-        this.topValue = topValue;
+        this.shape.getEdges()[1] = topValue;
     }
 
     public void setRightValue(int rightValue) {
-        this.rightValue = rightValue;
+        this.shape.getEdges()[2] = rightValue;
     }
 
     public void setBottomValue(int bottomValue) {
-        this.bottomValue = bottomValue;
+        this.shape.getEdges()[3] = bottomValue;
     }
 
 
@@ -104,11 +97,11 @@ public class PuzzlePiece {
     }
 
     public boolean isAllEdgesEquals() {
-        return this.getLeftValue() == this.getTopValue() && this.getLeftValue() == this.getRightValue() && this.getLeftValue() == this.getBottomValue();
+        return this.shape.getEdges()[0]== this.shape.getEdges()[1] && this.shape.getEdges()[0] == this.shape.getEdges()[2] && this.shape.getEdges()[0] == this.shape.getEdges()[3];
     }
 
     public boolean isOposEdgesEquals(PuzzlePiece p) {
-        return p.getLeftValue() == p.getRightValue() && p.getTopValue() == p.getBottomValue();
+        return p.shape.getEdges()[0] == p.shape.getEdges()[2] && p.shape.getEdges()[1] == p.shape.getEdges()[3];
     }
 
     public PuzzlePiece rotatePiece(PuzzlePiece p, int angle) {
@@ -126,29 +119,29 @@ public class PuzzlePiece {
     }
 
     public PuzzlePiece firstRotate(PuzzlePiece p) {
-        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getBottomValue(), p.getLeftValue(), p.getTopValue(), p.getRightValue());
-        p1.setRotateEdge(90);
+        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getEdges()[3], p.getEdges()[0], p.getEdges()[1], p.getEdges()[2]);
+        p1.setRotateAngle(90);
         return p1;
     }
 
     public PuzzlePiece secondRotate(PuzzlePiece p) {
-        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getRightValue(), p.getBottomValue(), p.getLeftValue(), p.getTopValue());
-        p1.setRotateEdge(180);
+        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getEdges()[2], p.getEdges()[3], p.getEdges()[0], p.getEdges()[1]);
+        p1.setRotateAngle(180);
         return p1;
     }
 
     public PuzzlePiece thirdRotate(PuzzlePiece p) {
-        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getTopValue(), p.getRightValue(), p.getBottomValue(), p.getLeftValue());
-        p1.setRotateEdge(270);
+        PuzzlePiece p1 = new PuzzlePiece(p.getId(), p.getEdges()[1], p.getEdges()[2], p.getEdges()[3], p.getEdges()[0]);
+        p1.setRotateAngle(270);
         return p1;
     }
 
 	@Override
 	public String toString() {
-		String toPrint = "\n" + id + " " + " [" + rotateEdge + "] "
-				+ getLeftValue() + " "
-				+ getTopValue() + " "
-				+ getRightValue() + " " + getBottomValue();
+		String toPrint = "\n" + id + " " + " [" + rotateAngle + "] "
+				+ shape.getEdges()[0] + " "
+				+ shape.getEdges()[1] + " "
+				+ shape.getEdges()[2] + " " + shape.getEdges()[3];
 		return toPrint;
 	}
 }
