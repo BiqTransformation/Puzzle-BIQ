@@ -44,4 +44,15 @@ public class Server_Tests {
 
 }
 	
+	
+	@Test
+	public void serverGetJsonAndAnswer() throws IOException{
+		String puzzleTest = "{\"puzzel\":[{\"id\":1,\"shape\":[0,0,1,0]},{\"id\":2,\"shape\":[-1,0,-1,0]},{\"id\":3,\"shape\":[1,0,1,0]},{\"id\":4,\"shape\":[-1,0,0,0]}],\"rotate\":false}";
+		//String puzzleTest = "{\"puzzlePieces\":[{\"id\":1,\"leftValue\":1,\"topValue\":0,\"rightValue\":0,\"bottomValue\":0,\"shape\":{\"edges\":[1,0,0,0]}},{\"id\":2,\"leftValue\":0,\"topValue\":0,\"rightValue\":0,\"bottomValue\":-1,\"shape\":{\"edges\":[0,0,0,-1]}}],\"isRotate\":false}";
+		Server server = new Server(3,7000);
+		server.run();
+			
+
+}
+	
 }

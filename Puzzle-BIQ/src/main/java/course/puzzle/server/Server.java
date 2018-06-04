@@ -44,7 +44,7 @@ public class Server {
 	public Server(int threads , int port) throws IOException{
 		this.threads = threads;
 		this.port = port;
-		serverSocket = new ServerSocket(port);
+		//serverSocket = new ServerSocket(port);
 	}
 	
 
@@ -53,11 +53,11 @@ public class Server {
     public void run() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             boolean stop = false;
-            int counter = 1;
+            int clientid = 1;
             while (!stop) {
                 Socket socket = serverSocket.accept(); //blocking...
                 try {
-                    ClientHandler clientHandler = new ClientHandler(this, socket, counter++);
+                    ClientHandler clientHandler = new ClientHandler(this, socket, clientid++);
                     clientHandlers.add(clientHandler);
                     clientHandler.start();
                     
@@ -72,90 +72,17 @@ public class Server {
         }
     }
 
-    private void broadcast(int id, String msg) {
+    private void sendResponse(int id) {
         for(ClientHandler client : clientHandlers) {
-            client.sendMessage(id, msg);
+            client.sendMessage(id);
         }
     }
 
     private void unregister(ClientHandler clientHandler) {
         clientHandlers.remove(clientHandler);
     }
-
-    private static class ClientHandler extends Thread {
-        private Server server;
-        private Socket socket;
-        private final int id;
-        private PrintStream outputStream;
-
-        public ClientHandler(Server server, Socket socket, int id) throws IOException {
-            this.server = server;
-            this.socket = socket;
-            this.id = id;
-            outputStream = new PrintStream(socket.getOutputStream());
-        }
-
-        @Override
-        public void run() {
-            try {
-                String msg = "";
-                BufferedReader inputStream;
-                System.out.println("new client connected...");
-                inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                while (!msg.equals("!")) {
-                    msg = inputStream.readLine();                    
-                    outputStream.println("Server Got the Message..." + msg);
-                   // server.broadcast(id, msg);
-                    System.out.println(msg);
-                }
-            } catch (Exception e) {
-                System.out.println("client disconnected during !");
-            }
-            finally {
-                try {
-                    server.unregister(this);
-                    socket.close();
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
-        }
-
-        public void sendMessage(int id, String msg) {
-            if(id != this.id) {
-                outputStream.println("" + id + ": " + msg);
-            }
-        }
-
-    }
-	
-	
-	
-	
-	
-	
-	
-
-	
-	public void startServer() throws IOException{
-		System.out.println("Server started");
-		boolean run=true;
-		try{
-			while(run){
-				socket = serverSocket.accept();
-				 
-				readJson(socket.toString());
-			}
-		}
-		catch(Exception e){
-			System.out.println(e.getMessage());
-			}
-		finally{
-				socket.close();
-			}		
-	}
-	
-	public Puzzle readJson(String jsonFromClient){
+    
+    public Puzzle readJson(String jsonFromClient){
 
 		Gson gson = new Gson();
 		Puzzle puzzleFromJson = gson.fromJson(jsonFromClient, Puzzle.class);
@@ -168,6 +95,7 @@ public class Server {
 		int threads = validateThreads(args);
 		int port = validatePort(args);
 		Server server = new Server(threads,port);
+		server.run();
 			
 		}
 		 
@@ -205,7 +133,69 @@ public class Server {
 		}
 	return threads;
 	}
+
+    
+    
+    
+    
+
+    private static class ClientHandler extends Thread {
+        private Server server;
+        private Socket socket;
+        private final int id;
+        private PrintStream outputStream;
+
+        public ClientHandler(Server server, Socket socket, int id) throws IOException {
+            this.server = server;
+            this.socket = socket;
+            this.id = id;
+            outputStream = new PrintStream(socket.getOutputStream());
+        }
+
+        @Override
+        public void run() {
+            try {
+                String msg = "";
+                BufferedReader inputStream;               
+                inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));               
+                //while (!msg.equals("!")) {
+                    msg = inputStream.readLine(); 
+                    System.out.println("got the json: " + msg);
+                    //outputStream.println("got the json: " + msg);
+                    server.sendResponse(id);
+                    
+                //}
+            } catch (Exception e) {
+                System.out.println("client disconnected during !");
+            }
+            finally {
+                try {
+                    server.unregister(this);
+                    socket.close();
+                } catch (IOException e) {
+                    // ignore
+                }
+            }
+        }
+
+        public void sendMessage(int id) {           
+                outputStream.println("ID = " + id);
+            }
+        
+
+    }
 	
+	
+	
+	
+	
+	
+	
+
+	
+
+	
+		
 	
 
 }
