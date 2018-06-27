@@ -13,11 +13,11 @@ public class E2E_validation {
 
 	@Test
 	public void test4_nR_t3() throws Exception{
-		String in = "src//test//resources//files//test4_nR_t3.in";
-		String out = "src//test//resources//files//test4_nR_t3.out";
+		String in = "c:\\temp\\test0_nR_t1.in";
+		String out = "c:\\temp\\test0_nR_t1.out";
 
 		boolean rotate = false;
-		int numOfTreads = 2;
+		int numOfTreads = 1;
 		PuzzleManager pm = new PuzzleManager(in ,out,rotate,numOfTreads);
 		pm.handlePuzzle();
 		FileOutput fo = new FileOutput(out);

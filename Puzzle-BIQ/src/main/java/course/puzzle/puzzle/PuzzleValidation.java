@@ -72,20 +72,24 @@ public class PuzzleValidation {
     }
 
     public static boolean checkSum(PuzzlePiece[][] solvedPuzzle) {
-        boolean isAllPiecesMatch = false;
+
         if (solvedPuzzle != null) {
-            int rowsSum = 0;
+
             for (int row = 0; row < solvedPuzzle.length; row++) {
-                rowsSum += getRowSum(solvedPuzzle,row);
-            }
-            int colsSum = 0;
-            for (int col = 0; col < solvedPuzzle[0].length; col++) {
-                colsSum += getColsSum(solvedPuzzle,col);
+
+                if(getRowSum(solvedPuzzle,row) != 0){
+                    return false;
+                };
             }
 
-            isAllPiecesMatch = ((rowsSum + colsSum) == 0);
+            for (int col = 0; col < solvedPuzzle[0].length; col++) {
+               if(getColsSum(solvedPuzzle,col) != 0){
+                   return false;
+               };
+            }
+
         }
-        return isAllPiecesMatch;
+        return true;
 
     }
 
@@ -173,6 +177,7 @@ public class PuzzleValidation {
         for (int i = 0; i < solvedPuzzle[0].length - 1; i++) {
             sum += solvedPuzzle[row][i].getRightValue() + solvedPuzzle[row][i + 1].getLeftValue();
         }
+        sum += solvedPuzzle[row][solvedPuzzle[0].length - 1].getRightValue();
         return sum;
     }
 
@@ -181,8 +186,8 @@ public class PuzzleValidation {
 
         for (int i = 0; i < solvedPuzzle.length - 1; i++) {
             sum += solvedPuzzle[i][col].getBottomValue() + solvedPuzzle[i + 1][col].getTopValue();
-
-        }
+       }
+        sum += solvedPuzzle[solvedPuzzle.length - 1][col].getBottomValue();
         return sum;
     }
 }
